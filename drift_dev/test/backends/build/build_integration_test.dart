@@ -1298,4 +1298,44 @@ second: SELECT 2;
       'a|lib/src/second.drift.dart': anything,
     }, build.dartOutputs, build.writer);
   });
+
+  test('generates manager references for tables in different files', () async {
+    final build = await emulateDriftBuild(
+      inputs: {
+        'a|lib/users.dart': '''
+import 'package:drift/drift.dart';
+
+import 'groups.dart';
+
+class Users extends Table {
+  late final id = integer().autoIncrement()();
+  late final name = text()();
+}
+''',
+        'a|lib/groups.dart': '''
+import 'package:drift/drift.dart';
+
+import 'users.dart';
+
+class Groups extends Table {
+  late final id = integer().autoIncrement()();
+  late final name = text()();
+  @ReferenceName('administeredGroups')
+  late final admin = integer().nullable().references(Users, #id)();
+  @ReferenceName('ownedGroups')
+  late final owner = integer().references(Users, #id)();
+}
+''',
+      },
+      modularBuild: true,
+      logger: loggerThat(neverEmits(anything)),
+    );
+
+    checkOutputs({
+      'a|lib/users.drift.dart': decodedMatches(
+        allOf(contains('ownedGroups'), contains('administeredGroups')),
+      ),
+      'a|lib/groups.drift.dart': anything,
+    }, build.dartOutputs, build.writer);
+  });
 }

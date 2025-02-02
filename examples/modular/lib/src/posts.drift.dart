@@ -298,7 +298,7 @@ class $PostsTableManager extends i0.RootTableManager<
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (likesRefs)
-                    await i0.$_getPrefetchedData(
+                    await i0.$_getPrefetchedData<i1.Post, i1.Posts, i1.Like>(
                         currentTable: table,
                         referencedTable:
                             i1.$PostsReferences._likesRefsTable(db),

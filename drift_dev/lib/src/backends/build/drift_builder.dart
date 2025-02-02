@@ -393,6 +393,16 @@ class _DriftBuildRun {
     ModularAccessorWriter(writer.child(), entrypointState, driver).write();
 
     if (options.generateManager) {
+      final all = entrypointState.fileAnalysis?.allAvailableElements
+              .whereType<DriftTable>() ??
+          const Iterable.empty();
+
+      for (final element in all) {
+        if (element.id.libraryUri != entrypointState.ownUri) {
+          managerWriter.addTableWithoutGeneration(element);
+        }
+      }
+
       managerWriter.writeTableManagers();
     }
   }
