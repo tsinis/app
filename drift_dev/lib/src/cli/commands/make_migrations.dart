@@ -344,7 +344,8 @@ ${blue.wrap("class")} ${green.wrap(dbClassName)} ${blue.wrap("extends")} ${green
               cli, version, entities, true, true);
     }
     writeTasks[File(p.join(testDatabasesDir.path, 'schema.dart'))] =
-        await GenerateUtils.generateLibraryCode(cli, schemas.keys);
+        await GenerateUtils.generateLibraryCode(
+            cli, schemas.keys.sorted((a, b) => a.compareTo(b)));
   }
 
   Future<void> writeTest() async {
