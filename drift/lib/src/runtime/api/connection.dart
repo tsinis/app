@@ -71,7 +71,11 @@ class DatabaseConnection implements QueryExecutor {
     }
 
     return DatabaseConnection(
-      LazyDatabase(() async => (await connection).executor, dialect: dialect),
+      LazyDatabase(
+        () async => (await connection).executor,
+        dialect: dialect,
+        openImmediately: true,
+      ),
       streamQueries: DelayedStreamQueryStore(
         connection.then((conn) => conn.streamQueries),
       ),

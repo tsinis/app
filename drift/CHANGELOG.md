@@ -2,6 +2,8 @@
 
 - Report `SqliteException`s occurring on workers as a `SqliteException`
   instance. Previously, they were sent as strings only.
+- Fix `LazyDatabase` being closed without ever being used potentially leaking
+  resources.
 
 ## 2.24.0
 
