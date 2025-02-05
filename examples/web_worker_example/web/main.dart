@@ -10,6 +10,8 @@ void main() async {
     driftWorkerUri: Uri.parse('/worker.dart.js'),
   );
 
+  print('Opened WASM database: ${connection.chosenImplementation}');
+
   final db = MyDatabase(connection.resolvedExecutor);
 
   final output = document.getElementById('output')!;

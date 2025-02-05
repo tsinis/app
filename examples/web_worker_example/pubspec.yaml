@@ -5,11 +5,9 @@ publish_to: none
 #homepage: https://www.example.com
 
 environment:
-  sdk: '>=2.14.0 <3.0.0'
+  sdk: '^3.5.0'
 
 dependencies:
-  js: ^0.7.1
-  stream_channel: ^2.1.0
   drift:
 
 dev_dependencies:
