@@ -6,6 +6,8 @@
   generation mode.
 - Allow generating manager references across different files in modular
   generation mode.
+- Fix class names with dollar signs not being escaped in drift-generated
+  `toString()`.
 
 ## 2.24.0
 
