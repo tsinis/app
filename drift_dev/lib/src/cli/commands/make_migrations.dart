@@ -180,6 +180,10 @@ class _MigrationTestEmitter {
   /// The parsed drift elements
   final List<DriftElement> driftElements;
 
+  /// Whether the core test package is unavailable and needs to be replaced with
+  /// `flutter_test`.
+  final bool needsToUseFlutterTest;
+
   final File? dumpGeneratedSchemaCode;
 
   /// Stores the tempoarary files to be written to the disk
@@ -202,22 +206,22 @@ class _MigrationTestEmitter {
   List<_MigrationTestWriter> get migrations =>
       _MigrationTestWriter.fromSchema(schemas);
 
-  _MigrationTestEmitter({
-    required this.cli,
-    required this.rootSchemaDir,
-    required this.rootTestDir,
-    required this.dbName,
-    required this.dbClassFile,
-    required this.schemaDir,
-    required this.testDir,
-    required this.testDatabasesDir,
-    required this.schemaVersion,
-    required this.dbClassName,
-    required this.db,
-    required this.driftElements,
-    required this.schemas,
-    required this.dumpGeneratedSchemaCode,
-  });
+  _MigrationTestEmitter(
+      {required this.cli,
+      required this.rootSchemaDir,
+      required this.rootTestDir,
+      required this.dbName,
+      required this.dbClassFile,
+      required this.schemaDir,
+      required this.testDir,
+      required this.testDatabasesDir,
+      required this.schemaVersion,
+      required this.dbClassName,
+      required this.db,
+      required this.driftElements,
+      required this.schemas,
+      required this.dumpGeneratedSchemaCode,
+      required this.needsToUseFlutterTest});
 
   static Future<_MigrationTestEmitter> create({
     required DriftDevCli cli,
@@ -257,6 +261,16 @@ class _MigrationTestEmitter {
       cli.exit('Could not read database class from the "$dbName" database.');
     }
     final schemas = await parseSchema(schemaDir);
+
+    final config = await cli.project.packageConfig;
+    final hasTest = config?.packages.any((e) => e.name == 'test') == true;
+    final hasFlutterTest =
+        config?.packages.any((e) => e.name == 'flutter_test') == true;
+    if (!hasTest && !hasFlutterTest) {
+      cli.logger.warning('No test package found for project, please add a'
+          'dependency on flutter_test or test.');
+    }
+
     return _MigrationTestEmitter(
       cli: cli,
       rootSchemaDir: rootSchemaDir,
@@ -272,6 +286,7 @@ class _MigrationTestEmitter {
       testDatabasesDir: testDatabasesDir,
       schemaVersion: schemaVersion,
       dumpGeneratedSchemaCode: dumpGeneratedSchemaCode,
+      needsToUseFlutterTest: !hasTest,
     );
   }
 
@@ -363,13 +378,14 @@ ${blue.wrap("class")} ${green.wrap(dbClassName)} ${blue.wrap("extends")} ${green
     final packageName = cli.project.buildConfig.packageName;
     final relativeDbPath = p.posix.relative(dbClassFile.path,
         from: p.join(cli.project.directory.path, 'lib'));
+    final testPackageName = needsToUseFlutterTest ? 'flutter_test' : 'test';
 
     final code = """
 // ignore_for_file: unused_local_variable, unused_import
 import 'package:drift/drift.dart';
 import 'package:drift_dev/api/migrations_native.dart';
 import 'package:$packageName/$relativeDbPath';
-import 'package:test/test.dart';
+import 'package:$testPackageName/$testPackageName.dart';
 import 'generated/schema.dart';
 
 ${firstMigration.schemaImports().join('\n')}
@@ -414,9 +430,23 @@ void main() {
 }
 """;
 
+    final testCommand = needsToUseFlutterTest ? 'flutter' : 'dart';
     cli.logger.info(
         '$dbName: Generated test in ${blue.wrap(p.relative(testFile.path))}.\n'
-        'Run this test to validate that your migrations are written correctly. ${yellow.wrap("dart test ${p.relative(testFile.path)}")}');
+        'Run this test to validate that your migrations are written correctly. ${yellow.wrap("$testCommand test ${p.relative(testFile.path)}")}');
+
+    if (!db.hasConstructorArgumentForConnection) {
+      cli.logger.info(
+        'Running this test requires changes to your database class! '
+        'The database needs to support being opened against custom databases'
+        'for testing. To do that, change the constructor of your database '
+        'from e.g. \n'
+        '  ${red.wrap('$dbClassName(): super(_openConnection());')}\n'
+        'to something like:\n'
+        '  ${green.wrap('$dbClassName([QueryExecutor? e]): super(e ?? _openConnection());')}\n',
+      );
+    }
+
     writeTasks[testFile] = await cli.project.formatSource(code);
   }
 

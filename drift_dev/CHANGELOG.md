@@ -8,6 +8,8 @@
   generation mode.
 - Fix class names with dollar signs not being escaped in drift-generated
   `toString()`.
+- Make-migrations command: Use `flutter_test` if the core `test` package is
+  unavailable and warn when database class needs changes for test.
 
 ## 2.24.0
 

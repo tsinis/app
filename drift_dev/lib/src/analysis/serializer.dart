@@ -190,6 +190,7 @@ class ElementSerializer {
           'daos': [
             for (final dao in element.accessors) _serializeElementReference(dao)
           ],
+          'has_constructor_arg': element.hasConstructorArgumentForConnection,
         }
       };
     } else {
@@ -743,6 +744,8 @@ class ElementDeserializer {
                 await _readElementReference(dao as Map<String, Object?>)
                     as DatabaseAccessor,
             ],
+            hasConstructorArgumentForConnection:
+                json['has_constructor_arg'] as bool,
           );
         } else {
           assert(type == 'dao');

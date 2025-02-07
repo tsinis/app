@@ -79,6 +79,7 @@ class SchemaIsolate {
       declaredQueries: const [],
       declaredTables: const [],
       declaredViews: const [],
+      hasConstructorArgumentForConnection: false,
     );
     final resolved =
         ResolvedDatabaseAccessor(const {}, const [], options.elements);

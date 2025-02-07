@@ -127,6 +127,7 @@ class GenerateUtils {
       declaredQueries: const [],
       declaredTables: const [],
       declaredViews: const [],
+      hasConstructorArgumentForConnection: false,
     );
     final resolved =
         ResolvedDatabaseAccessor(const {}, const [], schema.schema);
