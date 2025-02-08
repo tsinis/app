@@ -1,4 +1,4 @@
-## 2.24.1-dev
+## 2.25.0
 
 - Fix incorrect code when applying non-nullable type converters with a nullable
   JSON type to nullable column.
