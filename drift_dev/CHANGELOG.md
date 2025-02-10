@@ -1,3 +1,8 @@
+## 2.25.1
+
+- Fix schema exports ignoring `store_date_time_values_as_text: true` when Dart
+  tables with a default constraints on columns are involved.
+
 ## 2.25.0
 
 - Fix incorrect code when applying non-nullable type converters with a nullable

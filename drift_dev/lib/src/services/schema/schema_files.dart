@@ -79,6 +79,7 @@ class SchemaWriter {
     if (requiresRuntimeInformation.isNotEmpty) {
       try {
         final statements = await SchemaIsolate.collectStatements(
+          options: options,
           allElements: elements,
           elementFilter: requiresRuntimeInformation,
           dumpStartupCode: dumpStartupCode,

@@ -8,6 +8,7 @@ import 'package:drift_dev/src/analysis/options.dart';
 import 'package:drift_dev/src/analysis/results/file_results.dart';
 import 'package:drift_dev/src/analysis/results/results.dart';
 import 'package:drift_dev/src/services/schema/schema_files.dart';
+import 'package:drift_dev/src/utils/string_escaper.dart';
 import 'package:drift_dev/src/writer/database_writer.dart';
 import 'package:drift_dev/src/writer/import_manager.dart';
 import 'package:drift_dev/src/writer/writer.dart';
@@ -202,6 +203,61 @@ class Database {}
           'CREATE VIEW IF NOT EXISTS "my_view" ("id", "id1", "id2") AS SELECT "t0"."id" AS "id", "t1"."id" AS "id1", "t2"."id" AS "id2" FROM "my_table" "t0" INNER JOIN "my_table" "t1" ON "t1"."id" = "t0"."id" INNER JOIN "my_table" "t2" ON "t2"."id" = "t0"."id"',
       'dart_info_name': r'$MyViewView',
       'columns': anything,
+    });
+  });
+
+  group('generates correct datetime mode', () {
+    Future<void> runTest(bool storeAsText, String expectedDefault) async {
+      final options =
+          DriftOptions.defaults(storeDateTimeValuesAsText: storeAsText);
+      final backend = await TestBackend.inTest(
+        {
+          'a|lib/main.dart': '''
+import 'package:drift/drift.dart';
+
+class MyTable extends Table {
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
+@DriftDatabase(tables: [MyTable])
+class Database {}
+''',
+        },
+        options: options,
+      );
+
+      final file = await backend.analyze('package:a/main.dart');
+      backend.expectNoErrors();
+
+      final db = file.fileAnalysis!.resolvedDatabases.values.single;
+
+      final schemaJson =
+          await SchemaWriter(db.availableElements, options: options)
+              .createSchemaJson();
+      final serializedTable = (schemaJson['entities'] as List)[0];
+      final data = serializedTable['data'];
+      expect(data, {
+        'name': 'my_table',
+        'was_declared_in_moor': false,
+        'is_virtual': false,
+        'without_rowid': false,
+        'columns': hasLength(1),
+        'constraints': [],
+      });
+
+      expect(
+        data['columns'][0]['default_dart'],
+        'const CustomExpression(${asDartLiteral(expectedDefault)})',
+      );
+    }
+
+    test('with integer times', () async {
+      await runTest(
+          false, "CAST(strftime('%s', CURRENT_TIMESTAMP) AS INTEGER)");
+    });
+
+    test('with text times', () async {
+      await runTest(true, 'CURRENT_TIMESTAMP');
     });
   });
 }
