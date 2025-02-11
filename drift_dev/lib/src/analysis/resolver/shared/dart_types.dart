@@ -139,21 +139,22 @@ ExistingRowClass? validateExistingClass(
     }
   }
 
-  if (generateInsertable) {
-    // Go through all columns, make sure that the class has getters for them.
-    final missingGetters = <String>[];
+  final getters = <String, String>{};
+  final missingGetters = <String>[];
+  for (final column in columns) {
+    final matchingField = dartClass.classElement.augmented.lookUpGetter(
+      name: column.nameInDart,
+      library: dartClass.classElement.library,
+    );
 
-    for (final column in columns) {
-      final matchingField = dartClass.classElement.augmented.lookUpGetter(
-        name: column.nameInDart,
-        library: dartClass.classElement.library,
-      );
-
-      if (matchingField == null) {
-        missingGetters.add(column.nameInDart);
-      }
+    if (matchingField case final field?) {
+      getters[column.nameInSql] = field.name;
+    } else {
+      missingGetters.add(column.nameInDart);
     }
+  }
 
+  if (generateInsertable) {
     if (missingGetters.isNotEmpty) {
       step.reportError(DriftAnalysisError.forDartElement(
         dartClass.classElement,
@@ -161,13 +162,6 @@ ExistingRowClass? validateExistingClass(
         'is generated. This means that it must define getters for all '
         'columns, but some are missing: ${missingGetters.join(', ')}',
       ));
-    }
-  }
-
-  final getters = <String, String>{};
-  for (final column in columns) {
-    if (instantiation.getGetter(column.nameInDart) != null) {
-      getters[column.nameInSql] = column.nameInDart;
     }
   }
 

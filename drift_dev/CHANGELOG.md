@@ -1,3 +1,8 @@
+## 2.25.2-dev
+
+- Fix `generateInsertable: true` on `@UseRowClass` not respecting inherited
+  getters.
+
 ## 2.25.1
 
 - Fix schema exports ignoring `store_date_time_values_as_text: true` when Dart
