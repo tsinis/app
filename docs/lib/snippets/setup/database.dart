@@ -59,6 +59,7 @@ class OpenFlutter {
         // database files in `getApplicationDocumentsDirectory()`.
         databaseDirectory: getApplicationSupportDirectory,
       ),
+      // If you need web support, see https://drift.simonbinder.eu/platforms/web/
     );
   }
 }
