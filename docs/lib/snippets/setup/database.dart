@@ -5,6 +5,7 @@ import 'package:drift/drift.dart';
 
 // #docregion flutter
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 // #enddocregion flutter
 // #docregion sqlite3
 import 'dart:io';
@@ -12,7 +13,6 @@ import 'package:drift/native.dart';
 // #enddocregion sqlite3
 // #docregion postgres
 import 'package:drift_postgres/drift_postgres.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:postgres/postgres.dart' as pg;
 // #enddocregion postgres
 
