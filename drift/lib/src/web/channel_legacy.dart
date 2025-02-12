@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'dart:html'; // ignore: deprecated_member_use
 
 import 'package:stream_channel/stream_channel.dart';
 

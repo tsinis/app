@@ -159,7 +159,8 @@ jobs:
         working-directory: drift
     strategy:
       matrix:
-        browser: [chrome, firefox]
+        browser: [chrome] # Dart 3.7 unfortunately broke tests with dart2wasm on Firefox
+        # browser: [chrome, firefox]
     name: "Drift web unit tests, dart2wasm, ${{ matrix.browser }}"
     steps:
       # setup
@@ -370,7 +371,7 @@ jobs:
         working-directory: .
       - name: Test
         working-directory: extras/integration_tests/web_wasm
-        run: dart test
+        run: dart test -P gh_actions
 #  upload_coverage:
 #    runs-on: ubuntu-20.04
 #    needs: [moor, sqlparser]
