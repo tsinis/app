@@ -83,7 +83,9 @@ void main() {
       });
 
       for (final wasm in [false, true]) {
-        group(wasm ? 'dart2wasm' : 'dart2js', () {
+        final compiler = wasm ? 'dart2wasm' : 'dart2js';
+
+        group(compiler, () {
           final config = _TestConfiguration(browser, () => server, wasm);
 
           setUp(() async {
@@ -92,7 +94,7 @@ void main() {
           tearDown(() => config.tearDown());
 
           config.declareTests();
-        });
+        }, tags: [browser.name, compiler]);
       }
     });
   }

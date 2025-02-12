@@ -371,7 +371,7 @@ jobs:
         working-directory: .
       - name: Test
         working-directory: extras/integration_tests/web_wasm
-        run: dart test
+        run: dart test -P gh_actions
 #  upload_coverage:
 #    runs-on: ubuntu-20.04
 #    needs: [moor, sqlparser]
