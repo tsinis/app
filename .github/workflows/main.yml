@@ -29,7 +29,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.27
+          flutter-version: 3.29
           cache: true
           cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:"
@@ -285,7 +285,7 @@ jobs:
     needs: [setup]
     strategy:
       matrix:
-        flutter: ["3.27"]
+        flutter: ["3.27", "3.29"]
 
     steps:
       - uses: actions/checkout@v4
