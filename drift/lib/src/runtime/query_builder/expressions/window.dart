@@ -136,7 +136,7 @@ class WindowFunctionExpression<T extends Object> extends Expression<T> {
     this.function, {
     required this.orderBy,
     this.partitionBy,
-    this.boundary = const RangeFrameBoundary(),
+    this.boundary = const FrameBoundary.range(),
   }) {
     if (orderBy.isEmpty) {
       throw ArgumentError.value(
@@ -152,7 +152,7 @@ class WindowFunctionExpression<T extends Object> extends Expression<T> {
     function.writeInto(context);
     context.buffer.write(' OVER (');
     if (partitionBy case final partitionBy? when partitionBy.isNotEmpty) {
-      PartitionBy(partitionBy).writeInto(context);
+      _PartitionBy(partitionBy).writeInto(context);
       context.writeWhitespace();
     }
     OrderBy(orderBy).writeInto(context);
@@ -165,12 +165,12 @@ class WindowFunctionExpression<T extends Object> extends Expression<T> {
 /// A partition-by clause as part of a window function statement. The clause can consist
 /// of multiple [Expression]s, with the first terms being primary partition and
 /// the later terms will work as a nested partition for the previous partition and so on.
-class PartitionBy extends Component {
+class _PartitionBy extends Component {
   /// The list of expressions to partition by.
   final List<Expression> expressions;
 
   /// Constructs a partition by clause by the [expressions].
-  const PartitionBy(this.expressions);
+  const _PartitionBy(this.expressions);
 
   @override
   void writeInto(GenerationContext context) {
@@ -254,7 +254,7 @@ enum _FrameType {
 /// {@endtemplate}
 ///
 /// More information at [FrameBoundary](https://www.sqlite.org/windowfunctions.html#frame_boundaries) documentation.
-sealed class FrameBoundary extends Component {
+final class FrameBoundary extends Component {
   /// The start of the frame boundary, relative to the current row.
   ///
   /// A value of [null] indicates that frame includes all prior rows, groups or range bounds.
@@ -296,6 +296,55 @@ sealed class FrameBoundary extends Component {
           'Invalid frame specification. A FOLLOWING start boundary must have an end boundary as FOLLOWING or UNBOUNDED.',
         );
 
+  /// Constructs a ROWS frame with the given [start] and [end] boundaries.
+  ///
+  /// A ROWS frame operates on physical rows. The [start] and [end] parameter specifies how
+  /// many rows before and/or after the current row should be included in the frame.
+  ///
+  /// {@macro drift_window_boundary}
+  const FrameBoundary.rows({
+    int? start,
+    int? end = 0,
+    FrameExclude? exclude,
+  }) : this._(start, end, _FrameType.rows, exclude: exclude);
+
+  /// Constructs a GROUPS frame with the given [start] and [end] boundaries.
+  ///
+  /// A GROUPS frame operates on groups of rows that share the same values in the
+  /// ORDER BY columns. The [start] and [end] parameter specifies how many groups before
+  /// and/or after the current row's group should be included.
+  ///
+  /// Note that GROUPS Frame Type is only available from sqlite 3.28.0, released on 2019-04-16.
+  /// Most devices will use an older sqlite version.
+  ///
+  /// {@macro drift_window_boundary}
+  const FrameBoundary.groups({
+    int? start,
+    int? end = 0,
+    FrameExclude? exclude,
+  }) : this._(start, end, _FrameType.groups, exclude: exclude);
+
+  /// Constructs a RANGE boundary with the given [start] and [end].
+  ///
+  /// A RANGE frame operates on logical ranges of values based on the ORDER BY columns.
+  /// The [start] and [end] parameter specifies the range of values to include relative to
+  /// the current row's values.
+  ///
+  /// If multiple rows have the same value in the `ORDER BY` column, they
+  /// are all included in the frame.
+  ///
+  /// {@macro drift_window_boundary}
+  ///
+  /// Note that passing value except 0 (CURRENT ROW) or null (UNBOUNDED) to [start] or [end] in RANGE Frame is only available from sqlite 3.28.0, released on 2019-04-16.
+  /// Most devices will use an older sqlite version.
+  ///
+  /// 0 (CURRENT ROW) and null (UNBOUNDED) are supported from sqlite 3.25.0, released on 2018-09-15.
+  const FrameBoundary.range({
+    num? start,
+    num? end = 0,
+    FrameExclude? exclude,
+  }) : this._(start, end, _FrameType.range, exclude: exclude);
+
   @override
   void writeInto(GenerationContext context) {
     context.buffer.write(_frameType._type);
@@ -328,62 +377,4 @@ sealed class FrameBoundary extends Component {
       context.buffer.write(' FOLLOWING');
     }
   }
-}
-
-/// Rows boundary for the window frame.
-class RowsFrameBoundary extends FrameBoundary {
-  /// Constructs a ROWS frame with the given [start] and [end] boundaries.
-  ///
-  /// A ROWS frame operates on physical rows. The [start] and [end] parameter specifies how
-  /// many rows before and/or after the current row should be included in the frame.
-  ///
-  /// {@macro drift_window_boundary}
-  const RowsFrameBoundary({
-    int? start,
-    int? end = 0,
-    super.exclude,
-  }) : super._(start, end, _FrameType.rows);
-}
-
-/// Groups boundary for the window frame.
-class GroupsFrameBoundary extends FrameBoundary {
-  /// Constructs a GROUPS frame with the given [start] and [end] boundaries.
-  ///
-  /// A GROUPS frame operates on groups of rows that share the same values in the
-  /// ORDER BY columns. The [start] and [end] parameter specifies how many groups before
-  /// and/or after the current row's group should be included.
-  ///
-  /// Note that GROUPS Frame Type is only available from sqlite 3.28.0, released on 2019-04-16.
-  /// Most devices will use an older sqlite version.
-  ///
-  /// {@macro drift_window_boundary}
-  const GroupsFrameBoundary({
-    int? start,
-    int? end = 0,
-    super.exclude,
-  }) : super._(start, end, _FrameType.groups);
-}
-
-/// Range boundary for the window frame.
-class RangeFrameBoundary extends FrameBoundary {
-  /// Constructs a range boundary with the given [start] and [end].
-  ///
-  /// A RANGE frame operates on logical ranges of values based on the ORDER BY columns.
-  /// The [start] and [end] parameter specifies the range of values to include relative to
-  /// the current row's values.
-  ///
-  /// If multiple rows have the same value in the `ORDER BY` column, they
-  /// are all included in the frame.
-  ///
-  /// {@macro drift_window_boundary}
-  ///
-  /// Note that passing value except 0 (CURRENT ROW) or null (UNBOUNDED) to [start] or [end] in RANGE Frame is only available from sqlite 3.28.0, released on 2019-04-16.
-  /// Most devices will use an older sqlite version.
-  ///
-  /// 0 (CURRENT ROW) and null (UNBOUNDED) are supported from sqlite 3.25.0, released on 2018-09-15.
-  const RangeFrameBoundary({
-    num? start,
-    num? end = 0,
-    super.exclude,
-  }) : super._(start, end, _FrameType.range);
 }

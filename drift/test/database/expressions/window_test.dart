@@ -69,72 +69,72 @@ void main() {
   group('WINDOW FUNCTION Frame Spec', () {
     test('between unbounded preceding and current row', () {
       expect(
-        RowsFrameBoundary(),
+        FrameBoundary.rows(),
         generates("ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW"),
       );
       expect(
-        GroupsFrameBoundary(),
+        FrameBoundary.groups(),
         generates("GROUPS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW"),
       );
       expect(
-        RangeFrameBoundary(),
+        FrameBoundary.range(),
         generates("RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW"),
       );
     });
 
     test('between unbounded preceding and unbounded following', () {
       expect(
-        RowsFrameBoundary(start: null, end: null),
+        FrameBoundary.rows(start: null, end: null),
         generates("ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING"),
       );
       expect(
-        GroupsFrameBoundary(start: null, end: null),
+        FrameBoundary.groups(start: null, end: null),
         generates("GROUPS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING"),
       );
       expect(
-        RangeFrameBoundary(start: null, end: null),
+        FrameBoundary.range(start: null, end: null),
         generates("RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING"),
       );
     });
 
     test('between expr preceding and/or expr following', () {
       expect(
-        RangeFrameBoundary(
+        FrameBoundary.range(
           start: -2,
           end: 0,
         ),
         generates("RANGE BETWEEN 2 PRECEDING AND CURRENT ROW"),
       );
       expect(
-        RowsFrameBoundary(
+        FrameBoundary.rows(
           start: -4,
           end: 6,
         ),
         generates("ROWS BETWEEN 4 PRECEDING AND 6 FOLLOWING"),
       );
       expect(
-        GroupsFrameBoundary(
+        FrameBoundary.groups(
           start: null,
           end: -4,
         ),
         generates("GROUPS BETWEEN UNBOUNDED PRECEDING AND 4 PRECEDING"),
       );
       expect(
-        RowsFrameBoundary(
+        FrameBoundary.rows(
           start: 0,
           end: null,
         ),
         generates("ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING"),
       );
       expect(
-        RowsFrameBoundary(
+        FrameBoundary.rows(
           start: 6,
           end: null,
         ),
         generates("ROWS BETWEEN 6 FOLLOWING AND UNBOUNDED FOLLOWING"),
       );
       expect(
-        RangeFrameBoundary(
+        FrameBoundary.range(
           start: -6.78,
           end: 57,
         ),
@@ -144,7 +144,7 @@ void main() {
 
     test('allows reverse boundary of same type', () {
       expect(
-        RangeFrameBoundary(
+        FrameBoundary.range(
           start: -6,
           end: -1,
         ),
@@ -152,7 +152,7 @@ void main() {
       );
 
       expect(
-        GroupsFrameBoundary(
+        FrameBoundary.groups(
           start: 4,
           end: 1,
         ),
@@ -164,13 +164,13 @@ void main() {
         'does not allow reverse boundary of different type (start with FOLLOWING and end with PRECEDING or CURRENT ROW)',
         () {
       expect(
-          () => RangeFrameBoundary(
+          () => FrameBoundary.range(
                 start: 6,
                 end: 0,
               ),
           throwsA(isA<AssertionError>()));
       expect(
-          () => RangeFrameBoundary(
+          () => FrameBoundary.range(
                 start: 6,
                 end: -3,
               ),
@@ -179,28 +179,28 @@ void main() {
 
     test('Exclude boundary', () {
       expect(
-        RangeFrameBoundary(
+        FrameBoundary.range(
           exclude: FrameExclude.noOthers,
         ),
         generates(
             "RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW EXCLUDE NO OTHERS"),
       );
       expect(
-        RowsFrameBoundary(
+        FrameBoundary.rows(
           exclude: FrameExclude.currentRow,
         ),
         generates(
             "ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW EXCLUDE CURRENT ROW"),
       );
       expect(
-        GroupsFrameBoundary(
+        FrameBoundary.groups(
           exclude: FrameExclude.group,
         ),
         generates(
             "GROUPS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW EXCLUDE GROUP"),
       );
       expect(
-        RangeFrameBoundary(
+        FrameBoundary.range(
           exclude: FrameExclude.ties,
         ),
         generates(
