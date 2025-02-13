@@ -30,10 +30,10 @@ class WindowFunctionExpression<T extends Object> extends Expression<T> {
   ///
   /// ```dart
   /// // RANGE Boundary
-  ///  boundary: RangeFrameBoundary(),
+  ///  boundary: FrameBoundary.range(),
   ///
   /// // ROWS Boundary
-  ///  boundary: RowsFrameBoundary(),
+  ///  boundary: FrameBoundary.rows(),
   ///
   /// // GROUPS Boundary
   ///  boundary: GroupFrameBoundary(),
@@ -95,7 +95,7 @@ class WindowFunctionExpression<T extends Object> extends Expression<T> {
   /// final movingAverage = WindowFunctionExpression<double>(
   ///   items.price.avg(),
   ///   orderBy: [OrderingTerm.asc(items.date)],
-  ///   boundary: RowsFrameBoundary(
+  ///   boundary: FrameBoundary.rows(
   ///     start: -3, // 3 rows preceding
   ///     end: 0,    // current row
   ///   ),
@@ -110,7 +110,7 @@ class WindowFunctionExpression<T extends Object> extends Expression<T> {
   /// final groupFrame = WindowFunctionExpression<int>(
   ///   items.quantity.sum(),
   ///   orderBy: [OrderingTerm.asc(items.category)],
-  ///   boundary: GroupsFrameBoundary(
+  ///   boundary: FrameBoundary.groups(
   ///     start: null, // Unbounded preceding groups
   ///     end: 0,    // current group
   ///   ),
@@ -125,7 +125,7 @@ class WindowFunctionExpression<T extends Object> extends Expression<T> {
   /// final rangeFrame = WindowFunctionExpression<int>(
   ///   items.quantity.sum(),
   ///   orderBy: [OrderingTerm.asc(items.price)],
-  ///   boundary: RangeFrameBoundary(
+  ///   boundary: FrameBoundary.range(
   ///     start: -10, // 10 units less than current value
   ///     end: 10,    // 10 units more than current value
   ///   ),
