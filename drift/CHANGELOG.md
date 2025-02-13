@@ -1,3 +1,7 @@
+## 2.16.0-dev
+
+- Add support for window functions with `WindowFunctionExpression`.
+
 ## 2.25.0
 
 - Report `SqliteException`s occurring on workers as `SqliteException`
