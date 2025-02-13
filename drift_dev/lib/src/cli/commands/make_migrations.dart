@@ -402,7 +402,7 @@ void main() {
     // These simple tests verify all possible schema updates with a simple (no
     // data) migration. This is a quick way to ensure that written database
     // migrations properly alter the schema.
-    final versions = GeneratedHelper.versions;
+    const versions = GeneratedHelper.versions;
     for (final (i, fromVersion) in versions.indexed) {
       group('from \$fromVersion', () {
         for (final toVersion in versions.skip(i + 1)) {
@@ -510,7 +510,7 @@ class _MigrationTestWriter {
   /// It will also import the validation models to test data integrity
   String testStepByStepMigrationCode(String dbName, String dbClassName) {
     return """
-test("migration from v$from to v$to does not corrupt data",
+test('migration from v$from to v$to does not corrupt data',
       () async {
   // Add data to insert into the old database, and the expected rows after the
   // migration.
