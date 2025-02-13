@@ -248,12 +248,12 @@ enum _FrameType {
 /// Zero indicates the current row
 ///
 /// {@endtemplate}
-abstract class FrameBoundary<T extends num> extends Expression<num> {
+sealed class FrameBoundary extends Component {
   /// The start of the frame boundary.
-  final T? start;
+  final num? start;
 
   /// The end of the frame boundary.
-  final T? end;
+  final num? end;
 
   /// The type of frame for the boundary.
   final _FrameType _frameType;
@@ -275,7 +275,7 @@ abstract class FrameBoundary<T extends num> extends Expression<num> {
     this.exclude,
   }) : assert(
           start == null || start <= 0 || (end == null || end > 0),
-          'Invalid frame specification. A FOLLOWING boundary must have an end boundary as FOLLOWING or UNBOUNDED.',
+          'Invalid frame specification. A FOLLOWING start boundary must have an end boundary as FOLLOWING or UNBOUNDED.',
         );
 
   @override
@@ -299,7 +299,7 @@ abstract class FrameBoundary<T extends num> extends Expression<num> {
     }
   }
 
-  void _writeBoundary(GenerationContext context, T exp) {
+  void _writeBoundary(GenerationContext context, num exp) {
     if (exp == 0) {
       context.buffer.write('CURRENT ROW');
     } else if (exp < 0) {
@@ -313,7 +313,7 @@ abstract class FrameBoundary<T extends num> extends Expression<num> {
 }
 
 /// Rows boundary for the window frame.
-class RowsFrameBoundary extends FrameBoundary<int> {
+class RowsFrameBoundary extends FrameBoundary {
   /// Constructs a ROWS frame with the given [start] and [end] boundaries.
   ///
   /// A ROWS frame operates on physical rows. The [start] and [end] parameter specifies how
@@ -328,7 +328,7 @@ class RowsFrameBoundary extends FrameBoundary<int> {
 }
 
 /// Groups boundary for the window frame.
-class GroupsFrameBoundary extends FrameBoundary<int> {
+class GroupsFrameBoundary extends FrameBoundary {
   /// Constructs a GROUPS frame with the given [start] and [end] boundaries.
   ///
   /// A GROUPS frame operates on groups of rows that share the same values in the
@@ -347,7 +347,7 @@ class GroupsFrameBoundary extends FrameBoundary<int> {
 }
 
 /// Range boundary for the window frame.
-class RangeFrameBoundary extends FrameBoundary<num> {
+class RangeFrameBoundary extends FrameBoundary {
   /// Constructs a range boundary with the given [start] and [end].
   ///
   /// A RANGE frame operates on logical ranges of values based on the ORDER BY columns.
