@@ -133,6 +133,13 @@ void main() {
         ),
         generates("ROWS BETWEEN 6 FOLLOWING AND UNBOUNDED FOLLOWING"),
       );
+      expect(
+        RangeFrameBoundary(
+          start: -6.78,
+          end: 57,
+        ),
+        generates("RANGE BETWEEN 6.78 PRECEDING AND 57 FOLLOWING"),
+      );
     });
 
     test('allows reverse boundary of same type', () {
