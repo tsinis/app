@@ -5,6 +5,8 @@ part of '../query_builder.dart';
 /// Window functions perform calculations across a set of table rows that are somehow
 /// related to the current row. This expression class allows you to construct window
 /// function queries with partitioning, ordering, and frame specifications.
+///
+/// More information at [Window Functions](https://www.sqlite.org/windowfunctions.html) documentation.
 class WindowFunctionExpression<T extends Object> extends Expression<T> {
   /// The aggregate or window function to apply (e.g., SUM, AVG).
   final Expression<T> function;
@@ -54,6 +56,8 @@ class WindowFunctionExpression<T extends Object> extends Expression<T> {
   /// EXCLUDE clause, GROUPS frame types, window chaining, and
   /// support for `<expr> PRECEDING` and `<expr> FOLLOWING` boundaries in RANGE frames
   /// are only available from sqlite 3.28.0, released on 2019-04-16.
+  ///
+  /// More information at [Window Functions](https://www.sqlite.org/windowfunctions.html) documentation.
   ///
   /// # Basic Usage
   ///
@@ -248,11 +252,25 @@ enum _FrameType {
 /// Zero indicates the current row
 ///
 /// {@endtemplate}
+///
+/// More information at [FrameBoundary](https://www.sqlite.org/windowfunctions.html#frame_boundaries) documentation.
 sealed class FrameBoundary extends Component {
-  /// The start of the frame boundary.
+  /// The start of the frame boundary, relative to the current row.
+  ///
+  /// A value of [null] indicates that frame includes all prior rows, groups or range bounds.
+  /// A value of 0 indicates that frame starts at the current row.
+  ///
+  /// A negative or positive value indicates that frame starts at the specified offset
+  /// before or after the current row.
   final num? start;
 
-  /// The end of the frame boundary.
+  /// The end of the frame boundary, relative to the current row.
+  ///
+  /// A value of [null] indicates that frame includes all following rows, groups or range bounds.
+  /// A value of 0 indicates that frame ends at the current row.
+  ///
+  /// A negative or positive value indicates that frame ends at the specified offset
+  /// before or after the current row.
   final num? end;
 
   /// The type of frame for the boundary.
@@ -338,7 +356,7 @@ class GroupsFrameBoundary extends FrameBoundary {
   /// Note that GROUPS Frame Type is only available from sqlite 3.28.0, released on 2019-04-16.
   /// Most devices will use an older sqlite version.
   ///
-  /// {@macro boundary}
+  /// {@macro drift_window_boundary}
   const GroupsFrameBoundary({
     int? start,
     int? end = 0,
@@ -357,7 +375,7 @@ class RangeFrameBoundary extends FrameBoundary {
   /// If multiple rows have the same value in the `ORDER BY` column, they
   /// are all included in the frame.
   ///
-  /// {@macro boundary}
+  /// {@macro drift_window_boundary}
   ///
   /// Note that passing value except 0 (CURRENT ROW) or null (UNBOUNDED) to [start] or [end] in RANGE Frame is only available from sqlite 3.28.0, released on 2019-04-16.
   /// Most devices will use an older sqlite version.
