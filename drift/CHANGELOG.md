@@ -1,3 +1,8 @@
+## 2.25.1-dev
+
+- Fix shared worker feature detection when the main app is compiled with
+  `dart2wasm`.
+
 ## 2.25.0
 
 - Report `SqliteException`s occurring on workers as `SqliteException`
