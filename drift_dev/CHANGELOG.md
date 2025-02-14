@@ -1,7 +1,8 @@
-## 2.25.2-dev
+## 2.25.2
 
 - Fix `generateInsertable: true` on `@UseRowClass` not respecting inherited
   getters.
+- Fix lints in generated test code for `make-migrations`.
 
 ## 2.25.1
 

@@ -1,4 +1,4 @@
-## 2.25.1-dev
+## 2.25.1
 
 - Fix shared worker feature detection when the main app is compiled with
   `dart2wasm`.
