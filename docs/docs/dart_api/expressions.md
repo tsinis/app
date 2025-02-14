@@ -146,7 +146,7 @@ Support for common JSON operators is provided through `package:drift/extensions/
 This provides things like `jsonExtract` to extract fields from JSON or `jsonEach` to query
 nested JSON structures. For more details, see the [JSON support](select.md#json-support) section on the page about selects or [this more complex example](../Examples/relationships.md#with-json-functions).
 
-## Aggregate functions (like count and sum) 
+## Aggregate functions (like count and sum)
 
 [Aggregate functions](https://www.sqlite.org/lang_aggfunc.html) are available
 from the Dart api. Unlike regular functions, aggregate functions operate on multiple rows at
@@ -224,6 +224,21 @@ Stream<String> allTodoContent() {
 
 The separator defaults to a comma without surrounding whitespace, but it can be changed
 with the `separator` argument on `groupConcat`.
+
+### Window functions
+
+In addition to aggregate expressions and `groupBy`, drift supports [window functions](https://en.wikipedia.org/wiki/Window_function_(SQL)).
+Unlike regular aggregates, which collapse a group of rows into a single value, window functions allow
+running aggregations over a subset of rows related to the current one.
+For instance, you could use this to track a running total of values:
+
+{{ load_snippet('window','lib/snippets/dart_api/expressions.dart.excerpt.json') }}
+
+An interesting use for window function is to determine the rank a row would have if rows were
+sorted by some column (without actually returning all rows, or sorting them by that column).
+This ranking can be attached to each row:
+
+{{ load_snippet('window2','lib/snippets/dart_api/expressions.dart.excerpt.json') }}
 
 ## Mathematical functions and regexp
 

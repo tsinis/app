@@ -242,6 +242,30 @@ void main() {
         expect(await eval(const Constant<int>(null).isNotIn([])), isTrue);
       });
     });
+
+    test('window functions', () async {
+      for (var length = 1; length <= 10; length++) {
+        await db.todosTable
+            .insertOne(TodosTableCompanion.insert(content: 'a' * length));
+      }
+
+      final lengthRanking = WindowFunctionExpression(
+        db.todosTable.id.count(),
+        orderBy: [OrderingTerm.desc(db.todosTable.content.length)],
+      );
+      final query = db.selectOnly(db.todosTable)
+        ..addColumns([db.todosTable.id, lengthRanking])
+        ..orderBy([OrderingTerm.asc(db.todosTable.id)]);
+
+      expect(
+        await query
+            .map((row) => [row.read(db.todosTable.id), row.read(lengthRanking)])
+            .get(),
+        [
+          for (var i = 1; i <= 10; i++) [i, 11 - i],
+        ],
+      );
+    });
   });
 }
 

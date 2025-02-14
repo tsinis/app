@@ -1,3 +1,7 @@
+## 2.26.0-dev
+
+- Add support for window functions with `WindowFunctionExpression`.
+
 ## 2.25.1
 
 - Fix shared worker feature detection when the main app is compiled with
