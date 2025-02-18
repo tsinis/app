@@ -56,7 +56,7 @@ class DriftAnalysisDriver {
   final DriftBackend backend;
   final DriftAnalysisCache cache = DriftAnalysisCache();
   final DriftOptions options;
-  final bool _isTesting;
+  final bool isTesting;
 
   Future<KnownDriftTypes?>? _loadingTypes;
 
@@ -65,8 +65,8 @@ class DriftAnalysisDriver {
   DriftAnalysisDriver(
     this.backend,
     this.options, {
-    bool isTesting = false,
-  }) : _isTesting = isTesting;
+    this.isTesting = false,
+  });
 
   SqlEngine newSqlEngine() {
     return SqlEngine(
@@ -272,7 +272,7 @@ class DriftAnalysisDriver {
         if (e is! CouldNotResolveElementException) {
           backend.log.warning('Could not analyze $id', e, s);
 
-          if (_isTesting) rethrow;
+          if (isTesting) rethrow;
         }
 
         return null;

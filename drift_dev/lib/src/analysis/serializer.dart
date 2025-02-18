@@ -667,7 +667,7 @@ class ElementDeserializer {
         } else if (sourceKind == 'dart') {
           TableReferenceInDartView readReference(Map json) {
             final id = DriftElementId.fromJson(json['table'] as Map);
-            final reference = references.singleWhere((e) => e.id == id);
+            final reference = references.firstWhere((e) => e.id == id);
             return TableReferenceInDartView(
                 reference as DriftTable, json['name'] as String);
           }
