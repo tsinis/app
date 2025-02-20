@@ -556,16 +556,12 @@ class ConfigTable extends Table with TableInfo<ConfigTable, Config> {
       type: DriftSqlType.any,
       requiredDuringInsert: false,
       $customConstraints: '');
-  static const VerificationMeta _syncStateMeta =
-      const VerificationMeta('syncState');
   late final GeneratedColumnWithTypeConverter<SyncType?, int> syncState =
       GeneratedColumn<int>('sync_state', aliasedName, true,
               type: DriftSqlType.int,
               requiredDuringInsert: false,
               $customConstraints: '')
           .withConverter<SyncType?>(ConfigTable.$convertersyncStaten);
-  static const VerificationMeta _syncStateImplicitMeta =
-      const VerificationMeta('syncStateImplicit');
   late final GeneratedColumnWithTypeConverter<SyncType?, int>
       syncStateImplicit = GeneratedColumn<int>(
               'sync_state_implicit', aliasedName, true,
@@ -598,8 +594,6 @@ class ConfigTable extends Table with TableInfo<ConfigTable, Config> {
           configValue.isAcceptableOrUnknown(
               data['config_value']!, _configValueMeta));
     }
-    context.handle(_syncStateMeta, const VerificationResult.success());
-    context.handle(_syncStateImplicitMeta, const VerificationResult.success());
     return context;
   }
 

@@ -456,8 +456,14 @@ class TableWriter extends TableOrViewWriter {
     buffer.write('}');
   }
 
+  bool _generateVerificationFor(DriftColumn column) {
+    // dont't verify custom columns, we assume that the user knows what
+    // they're doing
+    return column.typeConverter == null;
+  }
+
   void _writeColumnVerificationMeta(DriftColumn column) {
-    if (!_skipVerification) {
+    if (!_skipVerification && _generateVerificationFor(column)) {
       final meta = emitter.drift('VerificationMeta');
       final arg = asDartLiteral(column.nameInDart);
 
@@ -470,9 +476,7 @@ class TableWriter extends TableOrViewWriter {
   void _writeValidityCheckMethod() {
     if (_skipVerification) return;
 
-    // dont't verify custom columns, we assume that the user knows what they're
-    // doing
-    if (table.columns.every((c) => c.typeConverter != null)) {
+    if (!table.columns.any(_generateVerificationFor)) {
       return;
     }
 
@@ -492,11 +496,7 @@ class TableWriter extends TableOrViewWriter {
       final getterName = thisIfNeeded(column.nameInDart, locals);
       final metaName = _fieldNameForColumnMeta(column);
 
-      if (column.typeConverter != null) {
-        // dont't verify custom columns, we assume that the user knows what
-        // they're doing
-        buffer.write('context.handle($metaName, '
-            'const ${emitter.drift('VerificationResult')}.success());');
+      if (!_generateVerificationFor(column)) {
         continue;
       }
 

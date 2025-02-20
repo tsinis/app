@@ -9,7 +9,6 @@ class $CategoriesTable extends Categories
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $CategoriesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumnWithTypeConverter<RowId, int> id = GeneratedColumn<
               int>('id', aliasedName, false,
@@ -27,8 +26,6 @@ class $CategoriesTable extends Categories
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL UNIQUE');
-  static const VerificationMeta _priorityMeta =
-      const VerificationMeta('priority');
   @override
   late final GeneratedColumnWithTypeConverter<CategoryPriority, int> priority =
       GeneratedColumn<int>('priority', aliasedName, false,
@@ -58,14 +55,12 @@ class $CategoriesTable extends Categories
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    context.handle(_idMeta, const VerificationResult.success());
     if (data.containsKey('desc')) {
       context.handle(_descriptionMeta,
           description.isAcceptableOrUnknown(data['desc']!, _descriptionMeta));
     } else if (isInserting) {
       context.missing(_descriptionMeta);
     }
-    context.handle(_priorityMeta, const VerificationResult.success());
     if (data.containsKey('description_in_upper_case')) {
       context.handle(
           _descriptionInUpperCaseMeta,
@@ -274,7 +269,6 @@ class $TodosTableTable extends TodosTable
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $TodosTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumnWithTypeConverter<RowId, int> id = GeneratedColumn<
               int>('id', aliasedName, false,
@@ -306,8 +300,6 @@ class $TodosTableTable extends TodosTable
       type: DriftSqlType.dateTime,
       requiredDuringInsert: false,
       defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
-  static const VerificationMeta _categoryMeta =
-      const VerificationMeta('category');
   @override
   late final GeneratedColumnWithTypeConverter<RowId?, int> category =
       GeneratedColumn<int>('category', aliasedName, true,
@@ -316,7 +308,6 @@ class $TodosTableTable extends TodosTable
               defaultConstraints: GeneratedColumn.constraintIsAlways(
                   'REFERENCES categories (id) DEFERRABLE INITIALLY DEFERRED'))
           .withConverter<RowId?>($TodosTableTable.$convertercategoryn);
-  static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumnWithTypeConverter<TodoStatus?, String> status =
       GeneratedColumn<String>('status', aliasedName, true,
@@ -335,7 +326,6 @@ class $TodosTableTable extends TodosTable
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    context.handle(_idMeta, const VerificationResult.success());
     if (data.containsKey('title')) {
       context.handle(
           _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
@@ -352,8 +342,6 @@ class $TodosTableTable extends TodosTable
           targetDate.isAcceptableOrUnknown(
               data['target_date']!, _targetDateMeta));
     }
-    context.handle(_categoryMeta, const VerificationResult.success());
-    context.handle(_statusMeta, const VerificationResult.success());
     return context;
   }
 
@@ -650,7 +638,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $UsersTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumnWithTypeConverter<RowId, int> id = GeneratedColumn<
               int>('id', aliasedName, false,
@@ -708,7 +695,6 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    context.handle(_idMeta, const VerificationResult.success());
     if (data.containsKey('name')) {
       context.handle(
           _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
@@ -1186,7 +1172,6 @@ class $TableWithoutPKTable extends TableWithoutPK
   late final GeneratedColumn<BigInt> webSafeInt = GeneratedColumn<BigInt>(
       'web_safe_int', aliasedName, true,
       type: DriftSqlType.bigInt, requiredDuringInsert: false);
-  static const VerificationMeta _customMeta = const VerificationMeta('custom');
   @override
   late final GeneratedColumnWithTypeConverter<MyCustomObject, String> custom =
       GeneratedColumn<String>('custom', aliasedName, false,
@@ -1227,7 +1212,6 @@ class $TableWithoutPKTable extends TableWithoutPK
           webSafeInt.isAcceptableOrUnknown(
               data['web_safe_int']!, _webSafeIntMeta));
     }
-    context.handle(_customMeta, const VerificationResult.success());
     return context;
   }
 
@@ -1371,7 +1355,6 @@ class $PureDefaultsTable extends PureDefaults
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $PureDefaultsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _txtMeta = const VerificationMeta('txt');
   @override
   late final GeneratedColumnWithTypeConverter<MyCustomObject?, String> txt =
       GeneratedColumn<String>('insert', aliasedName, true,
@@ -1693,7 +1676,6 @@ class $TableWithEveryColumnTypeTable extends TableWithEveryColumnType
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $TableWithEveryColumnTypeTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumnWithTypeConverter<RowId, int> id = GeneratedColumn<
               int>('id', aliasedName, false,
@@ -1743,16 +1725,12 @@ class $TableWithEveryColumnTypeTable extends TableWithEveryColumnType
   late final GeneratedColumn<Uint8List> aBlob = GeneratedColumn<Uint8List>(
       'a_blob', aliasedName, true,
       type: DriftSqlType.blob, requiredDuringInsert: false);
-  static const VerificationMeta _anIntEnumMeta =
-      const VerificationMeta('anIntEnum');
   @override
   late final GeneratedColumnWithTypeConverter<TodoStatus?, int> anIntEnum =
       GeneratedColumn<int>('an_int_enum', aliasedName, true,
               type: DriftSqlType.int, requiredDuringInsert: false)
           .withConverter<TodoStatus?>(
               $TableWithEveryColumnTypeTable.$converteranIntEnumn);
-  static const VerificationMeta _aTextWithConverterMeta =
-      const VerificationMeta('aTextWithConverter');
   @override
   late final GeneratedColumnWithTypeConverter<MyCustomObject?, String>
       aTextWithConverter = GeneratedColumn<String>('insert', aliasedName, true,
@@ -1783,7 +1761,6 @@ class $TableWithEveryColumnTypeTable extends TableWithEveryColumnType
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    context.handle(_idMeta, const VerificationResult.success());
     if (data.containsKey('a_bool')) {
       context.handle(
           _aBoolMeta, aBool.isAcceptableOrUnknown(data['a_bool']!, _aBoolMeta));
@@ -1814,8 +1791,6 @@ class $TableWithEveryColumnTypeTable extends TableWithEveryColumnType
       context.handle(
           _aBlobMeta, aBlob.isAcceptableOrUnknown(data['a_blob']!, _aBlobMeta));
     }
-    context.handle(_anIntEnumMeta, const VerificationResult.success());
-    context.handle(_aTextWithConverterMeta, const VerificationResult.success());
     return context;
   }
 

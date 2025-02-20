@@ -1,6 +1,7 @@
 ## 2.25.3-dev
 
 - Fix warning on Dart-defined views referencing the same table multiple times.
+- Don't generate unnecessary verification code.
 
 ## 2.25.2
 
