@@ -212,4 +212,13 @@ void main() {
       ),
     ]);
   });
+
+  test('can use empty companion for update', () async {
+    expect(
+      await db.categories.update().writeReturning(const CategoriesCompanion()),
+      isEmpty,
+    );
+
+    verifyNever(executor.runSelect(any, any));
+  });
 }
