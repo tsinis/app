@@ -415,6 +415,11 @@ abstract class DatabaseConnectionUser {
   /// [statement] should contain exactly one SQL statement. Attempting to run
   /// multiple statements with a single [customStatement] may not be fully
   /// supported on all platforms.
+  ///
+  /// This method does not update stream queries on this drift database. To run
+  /// custom statements that update data, please use [customInsert] or
+  /// [customUpdate] instead. You can also call [markTablesUpdated] manually
+  /// after awaiting [customStatement].
   Future<void> customStatement(String statement, [List<dynamic>? args]) {
     final engine = resolvedEngine;
 
