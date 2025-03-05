@@ -1,7 +1,0 @@
-include: package:lints/recommended.yaml
-
-analyzer:
-  exclude:
-   - "test/generated/**"
-   - "lib/src/generated/**"
-   - "**/*.g.dart"

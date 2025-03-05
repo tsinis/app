@@ -1,8 +1,8 @@
-name: drift_workspace
+name: app_workspace
 publish_to: none
 
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ^3.7.0
 
-dev_dependencies:
-  melos: ^6.3.2
+workspace:
+  - flutter_app/

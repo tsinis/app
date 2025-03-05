@@ -1,0 +1,20 @@
+# This configures how `build_runner` and associated builders should behave.
+# For more information, see https://pub.dev/packages/build_config
+
+targets:
+  $default:
+    # Reducing sources makes the build slightly faster (some of these are required
+    # to exist in the default target).
+    sources:
+      - lib/**
+      - web/**
+      - "tool/**"
+      - pubspec.yaml
+      - lib/$lib$
+      - $package$
+    builders:
+      drift_dev:
+        # These options change how drift generates code
+        options:
+          databases:
+            default: lib/database/app_database.dart
