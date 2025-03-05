@@ -1,0 +1,33 @@
+name: deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "flutter_app/**"
+      - ".github/workflows/deploy_example_web.yaml"
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: 🚀 Deploy website
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: 📚 Git checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2.18.0
+        with:
+          channel: "stable"
+          flutter-version: 3.29.0
+
+      - name: 🛠️ Build for web
+        uses: bluefireteam/flutter-gh-pages@v9
+        with:
+          workingDir: flutter_app
+          baseHref: /app/
+          compileToWasm: true

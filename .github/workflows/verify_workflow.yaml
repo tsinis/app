@@ -1,0 +1,95 @@
+name: verify_workflow
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+      directory:
+        required: false
+        default: "."
+        type: string
+      is_flutter:
+        required: false
+        default: true
+        type: boolean
+
+jobs:
+  verify-workflow:
+    env:
+      relative_path: ${{ inputs.directory }}/${{ inputs.name }}
+    name: ⏳ Verify ${{ inputs.name }} Workflow
+    defaults:
+      run:
+        working-directory: ${{ env.relative_path }}
+
+    runs-on: "ubuntu-latest"
+    timeout-minutes: 20
+
+    steps:
+      - name: 📚 Git checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: 🧹 Workspace cleaner
+        if: ${{ !inputs.is_flutter }}
+        uses: actions/github-script@v7.0.1
+        with:
+          script: |
+            const f = 'pubspec.yaml', c = await require('fs').promises.readFile(f, 'utf8')
+            await require('fs').promises.writeFile(f, c.replace(/- packages\/flutter_/g, '#'))
+
+      - name: 🎯 Setup Dart
+        if: ${{ !inputs.is_flutter }}
+        uses: dart-lang/setup-dart@v1.7.1
+        with:
+          sdk: 3.7.0
+
+      - name: 🐦 Setup Flutter
+        if: ${{ inputs.is_flutter }}
+        uses: subosito/flutter-action@v2.18.0
+        with:
+          channel: "stable"
+          flutter-version: 3.29.0
+
+      - name: 📦 Install dependencies
+        run: dart pub get
+
+      - name: 🕵️ Analyze code
+        uses: ValentinVignal/action-dart-analyze@v0.17
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          fail-on: "format"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ${{ env.relative_path }}
+          format: true
+
+      - name: 🛂 Set up file system write permissions
+        run: sudo chown -R runner:runner $(pwd) && sudo chmod -R 777 $(pwd)
+
+      - name: 🧪 Run Dart tests
+        if: ${{ !inputs.is_flutter }}
+        run: |
+          dart test test/src --fail-fast --coverage=coverage
+          dart run coverage:format_coverage -c -l -i coverage -o coverage/lcov.info --report-on=lib
+
+      - name: 🧪 Run Flutter tests
+        if: ${{ inputs.is_flutter }}
+        run: flutter test --coverage --no-pub
+
+      - name: 📊 Check code coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v3.0.0
+        with:
+          path: ${{ env.relative_path }}/coverage/lcov.info
+          exclude: "**/*.g.dart **/*.mapper.dart"
+          min_coverage: 10 # TODO! Set the minimum coverage threshold to 90%
+
+      - name: 💯 Upload coverage
+        uses: codecov/codecov-action@v5.3.1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ env.relative_path }}/coverage/lcov.info
+          flags: ${{ inputs.name }}
+          name: ${{ inputs.name }}
+          override_branch: ${{ github.base_ref }}
+          verbose: true
