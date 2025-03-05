@@ -64,10 +64,6 @@ jobs:
           working-directory: ${{ env.relative_path }}
           format: true
 
-      - name: 🏜️ Publish - dry run
-        if: ${{ github.event_name == 'pull_request' }}
-        run: dart pub publish --dry-run
-
       - name: 🛂 Set up file system write permissions
         run: sudo chown -R runner:runner $(pwd) && sudo chmod -R 777 $(pwd)
 
