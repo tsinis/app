@@ -11,6 +11,13 @@
       "type": "dart"
     },
     {
+      "name": "app (web, wasm)",
+      "cwd": "flutter_app",
+      "request": "launch",
+      "type": "dart",
+      "args": ["-d", "chrome", "--wasm"]
+    },
+    {
       "name": "app (profile mode)",
       "cwd": "flutter_app",
       "request": "launch",
