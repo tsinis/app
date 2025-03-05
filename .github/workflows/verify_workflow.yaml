@@ -8,7 +8,7 @@ on:
         type: string
       directory:
         required: false
-        default: ""
+        default: "."
         type: string
       is_flutter:
         required: false

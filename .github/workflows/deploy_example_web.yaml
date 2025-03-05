@@ -23,11 +23,11 @@ jobs:
           flutter-version: 3.29.0
 
       - name: 📦 Install dependencies
-        working-directory: flutter_app/
+        working-directory: ./flutter_app
         run: flutter pub get
 
       - name: 🛠️ Build for web
-        working-directory: flutter_app/
+        working-directory: ./flutter_app
         run: flutter build web --release --base-href=/app/ --wasm
 
       - name: 🛫 Deploy the website to GH Pages
