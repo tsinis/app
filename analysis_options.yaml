@@ -10,6 +10,7 @@ analyzer:
     - "coverage/**"
     # Generated code
     - "**/*.g.dart"
+    - "**/*.gr.dart"
     - "**/*.mapper.dart"
 
   language:
