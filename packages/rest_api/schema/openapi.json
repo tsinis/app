@@ -1,0 +1,906 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0",
+    "title": "Hotel booking API",
+    "description": "This schema describes the response returned. Each field is documented with a description explaining its type choice and an example value from the actual response."
+  },
+  "paths": {
+    "/hotels.json": {
+      "get": {
+        "summary": "Get hotels listing",
+        "description": "Returns a list of hotels with their details, filters, and meta information",
+        "operationId": "getHotels",
+        "responses": {
+          "200": {
+            "description": "Successful response with hotels data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse",
+                  "nullable": true
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "filters": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of filter objects used to refine search results. Each filter may contain attributes or a range.",
+            "items": { "nullable": true, "$ref": "#/components/schemas/Filter" }
+          },
+          "hotel-count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Total number of hotels found. We use an integer because the example value is 998.",
+            "example": 998
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta",
+            "nullable": true,
+            "description": "Additional meta information including agent info, count, and scarcity elements."
+          },
+          "hotels": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of hotel objects with detailed booking and pricing information.",
+            "items": { "nullable": true, "$ref": "#/components/schemas/Hotel" }
+          },
+          "used-search-request": {
+            "$ref": "#/components/schemas/UsedSearchRequest",
+            "nullable": true,
+            "description": "The search request parameters used. Contains details such as departure date, destination, sort, etc."
+          }
+        }
+      },
+      "ApiImage": {
+        "type": "object",
+        "properties": {
+          "large": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "URL for the large image.",
+            "example": "https://image-resizer.prod.invia-travel.io/images/multicode/35489/org/hotel35489-82b191cc-c71d-4d5a-a6dd-f16f533f7f81.jpeg?width=700&height=525"
+          },
+          "small": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true,
+            "description": "URL for the small image.",
+            "example": "https://image-resizer.prod.invia-travel.io/images/multicode/35489/org/hotel35489-82b191cc-c71d-4d5a-a6dd-f16f533f7f81.jpeg?width=400&height=300"
+          }
+        }
+      },
+      "Filter": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array",
+            "nullable": true,
+            "description": "List of attributes for the filter. Each attribute contains identifiers, value, usage, and pricing details.",
+            "items": {
+              "nullable": true,
+              "$ref": "#/components/schemas/FilterAttribute"
+            }
+          },
+          "category": {
+            "type": "string",
+            "nullable": true,
+            "description": "Category name for the filter.",
+            "example": "special-flexible"
+          },
+          "in-use": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Flag indicating if filter is currently in use.",
+            "example": false
+          },
+          "type": {
+            "type": "string",
+            "enum": ["checkbox", "range", "radio"],
+            "nullable": true,
+            "description": "Type of filter, restricted to known options ('checkbox', 'range', 'radio') for improved validation.",
+            "example": "checkbox"
+          },
+          "range": {
+            "type": "object",
+            "nullable": true,
+            "description": "Optional range object available when filter type is 'range'. Contains min, max and selected values.",
+            "properties": {
+              "max": {
+                "type": "string",
+                "nullable": true,
+                "description": "Maximum value for the range filter.",
+                "example": "600000"
+              },
+              "min": {
+                "type": "string",
+                "nullable": true,
+                "description": "Minimum value for the range filter.",
+                "example": "50000"
+              },
+              "type": {
+                "type": "string",
+                "nullable": true,
+                "description": "Type of range, e.g. 'amount'. But looks like might be a enum too?",
+                "example": "amount"
+              },
+              "selected-max-value": {
+                "type": "string",
+                "nullable": true,
+                "description": "The user-selected maximum value. Empty string if not selected.",
+                "example": ""
+              },
+              "selected-min-value": {
+                "type": "string",
+                "nullable": true,
+                "description": "The user-selected minimum value. Empty string if not selected.",
+                "example": ""
+              }
+            }
+          }
+        }
+      },
+      "FilterAttribute": {
+        "type": "object",
+        "properties": {
+          "attribute-identifier": {
+            "type": "string",
+            "nullable": true,
+            "description": "Unique identifier for the attribute.",
+            "example": "sp__IT08F-CAN"
+          },
+          "attribute-value": {
+            "type": "string",
+            "nullable": true,
+            "description": "The display value of the attribute.",
+            "example": "kostenlos oder kostengünstig bis kurz vor Anreise"
+          },
+          "in-use": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Determines whether this attribute is selected.",
+            "example": false
+          },
+          "is-disabled": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Flag indicating if the attribute is disabled.",
+            "example": false
+          },
+          "is-popular": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Flag indicating if the attribute is popular. Example value may be true if popular.",
+            "example": false
+          },
+          "min-price": {
+            "type": "number",
+            "nullable": true,
+            "description": "Minimum price related to this attribute (in cents).",
+            "example": 55600
+          },
+          "result-count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of results available for this attribute.",
+            "example": 1220
+          }
+        }
+      },
+      "RatingInfo": {
+        "type": "object",
+        "nullable": true,
+        "description": "Rating related fields for a hotel.",
+        "properties": {
+          "recommendation-rate": {
+            "type": "number",
+            "nullable": true,
+            "description": "Recommendation rate, provided as a number.",
+            "example": 0
+          },
+          "reviews-count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of reviews.",
+            "example": 381,
+            "minimum": 0
+          },
+          "score": {
+            "type": "number",
+            "nullable": true,
+            "description": "Average score rating.",
+            "example": 4.2
+          },
+          "score-description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Textual description of the score.",
+            "example": "Sehr Gut"
+          }
+        }
+      },
+      "Meta": {
+        "type": "object",
+        "properties": {
+          "agent": {
+            "$ref": "#/components/schemas/Agent",
+            "nullable": true,
+            "description": "Object containing the travel agent information."
+          },
+          "count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Count of hotels, same as 'hotel-count'.",
+            "example": 998
+          },
+          "scarcity-elements": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of objects indicating scarcity information. Each element has a type.",
+            "items": {
+              "nullable": true,
+              "$ref": "#/components/schemas/ScarcityElement"
+            }
+          }
+        }
+      },
+      "Agent": {
+        "type": "object",
+        "properties": {
+          "availability": {
+            "type": "string",
+            "nullable": true,
+            "description": "The availability times for the agent.",
+            "example": "Täglich erreichbar: 09:00 - 22:00 Uhr"
+          },
+          "image": {
+            "$ref": "#/components/schemas/ApiImage",
+            "nullable": true,
+            "description": "Object containing large and small URLs for the agent image."
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Name of the agent.",
+            "example": "Urlaubsexperte Andreas"
+          },
+          "telephone": {
+            "type": "string",
+            "nullable": true,
+            "description": "The telephone number of the agent.",
+            "example": "0341 65050 53220"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true,
+            "description": "A short text message from the agent.",
+            "example": "“Kennst du schon Mallorcas geheime Strände? Ich verrate sie dir gern und buche den perfekten Aufenthalt für dich.”"
+          },
+          "vita": {
+            "type": "string",
+            "nullable": true,
+            "description": "The biography/vita of the agent.",
+            "example": "10 Jahre Erfahrung als Reiseberater"
+          }
+        }
+      },
+      "ScarcityElement": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true,
+            "description": "The type of scarcity information, restricted to allowed values (e.g., 'REGION_IN_HIGH_DEMAND'). Looks like UPPERCASE_SNAKE_CASE enum pattern?",
+            "example": "REGION_IN_HIGH_DEMAND"
+          }
+        }
+      },
+      "Hotel": {
+        "type": "object",
+        "properties": {
+          "analytics": {
+            "type": "object",
+            "nullable": true,
+            "description": "Analytics information with a nested object keyed by 'select_item.item.0'. ???",
+            "properties": {
+              "select_item.item.0": {
+                "type": "object",
+                "nullable": true,
+                "description": "Contains analytics data such as currency, category, hotel id and pricing details in string format.",
+                "properties": {
+                  "currency": {
+                    "type": "string",
+                    "enum": ["EUR", "USD"],
+                    "nullable": true,
+                    "description": "Currency code (ISO 4217)."
+                  },
+                  "itemCategory": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Hotel item category and satisfaction level.",
+                    "example": "4.0 - unverified, verySatisfied"
+                  },
+                  "itemCategory2": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Additional categorization tags for the hotel.",
+                    "example": "IT08F-CAN#FEE#FEE,IT08P-DISC#CRED,IT08F-RES#INC,IT08P-DEP"
+                  },
+                  "itemId": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Unique identifier for the hotel item.",
+                    "example": "35489-giata"
+                  },
+                  "itemListName": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Name of the list where the hotel occurs.",
+                    "example": "hotel list - recommendation"
+                  },
+                  "itemName": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Name of the hotel item.",
+                    "example": "Can Picafort Palace"
+                  },
+                  "itemRooms": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Number of rooms (as string in the response).",
+                    "example": "1"
+                  },
+                  "price": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Price given as string (e.g. '844.00').",
+                    "example": "844.00"
+                  },
+                  "quantity": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Quantity of items, expressed as string.",
+                    "example": "1"
+                  }
+                }
+              }
+            }
+          },
+          "badges": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of badges. It can be a collection of strings/enums?",
+            "items": { "nullable": true, "type": "string" },
+            "example": ["collection"]
+          },
+          "best-offer": {
+            "$ref": "#/components/schemas/BestOffer",
+            "nullable": true,
+            "description": "The best-offer object that includes pricing, availability and room configuration details."
+          },
+          "category": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Numerical category for the hotel.",
+            "example": 4
+          },
+          "category-type": {
+            "type": "string",
+            "nullable": true,
+            "description": "Additional category type. In the sample, it's represented as 'dots'. But might be also enum?",
+            "example": "dots"
+          },
+          "destination": {
+            "type": "string",
+            "nullable": true,
+            "description": "Destination information with location details.",
+            "example": "Can Picafort, Mallorca, Spanien"
+          },
+          "hotel-id": {
+            "type": "string",
+            "nullable": true,
+            "description": "Unique hotel identifier.",
+            "example": "35489-giata"
+          },
+          "images": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of image objects with different sizes.",
+            "items": {
+              "nullable": true,
+              "$ref": "#/components/schemas/ApiImage"
+            }
+          },
+          "latitude": {
+            "type": "number",
+            "format": "float",
+            "nullable": true,
+            "description": "Latitude coordinate of the hotel.",
+            "example": 39.764034
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float",
+            "nullable": true,
+            "description": "Longitude coordinate of the hotel.",
+            "example": 3.1490614
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Name of the hotel.",
+            "example": "Can Picafort Palace"
+          },
+          "rating-info": {
+            "$ref": "#/components/schemas/RatingInfo",
+            "nullable": true,
+            "description": "Rating related fields including numeric score, review count and description."
+          }
+        }
+      },
+      "BestOffer": {
+        "type": "object",
+        "properties": {
+          "applied-travel-discount": {
+            "nullable": true,
+            "description": "Applied travel discount if any, can be a number or null?",
+            "type": "number",
+            "example": 1
+          },
+          "detailed-price-per-person": {
+            "type": "array",
+            "nullable": true,
+            "description": "Detailed pricing per person. Looks like number, always an array even if empty?",
+            "items": { "nullable": true, "type": "number" }
+          },
+          "included-travel-discount": {
+            "type": "number",
+            "nullable": true,
+            "description": "Included travel discount (numeric value).",
+            "example": 0
+          },
+          "original-travel-price": {
+            "type": "number",
+            "nullable": true,
+            "description": "Original travel price in cents.",
+            "example": 84400
+          },
+          "simple-price-per-person": {
+            "type": "number",
+            "nullable": true,
+            "description": "Simple price per person shown in cents.",
+            "example": 42200
+          },
+          "total": {
+            "type": "number",
+            "nullable": true,
+            "description": "Total price for the booking in cents.",
+            "example": 84400
+          },
+          "travel-price": {
+            "type": "number",
+            "nullable": true,
+            "description": "Travel price (duplicate of total in some cases).",
+            "example": 84400
+          },
+          "available-special-groups": {
+            "type": "array",
+            "nullable": true,
+            "description": "Groups of specials available for the offer. Might be enums?",
+            "items": {
+              "nullable": true,
+              "type": "string",
+              "enum": ["flexible", "promotion"]
+            },
+            "example": ["flexible", "promotion"]
+          },
+          "flight-included": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Flag indicating whether flight is included in the offer.",
+            "example": true
+          },
+          "rooms": {
+            "$ref": "#/components/schemas/Rooms",
+            "nullable": true,
+            "description": "Room and pricing details for the offer."
+          },
+          "travel-date": {
+            "$ref": "#/components/schemas/TravelDate",
+            "nullable": true,
+            "description": "Travel date details including departure, return and total nights."
+          }
+        }
+      },
+      "Rooms": {
+        "type": "object",
+        "properties": {
+          "overall": {
+            "$ref": "#/components/schemas/RoomOverall",
+            "nullable": true,
+            "description": "Overall room description including boarding, name, counts and attributes."
+          },
+          "prices-and-occupancy": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of objects detailing pricing and occupancy numbers.",
+            "items": {
+              "nullable": true,
+              "type": "object",
+              "properties": {
+                "adult-count": {
+                  "type": "integer",
+                  "nullable": true,
+                  "description": "Number of adults for the pricing entry.",
+                  "example": 2
+                },
+                "children-ages": {
+                  "type": "array",
+                  "nullable": true,
+                  "description": "Array of children's ages; empty if none.",
+                  "items": { "nullable": true, "type": "number" }
+                },
+                "children-count": {
+                  "type": "integer",
+                  "nullable": true,
+                  "description": "Count of children.",
+                  "example": 0
+                },
+                "detailed-price-per-person": {
+                  "type": "array",
+                  "nullable": true,
+                  "description": "Detailed pricing per person for this grouping. Number?",
+                  "items": { "nullable": true, "type": "number" }
+                },
+                "group-identifier": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Unique identifier for the group of rooms.",
+                  "example": "af21b91892c2f88a6dbe2d12c8ac269fd0bf538fe4136107a21a0b84d1fad9a3"
+                },
+                "simple-price-per-person": {
+                  "type": "number",
+                  "nullable": true,
+                  "description": "Simplified price per person for this grouping.",
+                  "example": 42200
+                },
+                "total": {
+                  "type": "number",
+                  "nullable": true,
+                  "description": "Total price for this occupancy grouping.",
+                  "example": 84400
+                }
+              }
+            }
+          },
+          "room-groups": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of room group objects with details such as boarding and group identifiers.",
+            "items": {
+              "nullable": true,
+              "type": "object",
+              "properties": {
+                "attributes": {
+                  "type": "array",
+                  "nullable": true,
+                  "description": "Array of attributes for the room group. Unknown type?",
+                  "items": { "nullable": true }
+                },
+                "boarding": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Boarding type for the room group.",
+                  "example": "Ohne Verpflegung"
+                },
+                "name": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Room group name.",
+                  "example": "Apartment"
+                },
+                "detailed-description": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Detailed room description if available.",
+                  "example": null
+                },
+                "group-identifier": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Unique identifier for the room group.",
+                  "example": "af21b91892c2f88a6dbe2d12c8ac269fd0bf538fe4136107a21a0b84d1fad9a3"
+                },
+                "quantity": {
+                  "type": "number",
+                  "nullable": true,
+                  "description": "Quantity (number of rooms) of this group.",
+                  "example": 1
+                }
+              }
+            }
+          }
+        }
+      },
+      "RoomOverall": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "array",
+            "nullable": true,
+            "description": "Attributes applicable to the room overall.",
+            "items": {
+              "nullable": true,
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Attribute ID.",
+                  "example": "IT05-BT#BT"
+                },
+                "name": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Name of the attribute.",
+                  "example": "Balkon/Terrasse"
+                },
+                "value": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "Value of the attribute; can be null.",
+                  "example": "string?"
+                },
+                "is-unique": {
+                  "type": "boolean",
+                  "nullable": true,
+                  "description": "Flag if the attribute is unique to the room.",
+                  "example": false
+                }
+              }
+            }
+          },
+          "boarding": {
+            "type": "string",
+            "nullable": true,
+            "description": "Boarding option for the room such as 'Ohne Verpflegung' or 'All Inclusive'.",
+            "example": "Ohne Verpflegung"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Room type name.",
+            "example": "Apartment"
+          },
+          "adult-count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of adults for the room.",
+            "example": 2
+          },
+          "children-ages": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of ages for children staying in the room.",
+            "items": { "nullable": true, "type": "number" },
+            "example": [1, 2]
+          },
+          "children-count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of children for the room.",
+            "example": 0
+          },
+          "quantity": {
+            "type": "number",
+            "nullable": true,
+            "description": "Room quantity in this booking.",
+            "example": 1
+          },
+          "same-boarding": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Whether all rooms share the same boarding option.",
+            "example": true
+          },
+          "same-room-groups": {
+            "type": "boolean",
+            "nullable": true,
+            "description": "Whether the same room groups are used.",
+            "example": true
+          }
+        }
+      },
+      "TravelDate": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": "number",
+            "nullable": true,
+            "description": "Total number of travel days.",
+            "example": 8
+          },
+          "departure-date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "Departure date in ISO format.",
+            "example": "2024-10-15"
+          },
+          "nights": {
+            "type": "number",
+            "nullable": true,
+            "description": "Number of nights.",
+            "example": 7
+          },
+          "return-date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "Return date in ISO format.",
+            "example": "2024-10-22"
+          }
+        }
+      },
+      "UsedSearchRequest": {
+        "type": "object",
+        "properties": {
+          "attributes": {
+            "type": "string",
+            "nullable": true,
+            "description": "Search attributes as a string. In the response it is empty.",
+            "example": ""
+          },
+          "departure-airports": {
+            "type": "string",
+            "nullable": true,
+            "description": "Comma separated departure IATA airport codes.",
+            "example": "BRE,HAM,HAJ,HDF,LBC,RLG,GWT,FDH,FKB,FMM,MUC,NUE,STR,DTM,DUS,HHN,FRA,KSF,CGN,FMO,PAD,SCN,NRN,ZQW,BER,DRS,ERF,LEJ"
+          },
+          "departure-date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "Date of departure.",
+            "example": "2024-09-09"
+          },
+          "duration-range": {
+            "type": "object",
+            "nullable": true,
+            "description": "The range for the duration of the trip. Why string?",
+            "properties": {
+              "max": {
+                "type": "string",
+                "nullable": true,
+                "description": "Maximum duration as string.",
+                "example": "7"
+              },
+              "min": {
+                "type": "string",
+                "nullable": true,
+                "description": "Minimum duration as string.",
+                "example": "7"
+              }
+            }
+          },
+          "price-range": {
+            "type": "object",
+            "nullable": true,
+            "description": "Price range for filtering the search.",
+            "properties": {
+              "max": {
+                "type": "number",
+                "nullable": true,
+                "description": "Maximum price range.",
+                "example": 2
+              },
+              "min": {
+                "type": "number",
+                "nullable": true,
+                "description": "Minimum price range.",
+                "example": 1
+              }
+            }
+          },
+          "return-date": {
+            "type": "string",
+            "format": "date",
+            "nullable": true,
+            "description": "Return date of the trip.",
+            "example": "2024-11-09"
+          },
+          "rooms": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of room request objects specifying adult and child counts.",
+            "items": {
+              "nullable": true,
+              "$ref": "#/components/schemas/RoomRequest"
+            }
+          },
+          "travel-type": {
+            "type": "string",
+            "nullable": true,
+            "description": "The type of travel search. In this case, 'package'. Might be an enum?",
+            "example": "package"
+          },
+          "destination": {
+            "type": "string",
+            "nullable": true,
+            "description": "Destination identifier.",
+            "example": "destination-es-mallorca"
+          },
+          "sort": {
+            "type": "string",
+            "enum": ["POPULAR_DESC", "POPULAR_ASC"],
+            "nullable": true,
+            "description": "Sorting order used for the search.",
+            "example": "POPULAR_DESC"
+          },
+          "destinationName": {
+            "type": "string",
+            "nullable": true,
+            "description": "Destination name; may be null or a string?",
+            "example": "null or string?"
+          },
+          "limit": {
+            "type": "number",
+            "nullable": true,
+            "description": "Limit for number of search results.",
+            "example": 20
+          },
+          "offset": {
+            "type": "number",
+            "nullable": true,
+            "description": "Offset for pagination.",
+            "example": 0
+          }
+        }
+      },
+      "RoomRequest": {
+        "type": "object",
+        "properties": {
+          "adult-count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of adults in the room request.",
+            "example": 2
+          },
+          "children-ages": {
+            "type": "array",
+            "nullable": true,
+            "description": "Array of ages for child guests.",
+            "items": { "nullable": true, "type": "number" },
+            "example": [1, 2]
+          }
+        }
+      }
+    }
+  }
+}
