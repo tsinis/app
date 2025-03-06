@@ -9,8 +9,10 @@ Future<ApiResponse?> main() async {
 
   try {
     final result = await client.getHotels();
+    final totalCount = result.data?.hotelCount;
+    final actualCount = result.data?.hotels?.nonNulls.length;
     // ignore: avoid_print, it's just an example for remote validation.
-    print('Parsed response is ${result.data == null ? 'null' : 'not null'}');
+    print('They are ${totalCount == actualCount ? 'equal' : 'different'}');
 
     return result.data;
   } on DioException catch (_) {
