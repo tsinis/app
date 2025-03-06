@@ -15,7 +15,7 @@ class AppRouter extends RootStackRouter {
 
   final InitializationGuard _guard;
 
-  static const _path = '/';
+  static const _basePath = '/';
 
   @override
   List<AutoRoute> get routes => [
@@ -25,12 +25,12 @@ class AppRouter extends RootStackRouter {
       initial: true,
       keepHistory: false,
       page: Splash.page,
-      path: _path + SplashScreen.name,
+      path: _basePath + SplashScreen.name,
     ),
     CustomRoute<Root>(
       keepHistory: false,
       page: Root.page,
-      path: _path + RootScreen.name,
+      path: _basePath + RootScreen.name,
       transitionsBuilder: TransitionsBuilders.fadeIn,
       children: [
         AutoRoute(page: Overview.page, path: OverviewScreen.name),

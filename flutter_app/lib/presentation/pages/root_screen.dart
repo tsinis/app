@@ -2,6 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../router/app_router.gr.dart';
+import 'account_screen.dart';
+import 'favorites_screen.dart';
+import 'hotels_screen.dart';
+import 'overview_screen.dart';
 
 @RoutePage(name: 'root')
 class RootScreen extends StatelessWidget {
@@ -17,16 +21,19 @@ class RootScreen extends StatelessWidget {
         (_, tabsRouter) => NavigationBar(
           destinations: const [
             NavigationDestination(
-              icon: Icon(Icons.home_outlined),
+              icon: Icon(OverviewScreen.icon),
               label: 'Overview',
             ),
-            NavigationDestination(icon: Icon(Icons.search), label: 'Search'),
             NavigationDestination(
-              icon: Icon(Icons.favorite_border),
+              icon: Icon(HotelsScreen.icon),
+              label: 'Hotels',
+            ),
+            NavigationDestination(
+              icon: Icon(FavoritesScreen.icon),
               label: 'Favorites',
             ),
             NavigationDestination(
-              icon: Icon(Icons.account_circle_outlined),
+              icon: Icon(AccountScreen.icon),
               label: 'Account',
             ),
           ],

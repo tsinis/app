@@ -90,6 +90,11 @@ dart_code_metrics:
           - children
     - prefer-widget-private-members:
         ignore-static: true
+    - prefer-moving-to-variable:
+        ignored-invocations:
+          - pumpAndSettle
+          - pump
+
     # Enabled:
     - always-remove-listener
     - avoid-accessing-collections-by-constant-index
@@ -348,7 +353,6 @@ dart_code_metrics:
     - prefer-iterable-of
     - prefer-last
     - prefer-match-file-name
-    - prefer-moving-to-variable
     - prefer-named-boolean-parameters
     - prefer-null-aware-spread
     - prefer-overriding-parent-equality
@@ -400,18 +404,18 @@ linter:
     always_put_control_body_on_new_line: false # Makes code harder to read.
     always_specify_types: false # Conflicts with: omit_local_variable_types.
     always_use_package_imports: false # Conflicts with: prefer_relative_imports.
+    avoid_catches_without_on_clauses: false # We might want to catch `anything`.
     avoid_classes_with_only_static_members: false # Conflicts with: prefer-static-class
     diagnostic_describe_all_properties: false # TODO? Enable and fix this in the far-future.
     flutter_style_todos: false # Not a Flutter team.
     omit_local_variable_types: false # Conflicts with: prefer-type-over-var.
+    omit_obvious_property_types: false # Conflicts: prefer-type-over-var.
     prefer_double_quotes: false # Conflicts with: prefer_double_quotes.
     prefer_final_parameters: false # Conflicts with: avoid_final_parameters.
     specify_nonobvious_local_variable_types: false # Conflicts with: omit_obvious_local_variable_types.
     specify_nonobvious_property_types: false # Conflicts with: avoid-explicit-type-declaration.
     unnecessary_final: false # Conflicts with: prefer_final_locals.
     unnecessary_library_name: false # To prevent breaking changes for those who use this libs.
-    avoid_catches_without_on_clauses: false # We might want to catch `anything`.
-    omit_obvious_property_types: false # Conflicts: prefer-type-over-var.
 
     # Enabled:
     always_declare_return_types: true
