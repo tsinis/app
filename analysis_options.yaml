@@ -54,8 +54,13 @@ dart_code_metrics:
     - prefer-correct-throws: false # Introduces additional dependency.
     # Adjusted:
     - avoid-long-functions:
+        ignored-names:
+          - group
+          - main
+          - testWidgets
         exclude:
           - test/**/*.dart
+          - "**/test/**/*.dart"
     - prefer-correct-identifier-length:
         # i for index, x/y for math operations, sb for StringBuffer, io for IO,
         # a/b are convenient for sorting, e for the element, ui for user interface,
@@ -409,6 +414,7 @@ linter:
     diagnostic_describe_all_properties: false # TODO? Enable and fix this in the far-future.
     flutter_style_todos: false # Not a Flutter team.
     omit_local_variable_types: false # Conflicts with: prefer-type-over-var.
+    omit_obvious_local_variable_types: false # Conflicts with: prefer-type-over-var.
     omit_obvious_property_types: false # Conflicts: prefer-type-over-var.
     prefer_double_quotes: false # Conflicts with: prefer_double_quotes.
     prefer_final_parameters: false # Conflicts with: avoid_final_parameters.
@@ -521,7 +527,6 @@ linter:
     noop_primitive_operations: true
     null_check_on_nullable_type_parameter: true
     null_closures: true
-    omit_obvious_local_variable_types: true
     one_member_abstracts: true
     only_throw_errors: true
     overridden_fields: true
