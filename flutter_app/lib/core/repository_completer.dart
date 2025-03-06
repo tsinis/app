@@ -1,7 +1,6 @@
 // ignore_for_file: prefer-typedefs-for-callbacks
 
 import 'dart:async';
-import 'dart:io';
 
 import 'storage_repository.dart';
 
@@ -23,9 +22,7 @@ class RepositoryCompleter implements Completer<StorageRepository?> {
         // ignore: inference_failure_on_instance_creation, TODO! Remove this.
         await Future<void>.delayed(Duration.zero);
         final repository =
-            _onInit == null
-                ? StorageRepository(Directory.current)
-                : await _onInit();
+            _onInit == null ? const StorageRepository(null) : await _onInit();
 
         if (isCompleted) return;
         complete(repository);
