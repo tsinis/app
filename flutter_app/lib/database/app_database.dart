@@ -31,7 +31,7 @@ class AppDatabase extends _$AppDatabase {
             ),
       );
 
-  AppDatabase.forTesting(DatabaseConnection super.e);
+  AppDatabase.forTesting(super.e);
 
   @override
   int get schemaVersion => 1;

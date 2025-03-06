@@ -66,5 +66,3 @@ echo "===== Flutter doctor ====="
 flutter doctor -v
 
 echo "===== Setup complete! ====="
-
-flutter run -d chrome --wasm
