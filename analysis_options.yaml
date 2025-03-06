@@ -58,9 +58,9 @@ dart_code_metrics:
     - prefer-correct-identifier-length:
         # i for index, x/y for math operations, sb for StringBuffer, io for IO,
         # a/b are convenient for sorting, e for the element, ui for user interface,
-        # k for key, v for value.
+        # k for key, v for value, bc for built context.
         exceptions:
-          ["a", "b", "e", "i", "k", "v", "x", "y", "io", "id", "sb", "ui"]
+          ["a", "b", "e", "i", "k", "v", "x", "y", "io", "id", "sb", "ui", "bc"]
     - parameters-ordering:
         ignore-overridden: true
         super: last
@@ -409,6 +409,8 @@ linter:
     specify_nonobvious_property_types: false # Conflicts with: avoid-explicit-type-declaration.
     unnecessary_final: false # Conflicts with: prefer_final_locals.
     unnecessary_library_name: false # To prevent breaking changes for those who use this libs.
+    avoid_catches_without_on_clauses: false # We might want to catch `anything`.
+    omit_obvious_property_types: false # Conflicts: prefer-type-over-var.
 
     # Enabled:
     always_declare_return_types: true
@@ -418,7 +420,6 @@ linter:
     annotate_redeclares: true
     avoid_annotating_with_dynamic: true
     avoid_bool_literals_in_conditional_expressions: true
-    avoid_catches_without_on_clauses: true
     avoid_catching_errors: true
     avoid_double_and_int_checks: true
     avoid_dynamic_calls: true
@@ -516,7 +517,6 @@ linter:
     null_check_on_nullable_type_parameter: true
     null_closures: true
     omit_obvious_local_variable_types: true
-    omit_obvious_property_types: true
     one_member_abstracts: true
     only_throw_errors: true
     overridden_fields: true
