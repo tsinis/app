@@ -27,7 +27,12 @@
     "5555": {
       "label": "ADB connection port",
       "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "Flutter web",
+      "onAutoForward": "notify"
     }
   },
-  "remoteUser": "root"
+  "remoteUser": "root",
+  "postCreateCommand": "chmod +x .devcontainer/setup.sh && .devcontainer/setup.sh"
 }

@@ -28,6 +28,6 @@ jobs:
       - name: 🛠️ Build for web
         uses: bluefireteam/flutter-gh-pages@v9
         with:
-          workingDir: flutter_app
           baseHref: /app/
           compileToWasm: true
+          workingDir: flutter_app
