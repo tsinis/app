@@ -10,10 +10,10 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    "pubspec.yaml": ".flutter-plugins, .dart_tool, .metadata, analysis_options.yaml, pubspec.lock, build.yaml",
+    "pubspec.yaml": ".dart_tool, .metadata, devtools_options.yaml, analysis_options.yaml, pubspec.lock, build.yaml",
     ".gitignore": ".gitattributes, .gitmodules, .gitmessage, .git-blame*",
     "readme.*": "authors, changelog*, license*, maintainers, readme*, security.md",
-    "*.dart": "$(capture).g.dart, $(capture).mapper.dart"
+    "*.dart": "$(capture).g.dart, $(capture).mapper.dart, $(capture).gr.dart"
   },
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
@@ -46,12 +46,12 @@
     ".gitignore",
     "**/lib/**/*.g.dart",
     "**/lib/**/*.mapper.dart",
-    "**/lib/**/*.l10n.dart",
+    "**/lib/**/*.gr.dart",
     "**/.vscode/settings.json",
     "**/.github/workflows/*.yaml"
   ],
   "files.exclude": { "**/.git": true, "**/.fvm": true },
-  "files.readonlyInclude": { "**/*.g.dart": true, "**/*.mapper.dart": true },
+  "files.readonlyInclude": { "**/*.g.dart": true, "**/*.mapper.dart": true, "**/*.gr.dart": true },
   "dart.renameFilesWithClasses": "prompt",
   "dart.flutterGenerateLocalizationsOnSave": "manualIfDirty",
   "dart.runPubGetOnNestedProjects": "both",

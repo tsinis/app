@@ -1,18 +1,35 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'core/repository_completer.dart';
+import 'core/storage_repository.dart';
+import 'router/app_router.dart';
+import 'router/initialization_guard.dart';
 
 void main() {
-  runApp(const Main());
+  final repositoryCompleter = RepositoryCompleter();
+  final appRouter = AppRouter(InitializationGuard(repositoryCompleter));
+  repositoryCompleter.initialize();
+  runApp(Main(appRouter, repository: repositoryCompleter.future));
 }
 
 class Main extends StatelessWidget {
-  const Main({super.key});
+  const Main(this._router, {Future<StorageRepository?>? repository, super.key})
+    : _repository = repository;
+
+  final Future<StorageRepository?>? _repository;
+  final AppRouter _router;
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-    home: const ColoredBox(
-      color: Colors.black,
-      child: Center(child: FlutterLogo(size: 50)),
+  Widget build(BuildContext context) => FutureProvider(
+    create: (_) => _repository,
+    initialData: null,
+    lazy: false,
+    child: MaterialApp.router(
+      routerConfig: _router.config(),
+      theme: ThemeData(useMaterial3: true),
     ),
-    theme: ThemeData(primarySwatch: Colors.grey),
   );
 }

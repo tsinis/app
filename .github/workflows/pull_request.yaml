@@ -29,19 +29,6 @@ jobs:
         with:
           configuration-path: ".github/workflows/config/auto-assign.yaml"
 
-      - name: 🤖 Add Code Reviewers
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const prNumber = context.payload.pull_request.number;
-            await github.rest.pulls.requestReviewers({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: prNumber,
-              reviewers: ['Copilot']
-            });
-
   pr-title:
     runs-on: ubuntu-latest
     timeout-minutes: 4
@@ -52,16 +39,6 @@ jobs:
           requireScope: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  auto-approve:
-    runs-on: ubuntu-latest
-    timeout-minutes: 4
-    steps:
-      - name: 🎟️ Approve Dependabot and owner
-        uses: hmarr/auto-approve-action@v4.0.0
-        if: github.actor == 'dependabot[bot]' || github.actor == 'tsinis'
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
 
   pr-labels:
     runs-on: ubuntu-latest
