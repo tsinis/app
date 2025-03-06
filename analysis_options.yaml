@@ -412,6 +412,7 @@ linter:
     avoid_catches_without_on_clauses: false # We might want to catch `anything`.
     avoid_classes_with_only_static_members: false # Conflicts with: prefer-static-class
     diagnostic_describe_all_properties: false # TODO? Enable and fix this in the far-future.
+    do_not_use_environment: false # App relies on environment variables.
     flutter_style_todos: false # Not a Flutter team.
     omit_local_variable_types: false # Conflicts with: prefer-type-over-var.
     omit_obvious_local_variable_types: false # Conflicts with: prefer-type-over-var.
@@ -487,7 +488,6 @@ linter:
     deprecated_member_use_from_same_package: true
     directives_ordering: true
     discarded_futures: true
-    do_not_use_environment: true
     document_ignores: true
     empty_catches: true
     empty_constructor_bodies: true

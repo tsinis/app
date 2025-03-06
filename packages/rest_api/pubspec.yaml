@@ -1,0 +1,23 @@
+version: 1.0.0+1
+name: rest_api
+description: A package with swagger_parser generated REST API clients/models.
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  bloc: ^9.0.0
+  dart_mappable: ^4.4.0
+  dio: ^5.8.0+1
+  meta: ^1.16.0
+  retrofit: ^4.4.2
+
+dev_dependencies:
+  build_runner: ^2.4.15
+  dart_mappable_builder: ^4.4.0
+  retrofit_generator: ^9.1.9
+  swagger_parser: ^1.21.4
+  test: ^1.25.15
