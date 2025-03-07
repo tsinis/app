@@ -31,14 +31,6 @@ jobs:
       - name: 📚 Git checkout
         uses: actions/checkout@v4.2.2
 
-      - name: 🧹 Workspace cleaner
-        if: ${{ !inputs.is_flutter }}
-        uses: actions/github-script@v7.0.1
-        with:
-          script: |
-            const f = 'pubspec.yaml', c = await require('fs').promises.readFile(f, 'utf8')
-            await require('fs').promises.writeFile(f, c.replace(/- packages\/flutter_/g, '#'))
-
       - name: 🎯 Setup Dart
         if: ${{ !inputs.is_flutter }}
         uses: dart-lang/setup-dart@v1.7.1
@@ -82,7 +74,7 @@ jobs:
         with:
           path: ${{ env.relative_path }}/coverage/lcov.info
           exclude: "**/*.g.dart **/*.mapper.dart"
-          min_coverage: 10 # TODO! Set the minimum coverage threshold to 90%
+          min_coverage: 60 # TODO! Set the minimum coverage threshold to 90%
 
       - name: 💯 Upload coverage
         uses: codecov/codecov-action@v5.3.1

@@ -56,7 +56,7 @@ avdmanager create avd \
 echo "===== Enabling Flutter web ====="
 flutter config --enable-web
 
-cd flutter_app && flutter pub get
+cd app && flutter pub get
 
 # List emulators and verify setup
 echo "===== Listing available emulators ====="

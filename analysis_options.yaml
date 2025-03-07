@@ -51,8 +51,15 @@ dart_code_metrics:
     - test/**
   rules:
     # Disabled:
+    - avoid-returning-cascades: false # Just a style.
+    - avoid-returning-void: false # Also a matter of taste.
     - prefer-correct-throws: false # Introduces additional dependency.
+    - prefer-typedefs-for-callbacks: false # Noisy, no clear benefit.
     # Adjusted:
+    - prefer-extracting-function-callbacks:
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
     - avoid-long-functions:
         ignored-names:
           - group
@@ -75,14 +82,28 @@ dart_code_metrics:
         max-number: 3
     - add-copy-with:
         class-name-pattern: Configuration$
+    - prefer-commenting-future-delayed:
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
+    - avoid-local-functions:
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
     - avoid-late-keyword:
         allow-initialized: true
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
     - no-magic-number:
         allowed: [-1, 0, 1, 2]
         allow-only-once: true
         ignore-instances: false
     - no-magic-string:
         allow-only-once: true
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
     - member-ordering:
         order:
           - constructors
@@ -95,6 +116,9 @@ dart_code_metrics:
           - children
     - prefer-widget-private-members:
         ignore-static: true
+    - avoid-non-empty-constructor-bodies:
+        exclude:
+          - "**/*_bloc.dart"
     - prefer-moving-to-variable:
         ignored-invocations:
           - pumpAndSettle
@@ -165,7 +189,6 @@ dart_code_metrics:
     - avoid-keywords-in-wildcard-pattern
     - avoid-late-context
     - avoid-late-final-reassignment
-    - avoid-local-functions
     - avoid-long-files
     - avoid-long-parameter-list
     - avoid-long-records
@@ -193,7 +216,6 @@ dart_code_metrics:
     - avoid-nested-switches
     - avoid-nested-try-statements
     - avoid-non-ascii-symbols
-    - avoid-non-empty-constructor-bodies
     - avoid-non-final-exception-class-fields
     - avoid-non-null-assertion
     - avoid-not-encodable-in-to-json
@@ -215,8 +237,6 @@ dart_code_metrics:
     - avoid-referencing-discarded-variables
     - avoid-referencing-subclasses
     - avoid-renaming-representation-getters
-    - avoid-returning-cascades
-    - avoid-returning-void
     - avoid-returning-widgets
     - avoid-self-assignment
     - avoid-self-compare
@@ -322,7 +342,6 @@ dart_code_metrics:
     - prefer-bytes-builder
     - prefer-center-over-align
     - prefer-commenting-analyzer-ignores
-    - prefer-commenting-future-delayed
     - prefer-conditional-expressions
     - prefer-const-border-radius
     - prefer-container
@@ -349,7 +368,6 @@ dart_code_metrics:
     - prefer-explicit-parameter-names
     - prefer-explicit-type-arguments
     - prefer-extracting-callbacks
-    - prefer-extracting-function-callbacks
     - prefer-first
     - prefer-for-in
     - prefer-for-loop-in-children
@@ -383,7 +401,6 @@ dart_code_metrics:
     - prefer-text-rich
     - prefer-trailing-comma
     - prefer-type-over-var
-    - prefer-typedefs-for-callbacks
     - prefer-unique-test-names
     - prefer-unwrapping-future-or
     - prefer-using-list-view
@@ -412,6 +429,7 @@ linter:
     avoid_catches_without_on_clauses: false # We might want to catch `anything`.
     avoid_classes_with_only_static_members: false # Conflicts with: prefer-static-class
     diagnostic_describe_all_properties: false # TODO? Enable and fix this in the far-future.
+    do_not_use_environment: false # App relies on environment variables.
     flutter_style_todos: false # Not a Flutter team.
     omit_local_variable_types: false # Conflicts with: prefer-type-over-var.
     omit_obvious_local_variable_types: false # Conflicts with: prefer-type-over-var.
@@ -487,7 +505,6 @@ linter:
     deprecated_member_use_from_same_package: true
     directives_ordering: true
     discarded_futures: true
-    do_not_use_environment: true
     document_ignores: true
     empty_catches: true
     empty_constructor_bodies: true
@@ -572,7 +589,7 @@ linter:
     prefer_typing_uninitialized_variables: true
     prefer_void_to_null: true
     provide_deprecation_message: true
-    public_member_api_docs: false # TODO! Enable after all public APIs are documented.
+    public_member_api_docs: false
     recursive_getters: true
     require_trailing_commas: true
     secure_pubspec_urls: true

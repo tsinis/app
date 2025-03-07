@@ -84,7 +84,6 @@
     "widgets": "middleware",
     "windows": "components",
     "linux": "sass",
-    "flutter_app": "app",
     "collections": "batch"
   }
 }

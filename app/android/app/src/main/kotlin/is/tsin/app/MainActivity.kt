@@ -1,0 +1,6 @@
+package `is`.tsin.app
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}

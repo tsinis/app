@@ -1,0 +1,10 @@
+global_options:
+  dart_mappable_builder:
+    runs_before:
+      - retrofit_generator
+    options:
+      discriminatorKey: type
+      ignoreNull: true
+      renameMethods:
+        toJson: toJsonString
+        toMap: toJson
