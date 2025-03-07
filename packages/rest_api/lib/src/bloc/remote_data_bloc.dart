@@ -38,7 +38,7 @@ class RemoteDataBloc<T extends Object>
     if (remoteHotels == null) return emit(RemoteDataFailure(data: state.data));
     final initialData = _remoteRepository.initialData(remoteHotels);
 
-    if (remoteHotels.length >= _remoteRepository.initLimit) {
+    if (_remoteRepository.initLimit >= remoteHotels.length) {
       emit(RemoteDataInitial(data: initialData));
     } else {
       emit(RemoteDataInProgress(data: initialData));

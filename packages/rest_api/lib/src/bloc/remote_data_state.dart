@@ -7,7 +7,7 @@ sealed class RemoteDataState<T extends Object> extends Equatable {
   final UnmodifiableListView<T>? data;
 
   @override
-  List<Object?> get props => data ?? [];
+  List<T?> get props => [...?data];
 }
 
 final class RemoteDataInitial<T extends Object> extends RemoteDataState<T> {
