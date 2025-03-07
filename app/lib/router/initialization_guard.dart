@@ -25,7 +25,7 @@ class InitializationGuard extends AutoRouteGuard with LoggerMixin {
       await resolver.redirectUntil(_until);
       await router.replaceAll(const [_until]);
     } catch (error, stackTrace) {
-      log(Level.SEVERE, 'Failed to initialize app!', error, stackTrace);
+      severe('Failed to initialize app!', error, stackTrace);
       await router.push(Failure(message: error.toString()));
     }
   }

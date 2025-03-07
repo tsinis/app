@@ -13,10 +13,15 @@ mixin LoggerMixin {
       _logger.log(level, message, error, stack);
 
   @protected
+  void severe(String message, [Object? error, StackTrace? stack]) =>
+      _logger.log(Level.SEVERE, message, error, stack ?? StackTrace.current);
+
+  @protected
   Future<T?> tryOrLog<T extends Object>(
     AsyncValueGetter<T> future,
-    String message,
-  ) async {
+    String message, {
+    T? orElse,
+  }) async {
     info('Ready to $message...');
 
     try {
@@ -25,9 +30,9 @@ mixin LoggerMixin {
 
       return result;
     } catch (error, stackTrace) {
-      _logger.severe('Failed to $message!', error, stackTrace);
+      severe('Failed to $message!', error, stackTrace);
 
-      return null;
+      return orElse;
     }
   }
 }
