@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     compileSdkVersion flutter.compileSdkVersion
-    namespace = "eu.simonbinder.drift.example"
+    namespace = "is.tsin.app"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -41,7 +41,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "eu.simonbinder.drift.example"
+        applicationId "is.tsin.app"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()

@@ -85,14 +85,14 @@
             "format": "uri",
             "nullable": true,
             "description": "URL for the large image.",
-            "example": "https://image-resizer.prod.invia-travel.io/images/multicode/35489/org/hotel35489-82b191cc-c71d-4d5a-a6dd-f16f533f7f81.jpeg?width=700&height=525"
+            "example": "https://example.com/large.jpg"
           },
           "small": {
             "type": "string",
             "format": "uri",
             "nullable": true,
             "description": "URL for the small image.",
-            "example": "https://image-resizer.prod.invia-travel.io/images/multicode/35489/org/hotel35489-82b191cc-c71d-4d5a-a6dd-f16f533f7f81.jpeg?width=400&height=300"
+            "example": "https://example.com/small.jpg"
           }
         }
       },
@@ -112,7 +112,7 @@
             "type": "string",
             "nullable": true,
             "description": "Category name for the filter.",
-            "example": "special-flexible"
+            "example": "generic-category"
           },
           "in-use": {
             "type": "boolean",
@@ -136,13 +136,13 @@
                 "type": "string",
                 "nullable": true,
                 "description": "Maximum value for the range filter.",
-                "example": "600000"
+                "example": "100"
               },
               "min": {
                 "type": "string",
                 "nullable": true,
                 "description": "Minimum value for the range filter.",
-                "example": "50000"
+                "example": "10"
               },
               "type": {
                 "type": "string",
@@ -173,13 +173,13 @@
             "type": "string",
             "nullable": true,
             "description": "Unique identifier for the attribute.",
-            "example": "sp__IT08F-CAN"
+            "example": "generic-id"
           },
           "attribute-value": {
             "type": "string",
             "nullable": true,
             "description": "The display value of the attribute.",
-            "example": "kostenlos oder kostengünstig bis kurz vor Anreise"
+            "example": "generic value"
           },
           "in-use": {
             "type": "boolean",
@@ -203,13 +203,13 @@
             "type": "number",
             "nullable": true,
             "description": "Minimum price related to this attribute (in cents).",
-            "example": 55600
+            "example": 1000
           },
           "result-count": {
             "type": "integer",
             "nullable": true,
             "description": "Number of results available for this attribute.",
-            "example": 1220
+            "example": 100
           }
         }
       },
@@ -228,20 +228,20 @@
             "type": "integer",
             "nullable": true,
             "description": "Number of reviews.",
-            "example": 381,
+            "example": 100,
             "minimum": 0
           },
           "score": {
             "type": "number",
             "nullable": true,
             "description": "Average score rating.",
-            "example": 4.2
+            "example": 4.0
           },
           "score-description": {
             "type": "string",
             "nullable": true,
             "description": "Textual description of the score.",
-            "example": "Sehr Gut"
+            "example": "Good"
           }
         }
       },
@@ -277,7 +277,7 @@
             "type": "string",
             "nullable": true,
             "description": "The availability times for the agent.",
-            "example": "Täglich erreichbar: 09:00 - 22:00 Uhr"
+            "example": "Available times"
           },
           "image": {
             "$ref": "#/components/schemas/ApiImage",
@@ -288,25 +288,25 @@
             "type": "string",
             "nullable": true,
             "description": "Name of the agent.",
-            "example": "Urlaubsexperte Andreas"
+            "example": "Agent Name"
           },
           "telephone": {
             "type": "string",
             "nullable": true,
             "description": "The telephone number of the agent.",
-            "example": "0341 65050 53220"
+            "example": "0123456789"
           },
           "text": {
             "type": "string",
             "nullable": true,
             "description": "A short text message from the agent.",
-            "example": "“Kennst du schon Mallorcas geheime Strände? Ich verrate sie dir gern und buche den perfekten Aufenthalt für dich.”"
+            "example": "Generic message"
           },
           "vita": {
             "type": "string",
             "nullable": true,
             "description": "The biography/vita of the agent.",
-            "example": "10 Jahre Erfahrung als Reiseberater"
+            "example": "Years of experience"
           }
         }
       },
@@ -317,7 +317,7 @@
             "type": "string",
             "nullable": true,
             "description": "The type of scarcity information, restricted to allowed values (e.g., 'REGION_IN_HIGH_DEMAND'). Looks like UPPERCASE_SNAKE_CASE enum pattern?",
-            "example": "REGION_IN_HIGH_DEMAND"
+            "example": "HIGH_DEMAND"
           }
         }
       },
@@ -350,25 +350,25 @@
                     "type": "string",
                     "nullable": true,
                     "description": "Additional categorization tags for the hotel.",
-                    "example": "IT08F-CAN#FEE#FEE,IT08P-DISC#CRED,IT08F-RES#INC,IT08P-DEP"
+                    "example": "CAT1, CAT2"
                   },
                   "itemId": {
                     "type": "string",
                     "nullable": true,
                     "description": "Unique identifier for the hotel item.",
-                    "example": "35489-giata"
+                    "example": "hotel-id"
                   },
                   "itemListName": {
                     "type": "string",
                     "nullable": true,
                     "description": "Name of the list where the hotel occurs.",
-                    "example": "hotel list - recommendation"
+                    "example": "hotel list"
                   },
                   "itemName": {
                     "type": "string",
                     "nullable": true,
                     "description": "Name of the hotel item.",
-                    "example": "Can Picafort Palace"
+                    "example": "Hotel Name"
                   },
                   "itemRooms": {
                     "type": "string",
@@ -380,7 +380,7 @@
                     "type": "string",
                     "nullable": true,
                     "description": "Price given as string (e.g. '844.00').",
-                    "example": "844.00"
+                    "example": "100.00"
                   },
                   "quantity": {
                     "type": "string",
@@ -397,7 +397,7 @@
             "nullable": true,
             "description": "Array of badges. It can be a collection of strings/enums?",
             "items": { "nullable": true, "type": "string" },
-            "example": ["collection"]
+            "example": ["generic"]
           },
           "best-offer": {
             "$ref": "#/components/schemas/BestOffer",
@@ -414,19 +414,19 @@
             "type": "string",
             "nullable": true,
             "description": "Additional category type. In the sample, it's represented as 'dots'. But might be also enum?",
-            "example": "dots"
+            "example": "type"
           },
           "destination": {
             "type": "string",
             "nullable": true,
             "description": "Destination information with location details.",
-            "example": "Can Picafort, Mallorca, Spanien"
+            "example": "Generic Location"
           },
           "hotel-id": {
             "type": "string",
             "nullable": true,
             "description": "Unique hotel identifier.",
-            "example": "35489-giata"
+            "example": "generic-hotel-id"
           },
           "images": {
             "type": "array",
@@ -455,7 +455,7 @@
             "type": "string",
             "nullable": true,
             "description": "Name of the hotel.",
-            "example": "Can Picafort Palace"
+            "example": "Hotel Name"
           },
           "rating-info": {
             "$ref": "#/components/schemas/RatingInfo",
@@ -489,25 +489,25 @@
             "type": "number",
             "nullable": true,
             "description": "Original travel price in cents.",
-            "example": 84400
+            "example": 10000
           },
           "simple-price-per-person": {
             "type": "number",
             "nullable": true,
             "description": "Simple price per person shown in cents.",
-            "example": 42200
+            "example": 5000
           },
           "total": {
             "type": "number",
             "nullable": true,
             "description": "Total price for the booking in cents.",
-            "example": 84400
+            "example": 10000
           },
           "travel-price": {
             "type": "number",
             "nullable": true,
             "description": "Travel price (duplicate of total in some cases).",
-            "example": 84400
+            "example": 10000
           },
           "available-special-groups": {
             "type": "array",
@@ -582,19 +582,19 @@
                   "type": "string",
                   "nullable": true,
                   "description": "Unique identifier for the group of rooms.",
-                  "example": "af21b91892c2f88a6dbe2d12c8ac269fd0bf538fe4136107a21a0b84d1fad9a3"
+                  "example": "generic-group-id"
                 },
                 "simple-price-per-person": {
                   "type": "number",
                   "nullable": true,
                   "description": "Simplified price per person for this grouping.",
-                  "example": 42200
+                  "example": 5000
                 },
                 "total": {
                   "type": "number",
                   "nullable": true,
                   "description": "Total price for this occupancy grouping.",
-                  "example": 84400
+                  "example": 10000
                 }
               }
             }
@@ -617,13 +617,13 @@
                   "type": "string",
                   "nullable": true,
                   "description": "Boarding type for the room group.",
-                  "example": "Ohne Verpflegung"
+                  "example": "No meals"
                 },
                 "name": {
                   "type": "string",
                   "nullable": true,
                   "description": "Room group name.",
-                  "example": "Apartment"
+                  "example": "Room"
                 },
                 "detailed-description": {
                   "type": "string",
@@ -635,7 +635,7 @@
                   "type": "string",
                   "nullable": true,
                   "description": "Unique identifier for the room group.",
-                  "example": "af21b91892c2f88a6dbe2d12c8ac269fd0bf538fe4136107a21a0b84d1fad9a3"
+                  "example": "generic-group-id"
                 },
                 "quantity": {
                   "type": "number",
@@ -663,13 +663,13 @@
                   "type": "string",
                   "nullable": true,
                   "description": "Attribute ID.",
-                  "example": "IT05-BT#BT"
+                  "example": "ATTR-ID"
                 },
                 "name": {
                   "type": "string",
                   "nullable": true,
                   "description": "Name of the attribute.",
-                  "example": "Balkon/Terrasse"
+                  "example": "Attribute Name"
                 },
                 "value": {
                   "type": "string",
@@ -690,13 +690,13 @@
             "type": "string",
             "nullable": true,
             "description": "Boarding option for the room such as 'Ohne Verpflegung' or 'All Inclusive'.",
-            "example": "Ohne Verpflegung"
+            "example": "No meals"
           },
           "name": {
             "type": "string",
             "nullable": true,
             "description": "Room type name.",
-            "example": "Apartment"
+            "example": "Room"
           },
           "adult-count": {
             "type": "integer",
@@ -781,7 +781,7 @@
             "type": "string",
             "nullable": true,
             "description": "Comma separated departure IATA airport codes.",
-            "example": "BRE,HAM,HAJ,HDF,LBC,RLG,GWT,FDH,FKB,FMM,MUC,NUE,STR,DTM,DUS,HHN,FRA,KSF,CGN,FMO,PAD,SCN,NRN,ZQW,BER,DRS,ERF,LEJ"
+            "example": "BRE,HAM,HAJ"
           },
           "departure-date": {
             "type": "string",
@@ -854,7 +854,7 @@
             "type": "string",
             "nullable": true,
             "description": "Destination identifier.",
-            "example": "destination-es-mallorca"
+            "example": "generic-destination"
           },
           "sort": {
             "type": "string",

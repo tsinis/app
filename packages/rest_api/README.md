@@ -6,6 +6,8 @@
 dart run swagger_parser
 ```
 
+- Validate outputs and adjust if needed
+
 - Run code generation with `build_runner` for `retrofit` with command
 
 ```shell
