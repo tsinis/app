@@ -74,7 +74,7 @@ jobs:
         with:
           path: ${{ env.relative_path }}/coverage/lcov.info
           exclude: "**/*.g.dart **/*.mapper.dart"
-          min_coverage: 10 # TODO! Set the minimum coverage threshold to 90%
+          min_coverage: 60 # TODO! Set the minimum coverage threshold to 90%
 
       - name: 💯 Upload coverage
         uses: codecov/codecov-action@v5.3.1

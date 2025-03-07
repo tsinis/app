@@ -45,7 +45,7 @@ class AdaptedDio {
 
   final Dio dio;
   final DioAdapter _adapter;
-  final ApiResponse? _response; // TODO! Provide response for web platform.
+  final ApiResponse? _response;
 
   @visibleForTesting
   void reply(ApiResponse? response, {int statusCode = 200}) => _adapter.onGet(
@@ -53,5 +53,5 @@ class AdaptedDio {
     (request) => request.reply(statusCode, (_response ?? response)?.toJson()),
   );
 
-  static const _defaultWebResponse = ApiResponse();
+  static const _defaultWebResponse = ApiResponse(); // TODO! Response for web.
 }
