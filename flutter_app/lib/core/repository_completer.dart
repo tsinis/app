@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-typedefs-for-callbacks
-
 import 'dart:async';
 
 import 'storage_repository.dart';

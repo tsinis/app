@@ -51,7 +51,10 @@ dart_code_metrics:
     - test/**
   rules:
     # Disabled:
+    - avoid-returning-cascades: false # Just a style.
+    - avoid-returning-void: false # Also a matter of taste.
     - prefer-correct-throws: false # Introduces additional dependency.
+    - prefer-typedefs-for-callbacks: false # Noisy, no clear benefit.
     # Adjusted:
     - avoid-long-functions:
         ignored-names:
@@ -95,6 +98,9 @@ dart_code_metrics:
           - children
     - prefer-widget-private-members:
         ignore-static: true
+    - avoid-non-empty-constructor-bodies:
+        exclude:
+          - "**/*_bloc.dart"
     - prefer-moving-to-variable:
         ignored-invocations:
           - pumpAndSettle
@@ -193,7 +199,6 @@ dart_code_metrics:
     - avoid-nested-switches
     - avoid-nested-try-statements
     - avoid-non-ascii-symbols
-    - avoid-non-empty-constructor-bodies
     - avoid-non-final-exception-class-fields
     - avoid-non-null-assertion
     - avoid-not-encodable-in-to-json
@@ -215,8 +220,6 @@ dart_code_metrics:
     - avoid-referencing-discarded-variables
     - avoid-referencing-subclasses
     - avoid-renaming-representation-getters
-    - avoid-returning-cascades
-    - avoid-returning-void
     - avoid-returning-widgets
     - avoid-self-assignment
     - avoid-self-compare
@@ -383,7 +386,6 @@ dart_code_metrics:
     - prefer-text-rich
     - prefer-trailing-comma
     - prefer-type-over-var
-    - prefer-typedefs-for-callbacks
     - prefer-unique-test-names
     - prefer-unwrapping-future-or
     - prefer-using-list-view
