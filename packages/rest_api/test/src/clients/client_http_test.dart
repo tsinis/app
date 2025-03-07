@@ -5,7 +5,10 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_rest_api/hotels_api.dart';
+import 'package:dio/dio.dart';
+import 'package:rest_api/hotels_api.dart' show HotelsApi;
+import 'package:rest_api/src/clients/client_http.dart';
+import 'package:rest_api/src/models/api_response.dart';
 import 'package:test/test.dart';
 
 void main() => group('Schema contract with back-end testing', () {

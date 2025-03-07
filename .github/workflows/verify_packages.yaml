@@ -48,5 +48,5 @@ jobs:
     with:
       directory: "packages"
       name: ${{ matrix.package }}
-      is_flutter: ${{ contains(matrix.package, 'flutter_') }}
+      is_flutter: ${{ contains(matrix.package, 'dart_') != true }}
     secrets: inherit

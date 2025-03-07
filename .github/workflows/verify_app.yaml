@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - "flutter_app/**"
+      - "app/**"
   pull_request:
     branches: [main]
     paths:
-      - "flutter_app/**"
+      - "app/**"
       - ".github/workflows/verify_app.yaml"
 
 jobs:
@@ -16,5 +16,5 @@ jobs:
     name: Verify App
     uses: ./.github/workflows/verify_workflow.yaml
     with:
-      name: flutter_app
+      name: app
     secrets: inherit

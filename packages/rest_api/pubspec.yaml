@@ -1,5 +1,5 @@
 version: 1.0.0+1
-name: flutter_rest_api
+name: rest_api
 description: A package with swagger_parser generated REST API clients/models.
 publish_to: none
 

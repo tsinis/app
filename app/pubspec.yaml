@@ -1,6 +1,6 @@
 version: 1.0.0+1
 name: app
-description: A cross-platform app built with drift.
+description: A cross-platform app built with drift and dio.
 publish_to: none
 
 resolution: workspace
@@ -19,6 +19,8 @@ dependencies:
   path: ^1.9.1
   path_provider: ^2.1.5
   provider: ^6.1.2
+  rest_api:
+    path: ../packages/rest_api
 
 dev_dependencies:
   auto_route_generator: ^10.0.1

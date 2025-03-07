@@ -5,5 +5,5 @@ environment:
   sdk: ^3.7.0
 
 workspace:
-  - flutter_app/
-  - packages/flutter_rest_api/
+  - app/
+  - packages/rest_api/
