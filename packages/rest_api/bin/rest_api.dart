@@ -3,7 +3,7 @@
 import 'dart:async';
 import 'dart:io';
 
-/// Run `dart run :cli` from package root to generate REST clients and models.
+/// Run `dart run :rest_api` from package root to generate REST clients/models.
 Future<void> main() async {
   print('🚀 Starting REST API workflow...');
 

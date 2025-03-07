@@ -15,9 +15,11 @@ dependencies:
   equatable: ^2.0.7
   flutter:
     sdk: flutter
+  http_mock_adapter: ^0.6.1
   retrofit: ^4.4.2
 
 dev_dependencies:
+  bloc_test: ^10.0.0
   build_runner: ^2.4.15
   dart_mappable_builder: ^4.4.0
   retrofit_generator: ^9.1.9

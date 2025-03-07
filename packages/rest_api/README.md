@@ -2,7 +2,7 @@
 
 ## CLI Tool
 
-Run `dart run :cli` from package root to generate REST clients and models.
+Run `dart run` from package root to generate REST clients and models.
 
 ## Manual approach
 

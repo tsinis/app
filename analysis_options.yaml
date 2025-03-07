@@ -56,6 +56,10 @@ dart_code_metrics:
     - prefer-correct-throws: false # Introduces additional dependency.
     - prefer-typedefs-for-callbacks: false # Noisy, no clear benefit.
     # Adjusted:
+    - prefer-extracting-function-callbacks:
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
     - avoid-long-functions:
         ignored-names:
           - group
@@ -78,14 +82,28 @@ dart_code_metrics:
         max-number: 3
     - add-copy-with:
         class-name-pattern: Configuration$
+    - prefer-commenting-future-delayed:
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
+    - avoid-local-functions:
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
     - avoid-late-keyword:
         allow-initialized: true
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
     - no-magic-number:
         allowed: [-1, 0, 1, 2]
         allow-only-once: true
         ignore-instances: false
     - no-magic-string:
         allow-only-once: true
+        exclude:
+          - test/**/*.dart
+          - "**/test/**/*.dart"
     - member-ordering:
         order:
           - constructors
@@ -171,7 +189,6 @@ dart_code_metrics:
     - avoid-keywords-in-wildcard-pattern
     - avoid-late-context
     - avoid-late-final-reassignment
-    - avoid-local-functions
     - avoid-long-files
     - avoid-long-parameter-list
     - avoid-long-records
@@ -325,7 +342,6 @@ dart_code_metrics:
     - prefer-bytes-builder
     - prefer-center-over-align
     - prefer-commenting-analyzer-ignores
-    - prefer-commenting-future-delayed
     - prefer-conditional-expressions
     - prefer-const-border-radius
     - prefer-container
@@ -352,7 +368,6 @@ dart_code_metrics:
     - prefer-explicit-parameter-names
     - prefer-explicit-type-arguments
     - prefer-extracting-callbacks
-    - prefer-extracting-function-callbacks
     - prefer-first
     - prefer-for-in
     - prefer-for-loop-in-children
