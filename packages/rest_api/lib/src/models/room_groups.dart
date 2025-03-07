@@ -17,7 +17,7 @@ class RoomGroups with RoomGroupsMappable {
     this.quantity,
   });
 
-  final List<dynamic>? attributes;
+  final List<Object?>? attributes;
   final String? boarding;
   final String? name;
   @MappableField(key: 'detailed-description')

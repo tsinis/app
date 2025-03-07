@@ -20,8 +20,8 @@ class RoomGroupsMapper extends ClassMapperBase<RoomGroups> {
   @override
   final String id = 'RoomGroups';
 
-  static List<dynamic>? _$attributes(RoomGroups v) => v.attributes;
-  static const Field<RoomGroups, List<dynamic>> _f$attributes = Field(
+  static List<Object?>? _$attributes(RoomGroups v) => v.attributes;
+  static const Field<RoomGroups, List<Object?>> _f$attributes = Field(
     'attributes',
     _$attributes,
     opt: true,
@@ -138,10 +138,10 @@ extension RoomGroupsValueCopy<$R, $Out>
 
 abstract class RoomGroupsCopyWith<$R, $In extends RoomGroups, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>?
+  ListCopyWith<$R, Object?, ObjectCopyWith<$R, Object?, Object?>?>?
   get attributes;
   $R call({
-    List<dynamic>? attributes,
+    List<Object?>? attributes,
     String? boarding,
     String? name,
     String? detailedDescription,
@@ -160,7 +160,7 @@ class _RoomGroupsCopyWithImpl<$R, $Out>
   late final ClassMapperBase<RoomGroups> $mapper =
       RoomGroupsMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, dynamic, ObjectCopyWith<$R, dynamic, dynamic>>?
+  ListCopyWith<$R, Object?, ObjectCopyWith<$R, Object?, Object?>?>?
   get attributes =>
       $value.attributes != null
           ? ListCopyWith(

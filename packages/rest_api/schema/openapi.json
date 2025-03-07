@@ -611,7 +611,7 @@
                   "type": "array",
                   "nullable": true,
                   "description": "Array of attributes for the room group. Unknown type?",
-                  "items": { "nullable": true }
+                  "items": { "nullable": true, "type": "Object" }
                 },
                 "boarding": {
                   "type": "string",
