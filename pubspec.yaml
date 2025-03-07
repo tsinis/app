@@ -6,4 +6,6 @@ environment:
 
 workspace:
   - app/
+
   - packages/rest_api/
+  - packages/logger/

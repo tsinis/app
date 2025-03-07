@@ -1,7 +1,7 @@
 // ignore_for_file: avoid-non-empty-constructor-bodies
 
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart' show immutable, visibleForTesting;
 import 'package:http_mock_adapter/http_mock_adapter.dart' show DioAdapter;
 
 import 'src/export.dart';

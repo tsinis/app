@@ -1,5 +1,7 @@
 import 'dart:collection' show UnmodifiableListView;
 
+import 'package:log/logger.dart';
+
 import '../export.dart';
 import '../mappers/model_mapper.dart';
 
@@ -7,7 +9,7 @@ import '../mappers/model_mapper.dart';
 ///
 /// The [initLimit] controls how many items to include in the initial data load
 /// to optimize first render performance while full data loads asynchronously.
-class RemoteDataRepository<T extends Object> {
+class RemoteDataRepository<T extends Object> with LoggerMixin {
   const RemoteDataRepository(this._client, this._mapper, {this.initLimit = 25});
 
   final int initLimit;
@@ -21,12 +23,8 @@ class RemoteDataRepository<T extends Object> {
       _mapper.mapAsync(hotels);
 
   Future<Iterable<Hotel>?> get fetchHotels async {
-    try {
-      final response = await _client.getHotels();
+    final response = await tryOrLog(_client.getHotels, 'fetch hotels from API');
 
-      return response.data?.hotels?.nonNulls ?? [];
-    } catch (_) {
-      return null;
-    }
+    return response == null ? null : (response.data?.hotels?.nonNulls ?? []);
   }
 }
