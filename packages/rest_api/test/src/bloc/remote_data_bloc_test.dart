@@ -144,15 +144,13 @@ void main() => group('$RemoteDataBloc', () {
           RemoteDataInProgress<String>(data: UnmodifiableListView(const [])),
           RemoteDataInitial(data: UnmodifiableListView(const ['Test 1'])),
         ],
-    wait: waitDuration * 10,
+    wait: waitDuration,
   );
 
   blocTest<RemoteDataBloc<String>, RemoteDataState<String>>(
     'handles more hotels than initLimit correctly',
     act: (bloc) => bloc.add(const RemoteDataStarted()),
     build: () {
-      repository = RemoteDataRepository(client, mapper, initLimit: 2);
-
       const mockResponse = ApiResponse(
         hotels: [
           Hotel(hotelId: '1', name: 'Test 1'),

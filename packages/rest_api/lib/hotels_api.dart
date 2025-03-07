@@ -20,6 +20,7 @@ sealed class HotelsApi {
   static const _route = '/hotels.json';
 }
 
+@immutable
 // ignore: prefer-single-declaration-per-file, it's a helper class.
 class AdaptedDio {
   const AdaptedDio._(this._adapter, this.dio, [ApiResponse? _response])

@@ -5,6 +5,7 @@
     "title": "Hotel booking API",
     "description": "This schema describes the response returned. Each field is documented with a description explaining its type choice and an example value from the actual response."
   },
+  "security": [{ "basicAuth": [] }],
   "paths": {
     "/hotels.json": {
       "get": {
@@ -43,6 +44,12 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "basicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
     "schemas": {
       "ApiResponse": {
         "type": "object",

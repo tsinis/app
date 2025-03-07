@@ -3,11 +3,14 @@ import 'dart:collection' show UnmodifiableListView;
 import '../export.dart';
 import '../mappers/model_mapper.dart';
 
+/// Repository for fetching remote data and mapping it to domain models.
+///
+/// The [initLimit] controls how many items to include in the initial data load
+/// to optimize first render performance while full data loads asynchronously.
 class RemoteDataRepository<T extends Object> {
   const RemoteDataRepository(this._client, this._mapper, {this.initLimit = 25});
 
   final int initLimit;
-
   final ClientHttp _client;
   final ModelMapper<T, Hotel> _mapper;
 

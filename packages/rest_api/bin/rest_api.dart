@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, avoid-non-ascii-symbols,
+// ignore_for_file: avoid_print, avoid-non-ascii-symbols
 
 import 'dart:async';
 import 'dart:io';
@@ -24,7 +24,8 @@ Future<void> main() async {
 
   final clientFile = File('lib/src/clients/client_http.dart');
   if (!clientFile.existsSync()) {
-    print('⚠️ Warning: client_http.dart file not found. Skip modification.');
+    print('❌ Error: client_http.dart file not found.');
+    exit(1);
   }
 
   print('📝 Modifying client_http.dart file...');
@@ -55,7 +56,8 @@ Future<void> main() async {
 
   final codeGenFile = File('lib/src/clients/client_http.g.dart');
   if (!codeGenFile.existsSync()) {
-    print('⚠️ Warning: client_http.g.dart file not found. Skip modification.');
+    print('❌ Error: client_http.g.dart file not found.');
+    exit(1);
   }
 
   print('📝 Modifying client_http.g.dart file...');
@@ -100,8 +102,7 @@ Future<void> _runCommand(
 
   if (result.exitCode != 0) {
     print('❌ Command failed with exit code ${result.exitCode}');
-    // ignore: only_throw_errors, it's just a CLI tool.
-    throw 'Command failed: $executable ${arguments.join(' ')}';
+    throw StateError('Command failed: $executable ${arguments.join(' ')}');
   }
 
   print('✅ Step completed successfully');
