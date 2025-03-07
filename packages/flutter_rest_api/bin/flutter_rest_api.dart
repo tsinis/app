@@ -1,4 +1,4 @@
-import 'package:rest_api/hotels_api.dart';
+import 'package:flutter_rest_api/hotels_api.dart';
 
 /// Run as:
 /// ```shell

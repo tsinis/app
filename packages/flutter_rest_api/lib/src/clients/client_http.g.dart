@@ -37,7 +37,9 @@ class _ClientHttp implements ClientHttp {
     late ApiResponse? _value;
     try {
       _value =
-          _result.data == null ? null : ApiResponse.fromJson(_result.data!);
+          _result.data == null
+              ? null
+              : await compute(ApiResponse.fromJson, _result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

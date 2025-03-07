@@ -1,0 +1,3 @@
+class RemoteDataRepository {
+  const RemoteDataRepository();
+}

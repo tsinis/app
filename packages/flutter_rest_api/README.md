@@ -31,5 +31,5 @@ dart run test
 - Make a real request on real endpoint (replace `https://example.com` with real URL)
 
 ```shell
-dart run --define=BASE_URL=https://example.com bin/rest_api.dart
+dart run --define=BASE_URL=https://example.com bin/flutter_rest_api.dart
 ```

@@ -5,7 +5,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:rest_api/hotels_api.dart' show ApiResponse;
+import 'package:flutter_rest_api/hotels_api.dart';
 import 'package:test/test.dart';
 
 void main() => group('Schema contract with back-end testing', () {
@@ -59,5 +59,19 @@ void main() => group('Schema contract with back-end testing', () {
     final sortedOriginal = jsonEncode(sortJsonMap(originalMap));
 
     expect(sortedOriginal, sortedDeserialized);
+  });
+
+  test('non-mocked request', () async {
+    assert(
+      HotelsApi.envBaseUrl.isNotEmpty,
+      'Looks like you forgot to provide `BASE_URL` via --dart-define, i.e.: '
+      'flutter test --dart-define=BASE_URL=https://example.com',
+    );
+
+    final client = ClientHttp(Dio(), baseUrl: HotelsApi.envBaseUrl);
+    final result = await client.getHotels();
+    expect(result.data, isNotNull);
+
+    expect(result.data?.hotelCount, isNot(result.data?.hotels?.length));
   });
 });

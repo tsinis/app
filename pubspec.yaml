@@ -6,4 +6,4 @@ environment:
 
 workspace:
   - flutter_app/
-  - packages/rest_api/
+  - packages/flutter_rest_api/

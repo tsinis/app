@@ -1,5 +1,5 @@
 version: 1.0.0+1
-name: rest_api
+name: flutter_rest_api
 description: A package with swagger_parser generated REST API clients/models.
 publish_to: none
 
@@ -12,7 +12,8 @@ dependencies:
   bloc: ^9.0.0
   dart_mappable: ^4.4.0
   dio: ^5.8.0+1
-  meta: ^1.16.0
+  flutter:
+    sdk: flutter
   retrofit: ^4.4.2
 
 dev_dependencies:
