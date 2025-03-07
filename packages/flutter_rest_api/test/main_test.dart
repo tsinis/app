@@ -61,17 +61,15 @@ void main() => group('Schema contract with back-end testing', () {
     expect(sortedOriginal, sortedDeserialized);
   });
 
-  test('non-mocked request', () async {
-    assert(
-      HotelsApi.envBaseUrl.isNotEmpty,
-      'Looks like you forgot to provide `BASE_URL` via --dart-define, i.e.: '
-      'flutter test --dart-define=BASE_URL=https://example.com',
-    );
+  test(
+    'non-mocked, via `flutter test --dart-define=BASE_URL=https://example.com`',
+    () async {
+      final client = ClientHttp(Dio(), baseUrl: HotelsApi.envBaseUrl);
+      final result = await client.getHotels();
+      expect(result.data, isNotNull);
 
-    final client = ClientHttp(Dio(), baseUrl: HotelsApi.envBaseUrl);
-    final result = await client.getHotels();
-    expect(result.data, isNotNull);
-
-    expect(result.data?.hotelCount, isNot(result.data?.hotels?.length));
-  });
+      expect(result.data?.hotelCount, isNot(result.data?.hotels?.length));
+    },
+    skip: HotelsApi.envBaseUrl.isEmpty,
+  );
 });
