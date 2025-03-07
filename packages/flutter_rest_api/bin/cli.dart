@@ -53,20 +53,20 @@ Future<void> main() async {
   const buildRunner = ['run', 'build_runner', 'build', '-d'];
   await _runCommand(buildRunner, '🏗️ Running build_runner for retrofit');
 
-  final codgeGenFile = File('lib/src/clients/client_http.g.dart');
-  if (!codgeGenFile.existsSync()) {
+  final codeGenFile = File('lib/src/clients/client_http.g.dart');
+  if (!codeGenFile.existsSync()) {
     print('⚠️ Warning: client_http.g.dart file not found. Skip modification.');
   }
 
   print('📝 Modifying client_http.g.dart file...');
   try {
-    String content = await codgeGenFile.readAsString();
+    String content = await codeGenFile.readAsString();
     content = content.replaceFirst(
       'deserializeApiResponse',
       'ApiResponse.fromJson',
     );
 
-    await codgeGenFile.writeAsString(content);
+    await codeGenFile.writeAsString(content);
     print('✅ Successfully modified client_http.g.dart');
   } catch (error) {
     print('❌ Error modifying client_http.g.dart: $error');
@@ -100,7 +100,6 @@ Future<void> _runCommand(
 
   if (result.exitCode != 0) {
     print('❌ Command failed with exit code ${result.exitCode}');
-    if (isFlutter) return;
     // ignore: only_throw_errors, it's just a CLI tool.
     throw 'Command failed: $executable ${arguments.join(' ')}';
   }
