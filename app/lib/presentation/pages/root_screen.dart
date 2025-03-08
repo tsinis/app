@@ -20,6 +20,7 @@ class RootScreen extends StatelessWidget {
     appBarBuilder: (_, _) => AppBar(title: const Text('Hotel')), // TODO!
     bottomNavigationBuilder:
         (_, tabsRouter) => NavigationBar(
+          // TODO! Adjust icon sizes.
           destinations: const [
             NavigationDestination(
               icon: Icon(OverviewScreen.icon),
