@@ -41,6 +41,8 @@ sealed class AppTheme {
         backgroundColor: orange,
         elevation: 0,
         foregroundColor: white,
+        minimumSize: const Size.square(40),
+        padding: const EdgeInsets.symmetric(vertical: size + 1),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
         ),
@@ -67,9 +69,9 @@ sealed class AppTheme {
     textTheme: GoogleFonts.openSansTextTheme(
       const TextTheme(
         bodyMedium: TextStyle(color: darkGrey, fontSize: 12),
-        titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        titleLarge: TextStyle(fontSize: size + 2, fontWeight: FontWeight.bold),
         titleMedium: TextStyle(fontSize: size, fontWeight: FontWeight.bold),
-        titleSmall: TextStyle(color: darkGrey, fontSize: 14),
+        titleSmall: TextStyle(color: darkGrey, fontSize: size - 2),
       ),
     ),
     tooltipTheme: const TooltipThemeData(

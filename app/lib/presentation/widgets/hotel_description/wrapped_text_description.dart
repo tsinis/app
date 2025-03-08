@@ -31,7 +31,7 @@ class WrappedTextDescription<T extends Object> extends StatelessWidget {
       if (first != null && last != null)
         const SizedBox(
           height: AppTheme.size - 2,
-          child: VerticalDivider(color: Colors.grey, width: AppTheme.size / 2),
+          child: VerticalDivider(color: Colors.grey, width: 10),
         ),
       MaybeText(last, andWith: lastLabel),
     ],
