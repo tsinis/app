@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'core/repository_completer.dart';
 import 'core/storage_repository.dart';
+import 'presentation/theme/app_theme.dart';
 import 'router/app_router.dart';
 import 'router/initialization_guard.dart';
 
@@ -31,10 +32,7 @@ class Main extends StatelessWidget {
     lazy: false,
     child: MaterialApp.router(
       routerConfig: _router.config(),
-      theme: ThemeData(
-        textTheme: GoogleFonts.openSansTextTheme(),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.data,
     ),
   );
 }

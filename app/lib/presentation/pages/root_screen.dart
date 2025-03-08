@@ -17,6 +17,7 @@ class RootScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AutoTabsScaffold(
+    appBarBuilder: (_, _) => AppBar(title: const Text('Hotel')), // TODO!
     bottomNavigationBuilder:
         (_, tabsRouter) => NavigationBar(
           destinations: const [
@@ -40,9 +41,7 @@ class RootScreen extends StatelessWidget {
           onDestinationSelected: tabsRouter.setActiveIndex,
           selectedIndex: tabsRouter.activeIndex,
         ),
-
     lazyLoad: false,
-
     routes: _tabs,
   );
 }
