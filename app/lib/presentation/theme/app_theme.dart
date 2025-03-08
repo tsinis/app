@@ -28,9 +28,9 @@ sealed class AppTheme {
     cardTheme: const CardThemeData(
       clipBehavior: Clip.antiAlias,
       color: white,
-      elevation: 6,
+      elevation: 8,
       margin: EdgeInsets.symmetric(horizontal: size, vertical: 12),
-      shadowColor: white,
+      shadowColor: Colors.black45,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
@@ -40,6 +40,7 @@ sealed class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: orange,
         elevation: 0,
+        foregroundColor: white,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
         ),
@@ -51,6 +52,16 @@ sealed class AppTheme {
       indicatorColor: white,
       shadowColor: black,
     ),
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.fuchsia: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.linux: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.macOS: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.windows: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+        TargetPlatform.iOS: FadeUpwardsPageTransitionsBuilder(),
+      },
+    ),
     primaryColor: blue,
     scaffoldBackgroundColor: white,
     textTheme: GoogleFonts.openSansTextTheme(
@@ -60,6 +71,15 @@ sealed class AppTheme {
         titleMedium: TextStyle(fontSize: size, fontWeight: FontWeight.bold),
         titleSmall: TextStyle(color: darkGrey, fontSize: 14),
       ),
+    ),
+    tooltipTheme: const TooltipThemeData(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+        color: Colors.white70,
+      ),
+      preferBelow: false,
+      textStyle: TextStyle(color: black, fontWeight: FontWeight.bold),
+      triggerMode: TooltipTriggerMode.tap,
     ),
     useMaterial3: true,
   );

@@ -30,7 +30,7 @@ import 'package:flutter/widgets.dart' show Text, TextSpan;
 class MaybeText extends Text {
   MaybeText(
     Object? value, {
-    String andWith = '',
+    String? andWith,
     super.key,
     super.locale,
     super.maxLines,
@@ -47,9 +47,9 @@ class MaybeText extends Text {
     super.textWidthBasis,
   }) : super.rich(TextSpan(text: _createText(andWith, value)));
 
-  static String? _createText(String andWith, Object? value) {
+  static String? _createText(String? andWith, Object? value) {
     if (value == null) return null;
-    if (andWith.isEmpty) return value.toString();
+    if (andWith == null || andWith.isEmpty) return value.toString();
 
     return '$value $andWith';
   }

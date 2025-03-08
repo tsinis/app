@@ -5,7 +5,7 @@ import '../../theme/app_theme.dart';
 class StarsRating extends StatelessWidget {
   const StarsRating(this._rating, {this.max = 5, super.key});
 
-  static const _size = AppTheme.size;
+  static const _size = AppTheme.size + 2;
 
   final num _rating;
   final int max;
@@ -27,9 +27,16 @@ class StarsRating extends StatelessWidget {
         for (int i = 0; i < empty; i += 1)
           const Icon(Icons.star_border_rounded, size: _size),
 
-        const Padding(
-          padding: EdgeInsets.only(left: 6),
-          child: Icon(Icons.help_outline, color: AppTheme.darkGrey, size: 17),
+        Tooltip(
+          message: rating.toString(),
+          child: const Padding(
+            padding: EdgeInsets.only(left: 6),
+            child: Icon(
+              Icons.help_outline,
+              color: AppTheme.darkGrey,
+              size: _size,
+            ),
+          ),
         ),
       ],
     );
