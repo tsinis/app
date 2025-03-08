@@ -15,8 +15,8 @@ export 'src/repository/remote_data_repository.dart';
 
 sealed class HotelsApi {
   /// `BASE_URL` environment variable. Web platform is an exception due to CORS.
-  static const envBaseUrl = String.fromEnvironment('BASE_URL');
-  static const isBaseUrlProvided = envBaseUrl.length > 0;
+  static const baseUrl = String.fromEnvironment('BASE_URL');
+  static const isBaseUrlProvided = baseUrl.length > 0;
 
   static const _route = '/hotels.json';
 }
@@ -24,15 +24,15 @@ sealed class HotelsApi {
 @immutable
 // ignore: prefer-single-declaration-per-file, it's a helper class.
 final class AdaptedDio {
-  const AdaptedDio._(this._adapter, this.dio);
-
-  factory AdaptedDio.create() {
+  factory AdaptedDio() {
     final dio = Dio();
     final adapter = DioAdapter(dio: dio);
     final clonedDio = dio.clone(httpClientAdapter: adapter);
 
     return AdaptedDio._(adapter, clonedDio)..reply(_defaultResponse);
   }
+
+  const AdaptedDio._(this._adapter, this.dio);
 
   @visibleForTesting
   factory AdaptedDio.test([Dio? mockedDio]) {

@@ -16,7 +16,6 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0
-  google_fonts: ^6.2.1
   intl: ^0.20.2
   log:
     path: ../packages/logger
@@ -41,3 +40,11 @@ flutter:
   uses-material-design: true
   assets:
     - assets/fonts/
+
+  fonts: # https://github.com/material-foundation/flutter-packages/issues/35
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/OpenSans-Bold.ttf
+          weight: 700

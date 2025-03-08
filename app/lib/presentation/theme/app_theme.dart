@@ -1,7 +1,6 @@
 // ignore_for_file: no-equal-arguments
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 sealed class AppTheme {
   static const blue = Color(0xFF002873);
@@ -42,12 +41,12 @@ sealed class AppTheme {
         elevation: 0,
         foregroundColor: white,
         minimumSize: const Size.square(40),
-        padding: const EdgeInsets.symmetric(vertical: size + 1),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(4)),
         ),
       ),
     ),
+    fontFamily: 'OpenSans',
     navigationBarTheme: const NavigationBarThemeData(
       backgroundColor: white,
       height: 80,
@@ -66,13 +65,11 @@ sealed class AppTheme {
     ),
     primaryColor: blue,
     scaffoldBackgroundColor: white,
-    textTheme: GoogleFonts.openSansTextTheme(
-      const TextTheme(
-        bodyMedium: TextStyle(color: darkGrey, fontSize: 12),
-        titleLarge: TextStyle(fontSize: size + 2, fontWeight: FontWeight.bold),
-        titleMedium: TextStyle(fontSize: size, fontWeight: FontWeight.bold),
-        titleSmall: TextStyle(color: darkGrey, fontSize: size - 2),
-      ),
+    textTheme: const TextTheme(
+      bodyMedium: TextStyle(color: darkGrey, fontSize: 12),
+      titleLarge: TextStyle(fontSize: size + 2, fontWeight: FontWeight.bold),
+      titleMedium: TextStyle(fontSize: size, fontWeight: FontWeight.bold),
+      titleSmall: TextStyle(color: darkGrey, fontSize: size - 2),
     ),
     tooltipTheme: const TooltipThemeData(
       decoration: BoxDecoration(

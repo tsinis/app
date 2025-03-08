@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:log/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:rest_api/hotels_api.dart';
@@ -33,8 +32,6 @@ void main() {
     runApp(Main(appRouter, repository: repositoryCompleter.future));
     // ignore: prefer-trailing-comma, new Dart 3.7 formatting.
   }, (error, stack) => logger.severe('Zone Error: $error!', error, stack));
-
-  GoogleFonts.config.allowRuntimeFetching = false;
 }
 
 class Main extends StatelessWidget {
