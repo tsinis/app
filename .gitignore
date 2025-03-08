@@ -6,7 +6,7 @@ doc/api/
 **/doc/api/
 
 # dotenv environment variables file
-.env*
+app/.env/secret.env
 
 # Avoid committing generated Javascript files:
 *.dart.js

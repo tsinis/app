@@ -1,7 +1,8 @@
 // ignore_for_file: avoid-non-empty-constructor-bodies
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart' show immutable, visibleForTesting;
+import 'package:flutter/foundation.dart'
+    show immutable, kIsWeb, visibleForTesting;
 import 'package:http_mock_adapter/http_mock_adapter.dart' show DioAdapter;
 
 import 'src/export.dart';
@@ -14,10 +15,13 @@ export 'src/mappers/model_mapper.dart';
 export 'src/repository/remote_data_repository.dart';
 
 sealed class HotelsApi {
-  /// `BASE_URL` environment variable.
-  static const envBaseUrl = String.fromEnvironment(envBaseUrlKey);
-  static const envBaseUrlKey = 'BASE_URL';
+  /// `BASE_URL` environment variable. Web platform is an exception due to CORS.
+  static const platformBaseUrl = kIsWeb ? '' : _envBaseUrl;
+
+  static const _envBaseUrl = String.fromEnvironment('BASE_URL');
   static const _route = '/hotels.json';
+
+  static bool get isBaseUrlProvided => kIsWeb || _envBaseUrl.isNotEmpty;
 }
 
 @immutable

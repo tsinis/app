@@ -8,7 +8,8 @@
       "name": "app",
       "cwd": "app",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "args": ["--dart-define-from-file", ".env/secret.env"]
     },
     {
       "name": "app (web, wasm)",
@@ -22,14 +23,16 @@
       "cwd": "app",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "profile"
+      "flutterMode": "profile",
+      "args": ["--dart-define-from-file", ".env/secret.env"]
     },
     {
       "name": "app (release mode)",
       "cwd": "app",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
+      "flutterMode": "release",
+      "args": ["--dart-define-from-file", ".env/secret.env"]
     }
   ]
 }
