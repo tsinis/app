@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:log/logger.dart';
@@ -16,7 +17,7 @@ import 'router/initialization_guard.dart';
 
 void main() {
   assert(
-    HotelsApi.isBaseUrlProvided,
+    HotelsApi.isBaseUrlProvided || kIsWeb,
     '`BASE_URL` is not provided, please provide it either with a '
     '`flutter run --dart-define=BASE_URL=https://example.com` command or '
     'by setting it in the environment variables (in `app/.env/secret.env`) and'

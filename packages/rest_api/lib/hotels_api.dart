@@ -1,8 +1,7 @@
 // ignore_for_file: avoid-non-empty-constructor-bodies
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart'
-    show immutable, kIsWeb, visibleForTesting;
+import 'package:flutter/foundation.dart' show immutable, visibleForTesting;
 import 'package:http_mock_adapter/http_mock_adapter.dart' show DioAdapter;
 
 import 'src/export.dart';
@@ -16,46 +15,43 @@ export 'src/repository/remote_data_repository.dart';
 
 sealed class HotelsApi {
   /// `BASE_URL` environment variable. Web platform is an exception due to CORS.
-  static const platformBaseUrl = kIsWeb ? '' : _envBaseUrl;
+  static const envBaseUrl = String.fromEnvironment('BASE_URL');
+  static const isBaseUrlProvided = envBaseUrl.length > 0;
 
-  static const _envBaseUrl = String.fromEnvironment('BASE_URL');
   static const _route = '/hotels.json';
-
-  static bool get isBaseUrlProvided => kIsWeb || _envBaseUrl.isNotEmpty;
 }
 
 @immutable
 // ignore: prefer-single-declaration-per-file, it's a helper class.
-class AdaptedDio {
-  const AdaptedDio._(this._adapter, this.dio, [ApiResponse? _response])
-    : _response = _response;
+final class AdaptedDio {
+  const AdaptedDio._(this._adapter, this.dio);
 
-  factory AdaptedDio.web() {
+  factory AdaptedDio.create() {
     final dio = Dio();
     final adapter = DioAdapter(dio: dio);
     final clonedDio = dio.clone(httpClientAdapter: adapter);
 
-    return AdaptedDio._(adapter, clonedDio, _defaultWebResponse);
+    return AdaptedDio._(adapter, clonedDio)..reply(_defaultResponse);
   }
 
   @visibleForTesting
   factory AdaptedDio.test([Dio? mockedDio]) {
     final dio = mockedDio ?? Dio();
     final adapter = DioAdapter(dio: dio);
-    final clonedDio = dio.clone(httpClientAdapter: adapter);
 
-    return AdaptedDio._(adapter, clonedDio);
+    return AdaptedDio._(adapter, dio.clone(httpClientAdapter: adapter));
   }
 
   final Dio dio;
   final DioAdapter _adapter;
-  final ApiResponse? _response;
 
   @visibleForTesting
   void reply(ApiResponse? response, {int statusCode = 200}) => _adapter.onGet(
     HotelsApi._route,
-    (request) => request.reply(statusCode, (_response ?? response)?.toJson()),
+    (request) => request.reply(statusCode, response?.toJson()),
   );
 
-  static const _defaultWebResponse = ApiResponse(); // TODO! Response for web.
+  static const _defaultResponse = ApiResponse(
+    hotels: [Hotel(name: 'name')],
+  ); // TODO! Response for web.
 }

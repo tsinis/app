@@ -24,6 +24,7 @@ dependencies:
   provider: ^6.1.2
   rest_api:
     path: ../packages/rest_api
+  world_countries: ^3.2.0
 
 dev_dependencies:
   auto_route_generator: ^10.0.1

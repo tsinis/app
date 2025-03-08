@@ -14,7 +14,11 @@ sealed class AppTheme {
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       color: blue,
-      titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      titleTextStyle: TextStyle(
+        color: white,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
     ),
     brightness: Brightness.light,
     navigationBarTheme: const NavigationBarThemeData(

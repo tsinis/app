@@ -67,7 +67,7 @@ void main() => group('Schema contract with back-end testing', () {
   test(
     'non-mocked, via `flutter test --dart-define=BASE_URL=https://example.com`',
     () async {
-      final client = ClientHttp(Dio(), baseUrl: HotelsApi.platformBaseUrl);
+      final client = ClientHttp(Dio(), baseUrl: HotelsApi.envBaseUrl);
       final result = await client.getHotels();
       expect(result.data, isNotNull);
 
