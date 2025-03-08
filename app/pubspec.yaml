@@ -19,6 +19,7 @@ dependencies:
   intl: ^0.20.2
   log:
     path: ../packages/logger
+  material_symbols_icons: ^4.2808.0
   path: ^1.9.1
   path_provider: ^2.1.5
   provider: ^6.1.2
