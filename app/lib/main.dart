@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'core/repository_completer.dart';
@@ -13,6 +14,7 @@ void main() {
   final appRouter = AppRouter(InitializationGuard(repositoryCompleter));
   repositoryCompleter.initialize();
   runApp(Main(appRouter, repository: repositoryCompleter.future));
+  GoogleFonts.config.allowRuntimeFetching = false;
 }
 
 class Main extends StatelessWidget {
@@ -29,7 +31,10 @@ class Main extends StatelessWidget {
     lazy: false,
     child: MaterialApp.router(
       routerConfig: _router.config(),
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(
+        textTheme: GoogleFonts.openSansTextTheme(),
+        useMaterial3: true,
+      ),
     ),
   );
 }
