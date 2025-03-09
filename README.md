@@ -6,6 +6,9 @@
 
 A cross-platform app using `drift` for local persistence.
 
+> [!TIP]
+> On this website [tsin.is/app](https://tsin.is/app), you will find a limited demo of the app that should run on the latest browsers only. You can find the APK release in the [Releases](https://github.com/tsinis/app/releases) section.
+
 ## Supported platforms
 
 This app runs on:
@@ -62,9 +65,9 @@ cd app && flutter run --dart-define=BASE_URL=https://example.com
 ```
 
 > [!IMPORTANT]
-> To prevent any works on my machine issues please make sure you have up to date native dependencies (cocoapods, gradle, etc.).
+> To prevent any "works on my machine" issues, please make sure you have up-to-date native dependencies (cocoapods, gradle, etc.).
 
-If you just want to quickly bootstrap and play around in the web with mocked response (due to CORS):
+If you just want to quickly bootstrap and play around on the web with mocked response (due to CORS):
 
 ```shell
 cd app && flutter run -d chrome --wasm
@@ -72,7 +75,7 @@ cd app && flutter run -d chrome --wasm
 
 ## Testing
 
-Run unit and widget tests with the following command from any of packages/app directory:
+Run unit and widget tests with the following command from any of the packages/app directory:
 
 ```shell
 flutter test
