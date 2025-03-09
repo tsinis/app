@@ -8,7 +8,6 @@ import 'package:rest_api/hotels_api.dart';
 @immutable
 class CoreDependencies {
   /// Creates an instance of [CoreDependencies].
-  @visibleForTesting
   const CoreDependencies(this.database, this.restClient);
 
   /// Initializes the core dependencies.

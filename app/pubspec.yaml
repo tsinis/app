@@ -41,6 +41,7 @@ flutter:
   disable-swift-package-manager: true
   uses-material-design: true
   assets:
+    - assets/images/
     - assets/fonts/
 
   fonts: # https://github.com/material-foundation/flutter-packages/issues/35
