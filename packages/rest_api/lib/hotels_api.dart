@@ -54,6 +54,8 @@ final class AdaptedDio {
   );
 }
 
+// ignore_for_file: format-comment, not a comment, it's an annotated test data.
+// coverage:ignore-start
 @visibleForTesting
 // ignore: prefer-static-class, it's a test helper.
 final hotels = [
@@ -351,3 +353,4 @@ final hotels = [
     ),
   ),
 ];
+// coverage:ignore-end
