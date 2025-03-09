@@ -156,6 +156,11 @@ class $HotelTableTable extends HotelTable
   Hotel map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Hotel(
+      hotelId:
+          attachedDatabase.typeMapping.read(
+            DriftSqlType.string,
+            data['${effectivePrefix}hotel_id'],
+          )!,
       bestOffer: $HotelTableTable.$converterbestOffern.fromSql(
         attachedDatabase.typeMapping.read(
           DriftSqlType.string,
@@ -166,11 +171,6 @@ class $HotelTableTable extends HotelTable
         DriftSqlType.string,
         data['${effectivePrefix}destination'],
       ),
-      hotelId:
-          attachedDatabase.typeMapping.read(
-            DriftSqlType.string,
-            data['${effectivePrefix}hotel_id'],
-          )!,
       images: $HotelTableTable.$converterimages.fromSql(
         attachedDatabase.typeMapping.read(
           DriftSqlType.string,

@@ -20,7 +20,7 @@ class AppDatabase extends _$AppDatabase {
   @visibleForTesting
   AppDatabase(super.e);
 
-  static const _name = 'sqlite3.db';
+  static const _name = 'db.sqlite';
 
   static Future<AppDatabase> open([Directory? directory]) async {
     if (kIsWeb) {
