@@ -8,6 +8,7 @@ import 'src/export.dart';
 
 export 'package:dio/dio.dart';
 
+export 'src/bloc/hotel_data_state.dart';
 export 'src/bloc/remote_data_bloc.dart';
 export 'src/export.dart';
 export 'src/mappers/model_mapper.dart';

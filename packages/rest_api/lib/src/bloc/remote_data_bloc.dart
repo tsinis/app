@@ -1,16 +1,14 @@
 import 'dart:collection' show UnmodifiableListView;
 
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart' show immutable;
 
 import '../repository/remote_data_repository.dart';
+import 'hotel_data_state.dart';
 
 part 'remote_data_event.dart';
-part 'remote_data_state.dart';
 
 class RemoteDataBloc<T extends Object>
-    extends Bloc<_RemoteDataEvent, RemoteDataState<T>> {
+    extends Bloc<_RemoteDataEvent, HotelDataState<T>> {
   RemoteDataBloc(this._remoteRepository)
     : super(RemoteDataInitial<T>(data: UnmodifiableListView<T>(const []))) {
     on<_RemoteDataEvent>(_onEvent);
@@ -20,14 +18,14 @@ class RemoteDataBloc<T extends Object>
 
   Future<void> _onEvent(
     _RemoteDataEvent event,
-    Emitter<RemoteDataState<T>> emit,
+    Emitter<HotelDataState<T>> emit,
   ) => switch (event) {
     RemoteDataStarted() => _fetch(emit, UnmodifiableListView<T>(const [])),
     RemoteDataRefreshed() => _fetch(emit),
   };
 
   Future<void> _fetch(
-    Emitter<RemoteDataState<T>> emit, [
+    Emitter<HotelDataState<T>> emit, [
     UnmodifiableListView<T>? data,
   ]) async {
     if (state is RemoteDataInProgress) return;

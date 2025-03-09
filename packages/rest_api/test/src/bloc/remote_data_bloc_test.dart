@@ -16,13 +16,13 @@ void main() => group('$RemoteDataBloc', () {
 
   setUp(() => repository = RemoteDataRepository(client, mapper, initLimit: 2));
 
-  blocTest<RemoteDataBloc<String>, RemoteDataState<String>>(
+  blocTest<RemoteDataBloc<String>, HotelDataState<String>>(
     'on initial',
     build: () => RemoteDataBloc(repository),
     expect: () => isEmpty,
   );
 
-  blocTest<RemoteDataBloc<String>, RemoteDataState<String>>(
+  blocTest<RemoteDataBloc<String>, HotelDataState<String>>(
     'emits [RemoteDataInProgress, RemoteDataInitial] when hotels are '
     'fetched successfully',
     act: (bloc) => bloc.add(const RemoteDataStarted()),
@@ -47,7 +47,7 @@ void main() => group('$RemoteDataBloc', () {
     wait: waitDuration,
   );
 
-  blocTest<RemoteDataBloc<String>, RemoteDataState<String>>(
+  blocTest<RemoteDataBloc<String>, HotelDataState<String>>(
     'emits [RemoteDataInProgress, RemoteDataFailure] when hotels fetch fails',
     act: (bloc) => bloc.add(const RemoteDataStarted()),
     build: () {
@@ -63,7 +63,7 @@ void main() => group('$RemoteDataBloc', () {
     wait: waitDuration,
   );
 
-  blocTest<RemoteDataBloc<String>, RemoteDataState<String>>(
+  blocTest<RemoteDataBloc<String>, HotelDataState<String>>(
     'emits correct states when refreshing data',
     act: (bloc) => bloc.add(const RemoteDataRefreshed()),
     build: () {
@@ -93,7 +93,7 @@ void main() => group('$RemoteDataBloc', () {
     wait: waitDuration,
   );
 
-  blocTest<RemoteDataBloc<String>, RemoteDataState<String>>(
+  blocTest<RemoteDataBloc<String>, HotelDataState<String>>(
     'handles empty hotel list from API correctly',
     act: (bloc) => bloc.add(const RemoteDataStarted()),
     build: () {
@@ -109,7 +109,7 @@ void main() => group('$RemoteDataBloc', () {
     wait: waitDuration,
   );
 
-  blocTest<RemoteDataBloc<String>, RemoteDataState<String>>(
+  blocTest<RemoteDataBloc<String>, HotelDataState<String>>(
     'handles null response from API correctly',
     act: (bloc) => bloc.add(const RemoteDataStarted()),
     build: () {
@@ -125,7 +125,7 @@ void main() => group('$RemoteDataBloc', () {
     wait: waitDuration,
   );
 
-  blocTest<RemoteDataBloc<String>, RemoteDataState<String>>(
+  blocTest<RemoteDataBloc<String>, HotelDataState<String>>(
     'ignores refresh event when already in loading state',
     act: (bloc) async {
       bloc.add(const RemoteDataStarted());
@@ -147,7 +147,7 @@ void main() => group('$RemoteDataBloc', () {
     wait: waitDuration,
   );
 
-  blocTest<RemoteDataBloc<String>, RemoteDataState<String>>(
+  blocTest<RemoteDataBloc<String>, HotelDataState<String>>(
     'handles more hotels than initLimit correctly',
     act: (bloc) => bloc.add(const RemoteDataStarted()),
     build: () {
