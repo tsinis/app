@@ -1,9 +1,6 @@
 // ignore_for_file: avoid-similar-names, avoid-unsafe-collection-methods
 
 import 'package:database/database.dart' hide isNotNull;
-import 'package:database/src/dao/hotel_dao.dart';
-import 'package:database/src/database/app_database.dart';
-import 'package:drift/drift.dart' hide isNotNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rest_api/hotels_api.dart';

@@ -50,6 +50,7 @@ class FavoritesBloc extends Bloc<FavoritesEvent, HotelDataState<Hotel>>
       _database.hotelDao.readAllHotels,
       'reading favorites',
     );
+
     if (favorites == null) return emit(RemoteDataFailure(data: state.data));
     _favorites
       ..clear()

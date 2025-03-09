@@ -4,9 +4,6 @@ import 'dart:collection' show UnmodifiableListView;
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:database/database.dart' hide isNotNull;
-import 'package:database/src/bloc/favorites_bloc.dart';
-import 'package:database/src/database/app_database.dart';
-import 'package:drift/drift.dart' hide isNotNull;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rest_api/hotels_api.dart';
