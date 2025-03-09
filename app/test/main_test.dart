@@ -30,6 +30,7 @@ class _MainTest implements ClientHttp {
               simplePricePerPerson: 100,
               total: 100,
             ),
+            hotelId: '1',
             name: 'Hotel',
             ratingInfo: RatingInfo(
               recommendationRate: 5,

@@ -13,10 +13,7 @@ class ApiResponseMapper extends ClassMapperBase<ApiResponse> {
   static ApiResponseMapper ensureInitialized() {
     if (_instance == null) {
       MapperContainer.globals.use(_instance = ApiResponseMapper._());
-      FilterMapper.ensureInitialized();
-      MetaMapper.ensureInitialized();
       HotelMapper.ensureInitialized();
-      UsedSearchRequestMapper.ensureInitialized();
     }
     return _instance!;
   }
@@ -24,60 +21,20 @@ class ApiResponseMapper extends ClassMapperBase<ApiResponse> {
   @override
   final String id = 'ApiResponse';
 
-  static List<Filter?>? _$filters(ApiResponse v) => v.filters;
-  static const Field<ApiResponse, List<Filter?>> _f$filters = Field(
-    'filters',
-    _$filters,
-    opt: true,
-  );
-  static int? _$hotelCount(ApiResponse v) => v.hotelCount;
-  static const Field<ApiResponse, int> _f$hotelCount = Field(
-    'hotelCount',
-    _$hotelCount,
-    key: r'hotel-count',
-    opt: true,
-  );
-  static Meta? _$meta(ApiResponse v) => v.meta;
-  static const Field<ApiResponse, Meta> _f$meta = Field(
-    'meta',
-    _$meta,
-    opt: true,
-  );
   static List<Hotel?>? _$hotels(ApiResponse v) => v.hotels;
   static const Field<ApiResponse, List<Hotel?>> _f$hotels = Field(
     'hotels',
     _$hotels,
     opt: true,
   );
-  static UsedSearchRequest? _$usedSearchRequest(ApiResponse v) =>
-      v.usedSearchRequest;
-  static const Field<ApiResponse, UsedSearchRequest> _f$usedSearchRequest =
-      Field(
-        'usedSearchRequest',
-        _$usedSearchRequest,
-        key: r'used-search-request',
-        opt: true,
-      );
 
   @override
-  final MappableFields<ApiResponse> fields = const {
-    #filters: _f$filters,
-    #hotelCount: _f$hotelCount,
-    #meta: _f$meta,
-    #hotels: _f$hotels,
-    #usedSearchRequest: _f$usedSearchRequest,
-  };
+  final MappableFields<ApiResponse> fields = const {#hotels: _f$hotels};
   @override
   final bool ignoreNull = true;
 
   static ApiResponse _instantiate(DecodingData data) {
-    return ApiResponse(
-      filters: data.dec(_f$filters),
-      hotelCount: data.dec(_f$hotelCount),
-      meta: data.dec(_f$meta),
-      hotels: data.dec(_f$hotels),
-      usedSearchRequest: data.dec(_f$usedSearchRequest),
-    );
+    return ApiResponse(hotels: data.dec(_f$hotels));
   }
 
   @override
@@ -136,18 +93,8 @@ extension ApiResponseValueCopy<$R, $Out>
 
 abstract class ApiResponseCopyWith<$R, $In extends ApiResponse, $Out>
     implements ClassCopyWith<$R, $In, $Out> {
-  ListCopyWith<$R, Filter?, FilterCopyWith<$R, Filter, Filter>?>? get filters;
-  MetaCopyWith<$R, Meta, Meta>? get meta;
   ListCopyWith<$R, Hotel?, HotelCopyWith<$R, Hotel, Hotel>?>? get hotels;
-  UsedSearchRequestCopyWith<$R, UsedSearchRequest, UsedSearchRequest>?
-  get usedSearchRequest;
-  $R call({
-    List<Filter?>? filters,
-    int? hotelCount,
-    Meta? meta,
-    List<Hotel?>? hotels,
-    UsedSearchRequest? usedSearchRequest,
-  });
+  $R call({List<Hotel?>? hotels});
   ApiResponseCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
@@ -160,18 +107,6 @@ class _ApiResponseCopyWithImpl<$R, $Out>
   late final ClassMapperBase<ApiResponse> $mapper =
       ApiResponseMapper.ensureInitialized();
   @override
-  ListCopyWith<$R, Filter?, FilterCopyWith<$R, Filter, Filter>?>? get filters =>
-      $value.filters != null
-          ? ListCopyWith(
-            $value.filters!,
-            (v, t) => v?.copyWith.$chain(t),
-            (v) => call(filters: v),
-          )
-          : null;
-  @override
-  MetaCopyWith<$R, Meta, Meta>? get meta =>
-      $value.meta?.copyWith.$chain((v) => call(meta: v));
-  @override
   ListCopyWith<$R, Hotel?, HotelCopyWith<$R, Hotel, Hotel>?>? get hotels =>
       $value.hotels != null
           ? ListCopyWith(
@@ -181,37 +116,11 @@ class _ApiResponseCopyWithImpl<$R, $Out>
           )
           : null;
   @override
-  UsedSearchRequestCopyWith<$R, UsedSearchRequest, UsedSearchRequest>?
-  get usedSearchRequest => $value.usedSearchRequest?.copyWith.$chain(
-    (v) => call(usedSearchRequest: v),
-  );
+  $R call({Object? hotels = $none}) =>
+      $apply(FieldCopyWithData({if (hotels != $none) #hotels: hotels}));
   @override
-  $R call({
-    Object? filters = $none,
-    Object? hotelCount = $none,
-    Object? meta = $none,
-    Object? hotels = $none,
-    Object? usedSearchRequest = $none,
-  }) => $apply(
-    FieldCopyWithData({
-      if (filters != $none) #filters: filters,
-      if (hotelCount != $none) #hotelCount: hotelCount,
-      if (meta != $none) #meta: meta,
-      if (hotels != $none) #hotels: hotels,
-      if (usedSearchRequest != $none) #usedSearchRequest: usedSearchRequest,
-    }),
-  );
-  @override
-  ApiResponse $make(CopyWithData data) => ApiResponse(
-    filters: data.get(#filters, or: $value.filters),
-    hotelCount: data.get(#hotelCount, or: $value.hotelCount),
-    meta: data.get(#meta, or: $value.meta),
-    hotels: data.get(#hotels, or: $value.hotels),
-    usedSearchRequest: data.get(
-      #usedSearchRequest,
-      or: $value.usedSearchRequest,
-    ),
-  );
+  ApiResponse $make(CopyWithData data) =>
+      ApiResponse(hotels: data.get(#hotels, or: $value.hotels));
 
   @override
   ApiResponseCopyWith<$R2, ApiResponse, $Out2> $chain<$R2, $Out2>(

@@ -16,7 +16,7 @@ abstract class ClientHttp {
 
   /// Get hotels listing.
   ///
-  /// Returns a list of hotels with their details, filters, and meta information.
+  /// Returns a list of hotels with their details.
   @GET('/hotels.json')
   Future<HttpResponse<ApiResponse?>> getHotels();
 }
