@@ -18,5 +18,6 @@ class HotelDao extends DatabaseAccessor<AppDatabase> with _$HotelDaoMixin {
   Future<int> deleteHotel(String id) =>
       (delete(hotelTable)..where((hotel) => hotel.hotelId.equals(id))).go();
 
-  Future<List<Hotel>> get readAllHotels => select(hotelTable).get();
+  // ignore: prefer-getter-over-method, more future-proof.
+  Future<List<Hotel>> readAllHotels() => select(hotelTable).get();
 }

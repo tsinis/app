@@ -9,10 +9,13 @@ environment:
   sdk: ^3.7.0
 
 dependencies:
+  bloc: ^9.0.0
   drift: ^2.26.0
   drift_flutter: ^0.2.4
   flutter:
     sdk: flutter
+  log:
+    path: ../logger
   path_provider: ^2.1.5
   rest_api:
     path: ../rest_api
