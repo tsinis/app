@@ -7,6 +7,7 @@ import 'package:material_symbols_icons/symbols.dart';
 import 'package:rest_api/hotels_api.dart';
 import 'package:world_countries/helpers.dart';
 
+import '../../core/core_dependencies.dart';
 import '../theme/app_theme.dart';
 import '../widgets/hotel_card.dart';
 
@@ -20,13 +21,9 @@ class HotelsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocProvider(
     create:
-        (_) => HotelBloc(
+        (bc) => HotelBloc(
           RemoteDataRepository(
-            FunctionalPlatform.maybeWhenConst(
-              fuchsia: ClientHttp(AdaptedDio().dio),
-              orElse: ClientHttp(Dio(), baseUrl: HotelsApi.baseUrl),
-              web: ClientHttp(AdaptedDio().dio, baseUrl: HotelsApi.baseUrl),
-            ),
+            bc.read<CoreDependencies>().restClient,
             const HotelsMapper(),
           ),
         )..add(const RemoteDataStarted()),

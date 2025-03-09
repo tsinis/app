@@ -17,7 +17,7 @@ class InitializationGuard extends AutoRouteGuard with LoggerMixin {
     StackRouter router,
   ) async {
     resolver.next();
-    log.info('Initializing app...');
+    log.info('Checking guard...');
 
     try {
       if (_guardCompleter?.isCompleted ?? false) return;

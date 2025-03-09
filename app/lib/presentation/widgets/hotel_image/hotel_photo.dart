@@ -20,41 +20,42 @@ class HotelPhoto extends StatelessWidget {
   Widget build(BuildContext context) => AspectRatio(
     aspectRatio: 4 / 3,
     child: LayoutBuilder(
-      builder:
-          (_, size) => ColoredBox(
-            color: Colors.lightBlue.shade50,
-            child: MaybeWidget(
-              _image?.large ?? _image?.small,
-              (url) => CachedNetworkImage(
-                errorWidget:
-                    (_, _, _) =>
-                        const Center(child: Icon(Icons.error_outline_outlined)),
-                fadeInDuration: _fadeDuration,
-                fit: BoxFit.fitWidth,
-                imageBuilder:
-                    (_, i) => DecoratedBox(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(fit: BoxFit.fitWidth, image: i),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const FavoritesHeartButton(),
-                          if (!hasDetails)
-                            MaybeWidget(_hotel.ratingInfo, UserRatings.new),
-                        ],
-                      ),
-                    ),
+      builder: (_, size) {
+        final child = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const FavoritesHeartButton(),
+            if (!hasDetails) MaybeWidget(_hotel.ratingInfo, UserRatings.new),
+          ],
+        );
 
-                /// Since small images are 400px wide, we can prefer them.
-                /// https://gs.statcounter.com/screen-resolution-stats/mobile/eu
-                imageUrl: size.maxWidth <= 420 ? (_image?.small ?? url) : url,
-                placeholderFadeInDuration: _fadeDuration,
-              ),
+        return ColoredBox(
+          color: Colors.lightBlue.shade50,
+          child: MaybeWidget(
+            _image?.large ?? _image?.small,
+            (url) => CachedNetworkImage(
+              errorWidget: (_, _, _) => const Center(child: Icon(Icons.error)),
+              fadeInDuration: _fadeDuration,
+              fit: BoxFit.fitWidth,
+              imageBuilder:
+                  (_, i) => DecoratedBox(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(fit: BoxFit.fitWidth, image: i),
+                    ),
+                    child: child,
+                  ),
+
+              /// Since small images are 400px wide, we can prefer them.
+              /// https://gs.statcounter.com/screen-resolution-stats/mobile/eu
+              imageUrl: size.maxWidth <= 420 ? (_image?.small ?? url) : url,
+              placeholderFadeInDuration: _fadeDuration,
             ),
+            orElse: child,
           ),
+        );
+      },
     ),
   );
 }
