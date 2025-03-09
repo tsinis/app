@@ -3,10 +3,14 @@
 
 import 'package:app/core/core_dependencies.dart';
 import 'package:app/core/dependencies_completer.dart';
+import 'package:database/database.dart';
+import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rest_api/hotels_api.dart';
 
 void main() => group('$DependenciesCompleter', () {
+  final database = AppDatabase(DatabaseConnection(NativeDatabase.memory()));
+
   test('should expose a Future', () {
     final completer = DependenciesCompleter();
 
@@ -21,7 +25,7 @@ void main() => group('$DependenciesCompleter', () {
 
   test('should complete with repository when initialized', () async {
     final completer = DependenciesCompleter(
-      initializer: () async => CoreDependencies(ClientHttp(Dio())),
+      initializer: () async => CoreDependencies(database, ClientHttp(Dio())),
     )..initialize();
 
     final repository = await completer.future;
@@ -35,7 +39,7 @@ void main() => group('$DependenciesCompleter', () {
       initializer: () async {
         callCount += 1;
 
-        return CoreDependencies(ClientHttp(Dio()));
+        return CoreDependencies(database, ClientHttp(Dio()));
       },
     );
 
@@ -54,7 +58,7 @@ void main() => group('$DependenciesCompleter', () {
 
   test('should allow manual completion', () async {
     final completer = DependenciesCompleter();
-    final testRepo = CoreDependencies(ClientHttp(Dio()));
+    final testRepo = CoreDependencies(database, ClientHttp(Dio()));
 
     completer.complete(testRepo);
 
