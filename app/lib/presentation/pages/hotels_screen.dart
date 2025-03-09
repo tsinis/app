@@ -15,7 +15,6 @@ class HotelsScreen extends StatelessWidget {
 
   static const icon = Symbols.search;
   static const name = 'hotels';
-  static const _event = RemoteDataStarted();
 
   @override
   Widget build(BuildContext context) => BlocProvider(
@@ -25,10 +24,10 @@ class HotelsScreen extends StatelessWidget {
             bc.read<CoreDependencies>().restClient,
             const HotelsMapper(),
           ),
-        )..add(_event),
+        )..add(const RemoteDataStarted()),
     child: const HotelList<RemoteDataEvent, HotelDataState<Hotel>, HotelBloc>(
       isFavorite: false,
-      refresh: _event,
+      refresh: RemoteDataRefreshed(),
     ),
   );
 }

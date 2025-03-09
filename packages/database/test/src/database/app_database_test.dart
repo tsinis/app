@@ -1,12 +1,25 @@
 // ignore_for_file: avoid-similar-names, avoid-unsafe-collection-methods
 
+import 'dart:io';
+
 import 'package:database/database.dart' hide isNotNull;
 import 'package:drift/native.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rest_api/hotels_api.dart';
 
 void main() => group('$AppDatabase', () {
   late AppDatabase database;
+
+  setUpAll(() {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(
+          const MethodChannel('plugins.flutter.io/path_provider'),
+          (methodCall) async => '.',
+        );
+  });
 
   setUp(
     () => database = AppDatabase(DatabaseConnection(NativeDatabase.memory())),
@@ -15,6 +28,14 @@ void main() => group('$AppDatabase', () {
   tearDown(() async {
     await database.close();
   });
+
+  test(
+    'init',
+    () async => expectLater(
+      await AppDatabase.open(Directory.systemTemp),
+      isA<AppDatabase>(),
+    ),
+  );
 
   group('$HotelDao', () {
     test('insert and read a single hotel', () async {

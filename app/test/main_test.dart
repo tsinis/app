@@ -21,6 +21,97 @@ import 'package:rest_api/hotels_api.dart';
 // ignore: depend_on_referenced_packages, it's just a test.
 import 'package:retrofit/dio.dart';
 
+// ignore: avoid-long-functions, this is test.
+void main() => group('$Main', () {
+  const duration = Duration.zero;
+  final database = AppDatabase(DatabaseConnection(NativeDatabase.memory()));
+
+  tearDownAll(database.close);
+
+  // ignore: avoid-local-functions, it's a test.
+  Future<void> cleanupTest(WidgetTester tester) async {
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pumpAndSettle(kTabScrollDuration);
+  }
+
+  testWidgets('$OverviewScreen and $AccountScreen are present on app start', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      Provider.value(
+        value: CoreDependencies(database, const _MainTest()),
+        child: Main(AppRouter(const InitializationGuard())),
+      ),
+    );
+    await tester.pump(duration);
+    expect(find.byType(OverviewScreen), findsOneWidget);
+
+    await tester.tap(find.byIcon(HotelsScreen.icon));
+    await tester.pump(duration);
+    expect(find.byType(HotelsScreen), findsOneWidget);
+
+    await tester.tap(find.byIcon(FavoritesScreen.icon));
+    await tester.pump(duration);
+    expect(find.byType(FavoritesScreen), findsOneWidget);
+
+    await tester.tap(find.byIcon(AccountScreen.icon));
+    await tester.pump(duration);
+    expect(find.byType(AccountScreen), findsOneWidget);
+
+    await cleanupTest(tester);
+  });
+
+  testWidgets('$HotelsScreen contains $WrappedTextDescription', (tester) async {
+    await tester.pumpWidget(
+      Provider.value(
+        value: CoreDependencies(database, const _MainTest()),
+        child: Main(AppRouter(const InitializationGuard())),
+      ),
+    );
+    await tester.pump(duration);
+    await tester.tap(find.byIcon(HotelsScreen.icon));
+    await tester.pump(duration);
+
+    expect(find.byType(HotelCard), findsOneWidget);
+    expect(find.byType(HotelDescription), findsOneWidget);
+    expect(find.byType(HotelPhoto), findsOneWidget);
+    expect(find.byType(WrappedTextDescription), findsNWidgets(3));
+
+    await tester.pump(duration);
+    await tester.tap(find.byIcon(FavoritesScreen.icon));
+    await tester.pump(duration);
+    expect(find.byType(HotelPhoto), findsNothing);
+    expect(find.byType(UserRatings), findsNothing);
+
+    await cleanupTest(tester);
+  });
+
+  testWidgets(
+    '$FavoritesScreen contains $UserRatings when user taps on heart icon',
+    (tester) async {
+      await tester.pumpWidget(
+        Provider.value(
+          value: CoreDependencies(database, const _MainTest()),
+          child: Main(AppRouter(const InitializationGuard())),
+        ),
+      );
+      await tester.pump(duration);
+      await tester.tap(find.byIcon(HotelsScreen.icon));
+      await tester.pump(duration);
+
+      await tester.tap(find.byIcon(Symbols.favorite_rounded));
+      await tester.pump(duration);
+
+      await tester.tap(find.byIcon(FavoritesScreen.icon));
+      await tester.pump(duration);
+      expect(find.byType(HotelPhoto), findsOneWidget);
+      expect(find.byType(UserRatings), findsOneWidget);
+
+      await cleanupTest(tester);
+    },
+  );
+});
+
 class _MainTest implements ClientHttp {
   const _MainTest();
 
@@ -49,88 +140,3 @@ class _MainTest implements ClientHttp {
     ),
   );
 }
-
-// ignore: avoid-long-functions, this is test.
-void main() => group('$Main', () {
-  const duration = Duration.zero;
-  final database = AppDatabase(DatabaseConnection(NativeDatabase.memory()));
-
-  testWidgets('$OverviewScreen and $AccountScreen are present on app start', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      Provider.value(
-        value: CoreDependencies(database, const _MainTest()),
-        child: Main(AppRouter(const InitializationGuard())),
-      ),
-    );
-    await tester.pump(duration);
-    expect(find.byType(OverviewScreen), findsOneWidget);
-
-    await tester.tap(find.byIcon(HotelsScreen.icon));
-    await tester.pump(duration);
-    expect(find.byType(HotelsScreen), findsOneWidget);
-
-    await tester.tap(find.byIcon(FavoritesScreen.icon));
-    await tester.pump(duration);
-    expect(find.byType(FavoritesScreen), findsOneWidget);
-
-    await tester.tap(find.byIcon(AccountScreen.icon));
-    await tester.pump(duration);
-    expect(find.byType(AccountScreen), findsOneWidget);
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.pumpAndSettle(kTabScrollDuration);
-  });
-
-  testWidgets('$HotelsScreen contains $WrappedTextDescription', (tester) async {
-    await tester.pumpWidget(
-      Provider.value(
-        value: CoreDependencies(database, const _MainTest()),
-        child: Main(AppRouter(const InitializationGuard())),
-      ),
-    );
-    await tester.pump(duration);
-    await tester.tap(find.byIcon(HotelsScreen.icon));
-    await tester.pump(duration);
-
-    expect(find.byType(HotelCard), findsOneWidget);
-    expect(find.byType(HotelDescription), findsOneWidget);
-    expect(find.byType(HotelPhoto), findsOneWidget);
-    expect(find.byType(WrappedTextDescription), findsNWidgets(3));
-
-    await tester.pump(duration);
-    await tester.tap(find.byIcon(FavoritesScreen.icon));
-    await tester.pump(duration);
-    expect(find.byType(HotelPhoto), findsNothing);
-    expect(find.byType(UserRatings), findsNothing);
-
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.pumpAndSettle(kTabScrollDuration);
-  });
-
-  testWidgets(
-    '$FavoritesScreen contains $UserRatings when user taps on heart icon',
-    (tester) async {
-      await tester.pumpWidget(
-        Provider.value(
-          value: CoreDependencies(database, const _MainTest()),
-          child: Main(AppRouter(const InitializationGuard())),
-        ),
-      );
-      await tester.pump(duration);
-      await tester.tap(find.byIcon(HotelsScreen.icon));
-      await tester.pump(duration);
-
-      await tester.tap(find.byIcon(Symbols.favorite_rounded));
-      await tester.pump(duration);
-
-      await tester.tap(find.byIcon(FavoritesScreen.icon));
-      await tester.pump(duration);
-      expect(find.byType(HotelPhoto), findsOneWidget);
-      expect(find.byType(UserRatings), findsOneWidget);
-
-      await tester.pumpWidget(const SizedBox.shrink());
-      await tester.pumpAndSettle(kTabScrollDuration);
-    },
-  );
-});
