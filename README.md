@@ -1,3 +1,7 @@
+[![codecov](https://codecov.io/gh/tsinis/app/graph/badge.svg?token=03NKJBVT6F)](https://app.codecov.io/gh/tsinis/app/flags)
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/tsinis/app?labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit%20Reviews)
+[![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # app
 
 A cross-platform app using `drift` for local persistence.
@@ -6,14 +10,17 @@ A cross-platform app using `drift` for local persistence.
 
 This app runs on:
 
-- Android
 - iOS
 - macOS
+- Android (universal APK is provided in releases)
+- Web (with mocked response data due to CORS)
 - Linux (not tested)
 - Windows (not tested)
-- Web (with mocked response data due to CORS)
 
 ## Setup
+
+> [!WARNING]
+> Flutter SDK version 3.29.0 is needed for this app.
 
 1. Clone the repository:
 
@@ -44,27 +51,28 @@ dart run build_runner build -d
 
 To run the app on a specific platform, use the following commands (from the root folder):
 
-- Android:
-
 ```shell
-cd app && flutter run -d android
+cd app && flutter run --dart-define-from-file=.env/secret.env
 ```
 
-- iOS:
+- or without .env file:
 
 ```shell
-cd app && flutter run -d ios
+cd app && flutter run --dart-define=BASE_URL=https://example.com
 ```
 
-- Web:
+> [!IMPORTANT]
+> To prevent any works on my machine issues please make sure you have up to date native dependencies (cocoapods, gradle, etc.).
+
+If you just want to quickly bootstrap and play around in the web with mocked response (due to CORS):
 
 ```shell
-cd app && flutter run -d chrome
+cd app && flutter run -d chrome --wasm
 ```
 
 ## Testing
 
-Run unit and widget tests with the following command:
+Run unit and widget tests with the following command from any of packages/app directory:
 
 ```shell
 flutter test

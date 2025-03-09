@@ -1,3 +1,5 @@
+// ignore: format-comment, we are not planning to test how drift code-gen works.
+// coverage:ignore-file
 import 'package:drift/drift.dart';
 import 'package:rest_api/hotels_api.dart';
 
