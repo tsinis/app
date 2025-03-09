@@ -1,6 +1,6 @@
 version: 1.0.0+1
 name: database
-description: A package with error handlers and logger.
+description: A local database package for Flutter app.
 publish_to: none
 
 resolution: workspace
