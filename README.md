@@ -27,7 +27,7 @@ git clone https://github.com/tsinis/app.git && cd app
 flutter pub get
 ```
 
-3. Generate code (Optional):
+3. Generate code (Optional) - navigate to the packages or app and:
 
 ```shell
 dart run build_runner build -d
