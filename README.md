@@ -18,7 +18,7 @@ This app runs on:
 1. Clone the repository:
 
 ```shell
-git clone https://github.com/tsinis/sealed_world.git && cd app
+git clone https://github.com/tsinis/app.git && cd app
 ```
 
 2. Install dependencies:
@@ -36,7 +36,7 @@ dart run build_runner build -d
 ## Running the App
 
 > [!CAUTION]
-> For non-web builds it's cruical to provide `BASE_URL` via `dart-define`!
+> For non-web builds it's crucial to provide `BASE_URL` via `dart-define`!
 >
 > Use `flutter run --dart-define=BASE_URL=https://example.com` command or
 > set this URL in environment variables to the [app/.env/secret.env](app/.env/) and
@@ -72,7 +72,7 @@ flutter test
 
 ## Architecture
 
-The app is orginized with layers for data, domain, and presentation plus releated local packages in Dart Workspace. Navigation is managed with the Auto Route package, state management is handled using the BLoC library. Local storage is implemented using Drift for SQLite.
+The app is organized with layers for data, domain, and presentation plus related local packages in Dart Workspace. Navigation is managed with the Auto Route package, state management is handled using the BLoC library. Local storage is implemented using Drift for SQLite.
 
 ## Key Design Decisions
 
