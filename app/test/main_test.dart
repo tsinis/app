@@ -8,6 +8,7 @@ import 'package:app/presentation/widgets/hotel_card.dart';
 import 'package:app/presentation/widgets/hotel_description/hotel_description.dart';
 import 'package:app/presentation/widgets/hotel_image/hotel_photo.dart';
 import 'package:app/presentation/widgets/hotel_image/user_ratings.dart';
+import 'package:app/presentation/widgets/hotel_list.dart';
 import 'package:app/router/app_router.dart';
 import 'package:app/router/initialization_guard.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -82,7 +83,7 @@ void main() => group('$Main', () {
     await tester.tap(find.byIcon(HotelsScreen.icon));
     await tester.pump(duration);
 
-    expect(find.byType(HotelListView), findsOneWidget);
+    expect(find.byType(HotelList), findsOneWidget);
     expect(find.byType(HotelCard), findsOneWidget);
     expect(find.byType(HotelDescription), findsOneWidget);
     expect(find.byType(HotelPhoto), findsOneWidget);
