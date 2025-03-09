@@ -7,5 +7,6 @@ environment:
 workspace:
   - app/
 
+  - packages/database/
   - packages/rest_api/
   - packages/logger/
