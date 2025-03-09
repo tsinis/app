@@ -67,12 +67,12 @@ void main() => group('Schema contract with back-end testing', () {
   test(
     'non-mocked, via `flutter test --dart-define=BASE_URL=https://example.com`',
     () async {
-      final client = ClientHttp(Dio(), baseUrl: HotelsApi.envBaseUrl);
+      final client = ClientHttp(Dio(), baseUrl: HotelsApi.baseUrl);
       final result = await client.getHotels();
       expect(result.data, isNotNull);
 
       expect(result.data?.hotelCount, isNot(result.data?.hotels?.length));
     },
-    skip: HotelsApi.envBaseUrl.isEmpty,
+    skip: !HotelsApi.isBaseUrlProvided,
   );
 });

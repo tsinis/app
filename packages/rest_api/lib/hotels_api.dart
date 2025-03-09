@@ -14,44 +14,44 @@ export 'src/mappers/model_mapper.dart';
 export 'src/repository/remote_data_repository.dart';
 
 sealed class HotelsApi {
-  /// `BASE_URL` environment variable.
-  static const envBaseUrl = String.fromEnvironment(envBaseUrlKey);
-  static const envBaseUrlKey = 'BASE_URL';
+  /// `BASE_URL` environment variable. Web platform is an exception due to CORS.
+  static const baseUrl = String.fromEnvironment('BASE_URL');
+  static const isBaseUrlProvided = baseUrl.length > 0;
+
   static const _route = '/hotels.json';
 }
 
 @immutable
 // ignore: prefer-single-declaration-per-file, it's a helper class.
-class AdaptedDio {
-  const AdaptedDio._(this._adapter, this.dio, [ApiResponse? _response])
-    : _response = _response;
-
-  factory AdaptedDio.web() {
+final class AdaptedDio {
+  factory AdaptedDio() {
     final dio = Dio();
     final adapter = DioAdapter(dio: dio);
     final clonedDio = dio.clone(httpClientAdapter: adapter);
 
-    return AdaptedDio._(adapter, clonedDio, _defaultWebResponse);
+    return AdaptedDio._(adapter, clonedDio)..reply(_defaultResponse);
   }
+
+  const AdaptedDio._(this._adapter, this.dio);
 
   @visibleForTesting
   factory AdaptedDio.test([Dio? mockedDio]) {
     final dio = mockedDio ?? Dio();
     final adapter = DioAdapter(dio: dio);
-    final clonedDio = dio.clone(httpClientAdapter: adapter);
 
-    return AdaptedDio._(adapter, clonedDio);
+    return AdaptedDio._(adapter, dio.clone(httpClientAdapter: adapter));
   }
 
   final Dio dio;
   final DioAdapter _adapter;
-  final ApiResponse? _response;
 
   @visibleForTesting
   void reply(ApiResponse? response, {int statusCode = 200}) => _adapter.onGet(
     HotelsApi._route,
-    (request) => request.reply(statusCode, (_response ?? response)?.toJson()),
+    (request) => request.reply(statusCode, response?.toJson()),
   );
 
-  static const _defaultWebResponse = ApiResponse(); // TODO! Response for web.
+  static const _defaultResponse = ApiResponse(
+    hotels: [Hotel(name: 'name')],
+  ); // TODO! Response for web.
 }

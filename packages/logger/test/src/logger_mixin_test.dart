@@ -22,7 +22,7 @@ void main() => group('$LoggerMixin', () {
 
   test('info() logs message with INFO level', () {
     const testMessage = 'test info message';
-    logger.info(testMessage);
+    logger.log.info(testMessage);
 
     expect(logs, hasLength(1));
     expect(logs.singleOrNull?.level, equals(Level.INFO));
@@ -34,7 +34,7 @@ void main() => group('$LoggerMixin', () {
     const testMessage = 'test warning message';
     final error = Exception('Test error');
     final stackTrace = StackTrace.current;
-    logger.log(Level.WARNING, testMessage, error, stackTrace);
+    logger.log.log(Level.WARNING, testMessage, error, stackTrace);
 
     expect(logs, hasLength(1));
     expect(logs.singleOrNull?.level, equals(Level.WARNING));

@@ -1,52 +1,41 @@
 // ignore_for_file: avoid-duplicate-cascades
 // ignore_for_file: inference_failure_on_instance_creation, cascade_invocations
 
-import 'dart:io';
-
-import 'package:app/core/repository_completer.dart';
-import 'package:app/core/storage_repository.dart';
+import 'package:app/core/core_dependencies.dart';
+import 'package:app/core/dependencies_completer.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rest_api/hotels_api.dart';
 
-void main() => group('$RepositoryCompleter', () {
+void main() => group('$DependenciesCompleter', () {
   test('should expose a Future', () {
-    final completer = RepositoryCompleter();
+    final completer = DependenciesCompleter();
 
-    expect(completer.future, isA<Future<StorageRepository?>>());
+    expect(completer.future, isA<Future<CoreDependencies?>>());
   });
 
   test('should not be completed initially', () {
-    final completer = RepositoryCompleter();
+    final completer = DependenciesCompleter();
 
     expect(completer.isCompleted, isFalse);
   });
 
   test('should complete with repository when initialized', () async {
-    final completer = RepositoryCompleter(
-      initializer: () => StorageRepository(Directory.systemTemp),
+    final completer = DependenciesCompleter(
+      initializer: () async => CoreDependencies(ClientHttp(Dio())),
     )..initialize();
 
     final repository = await completer.future;
-    expect(repository, isA<StorageRepository>());
+    expect(repository, isA<CoreDependencies>());
     expect(completer.isCompleted, isTrue);
   });
 
-  test(
-    'should use default repository when no initializer is provided',
-    () async {
-      final completer = RepositoryCompleter()..initialize();
-
-      final repository = await completer.future;
-      expect(repository, isA<StorageRepository>());
-    },
-  );
-
   test('initializing multiple times has no effect', () async {
     int callCount = 0;
-    final completer = RepositoryCompleter(
-      initializer: () {
+    final completer = DependenciesCompleter(
+      initializer: () async {
         callCount += 1;
 
-        return StorageRepository(Directory.systemTemp);
+        return CoreDependencies(ClientHttp(Dio()));
       },
     );
 
@@ -64,8 +53,8 @@ void main() => group('$RepositoryCompleter', () {
   });
 
   test('should allow manual completion', () async {
-    final completer = RepositoryCompleter();
-    final testRepo = StorageRepository(Directory.systemTemp);
+    final completer = DependenciesCompleter();
+    final testRepo = CoreDependencies(ClientHttp(Dio()));
 
     completer.complete(testRepo);
 
@@ -74,7 +63,7 @@ void main() => group('$RepositoryCompleter', () {
   });
 
   test('should allow manual error completion', () {
-    final completer = RepositoryCompleter();
+    final completer = DependenciesCompleter();
     final testError = Exception('Manual error');
 
     completer.completeError(testError);
