@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:flutter/foundation.dart';
@@ -15,28 +17,40 @@ part 'app_database.g.dart';
 
 @DriftDatabase(tables: [HotelTable], daos: [HotelDao])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase([QueryExecutor? e])
-    : super(
-        e ??
-            driftDatabase(
-              name: 'sqlite.db',
-              native: const DriftNativeOptions(
-                databaseDirectory: getApplicationSupportDirectory,
-              ),
-              web: DriftWebOptions(
-                driftWorker: Uri.parse('drift_worker.js'),
-                onResult: (result) {
-                  if (result.missingFeatures.isNotEmpty) {
-                    debugPrint(
-                      'Using ${result.chosenImplementation} due to unsupported '
-                      'browser features: ${result.missingFeatures}',
-                    );
-                  }
-                },
-                sqlite3Wasm: Uri.parse('sqlite3.wasm'),
-              ),
-            ),
+  @visibleForTesting
+  AppDatabase(super.e);
+
+  static const _name = 'db.sqlite';
+
+  static Future<AppDatabase> open([Directory? directory]) async {
+    if (kIsWeb) {
+      final webExecutor = driftDatabase(
+        name: _name,
+        web: DriftWebOptions(
+          driftWorker: Uri.parse('drift_worker.js'),
+          onResult: (result) {
+            if (result.missingFeatures.isNotEmpty) {
+              debugPrint(
+                'Using ${result.chosenImplementation} due to unsupported '
+                'browser features: ${result.missingFeatures}',
+              );
+            }
+          },
+          sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+        ),
       );
+
+      return AppDatabase(webExecutor);
+    }
+
+    final supportDir = directory ?? await getApplicationSupportDirectory();
+    final executor = driftDatabase(
+      name: 'sqlite.db',
+      native: DriftNativeOptions(databaseDirectory: () async => supportDir),
+    );
+
+    return AppDatabase(executor);
+  }
 
   @override
   int get schemaVersion => 1;

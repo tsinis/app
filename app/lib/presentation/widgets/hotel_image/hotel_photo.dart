@@ -7,12 +7,12 @@ import 'favorites_heart_button.dart';
 import 'user_ratings.dart';
 
 class HotelPhoto extends StatelessWidget {
-  const HotelPhoto(this._hotel, {this.hasDetails = true, super.key});
+  const HotelPhoto(this._hotel, {this.hasRatingInfo = true, super.key});
 
   static const _fadeDuration = Duration(milliseconds: 200);
 
   final Hotel _hotel;
-  final bool hasDetails;
+  final bool hasRatingInfo;
 
   ApiImage? get _image => _hotel.images?.firstOrNull;
 
@@ -26,8 +26,8 @@ class HotelPhoto extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const FavoritesHeartButton(),
-            if (!hasDetails) MaybeWidget(_hotel.ratingInfo, UserRatings.new),
+            FavoritesHeartButton(_hotel),
+            if (hasRatingInfo) MaybeWidget(_hotel.ratingInfo, UserRatings.new),
           ],
         );
 

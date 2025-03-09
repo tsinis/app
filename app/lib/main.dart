@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:database/database.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:log/logger.dart';
@@ -29,9 +30,9 @@ void main() {
     orElse: Dio.new,
     web: () => AdaptedDio().dio, // Due to CORS.
   );
-  final restClient = ClientHttp(dio, baseUrl: HotelsApi.baseUrl);
+  final client = ClientHttp(dio, baseUrl: HotelsApi.baseUrl);
   final depsCompleter = DependenciesCompleter(
-    initializer: () async => CoreDependencies(restClient),
+    initializer: () async => CoreDependencies.init(AppDatabase.open, client),
   );
 
   runZonedGuarded<void>(() {

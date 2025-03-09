@@ -24,7 +24,7 @@ class HotelCard extends StatelessWidget {
     final card = Card(
       child: Column(
         children: [
-          HotelPhoto(_hotel, hasDetails: !hasDetails),
+          HotelPhoto(_hotel, hasRatingInfo: _total == null),
           HotelDescription(_hotel, hasDetails: hasDetails),
         ],
       ),

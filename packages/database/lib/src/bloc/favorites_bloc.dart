@@ -14,12 +14,12 @@ part 'favorites_event.dart';
 /// A BLoC that manages favorite hotels in the local database.
 ///
 /// Similar to [RemoteDataBloc] but focused on favorite hotels stored locally.
-class FavoritesBloc extends Bloc<_FavoritesEvent, HotelDataState<Hotel>>
+class FavoritesBloc extends Bloc<FavoritesEvent, HotelDataState<Hotel>>
     with LoggerMixin {
   FavoritesBloc(this._database, [Iterable<Hotel>? initialData])
     : _favorites = initialData?.toSet() ?? {},
       super(RemoteDataInitial(data: UnmodifiableListView<Hotel>(const []))) {
-    on<_FavoritesEvent>(_onEvent);
+    on<FavoritesEvent>(_onEvent);
   }
 
   final AppDatabase _database;
@@ -29,7 +29,7 @@ class FavoritesBloc extends Bloc<_FavoritesEvent, HotelDataState<Hotel>>
       UnmodifiableListView(_favorites.toList());
 
   FutureOr<void> _onEvent(
-    _FavoritesEvent event,
+    FavoritesEvent event,
     Emitter<HotelDataState<Hotel>> emit,
   ) => switch (event) {
     FavoritesRefreshed(:final delay) => _refresh(delay, emit),
@@ -50,6 +50,7 @@ class FavoritesBloc extends Bloc<_FavoritesEvent, HotelDataState<Hotel>>
       _database.hotelDao.readAllHotels,
       'reading favorites',
     );
+
     if (favorites == null) return emit(RemoteDataFailure(data: state.data));
     _favorites
       ..clear()
