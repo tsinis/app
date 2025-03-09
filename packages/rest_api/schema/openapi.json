@@ -10,7 +10,7 @@
     "/hotels.json": {
       "get": {
         "summary": "Get hotels listing",
-        "description": "Returns a list of hotels with their details, filters, and meta information",
+        "description": "Returns a list of hotels with their details",
         "operationId": "getHotels",
         "responses": {
           "200": {
@@ -46,7 +46,7 @@
   "components": {
     "securitySchemes": {
       "basicAuth": {
-        "type": "http",
+        "type": "https",
         "scheme": "basic"
       }
     },
@@ -54,33 +54,11 @@
       "ApiResponse": {
         "type": "object",
         "properties": {
-          "filters": {
-            "type": "array",
-            "nullable": true,
-            "description": "Array of filter objects used to refine search results. Each filter may contain attributes or a range.",
-            "items": { "nullable": true, "$ref": "#/components/schemas/Filter" }
-          },
-          "hotel-count": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Total number of hotels found. We use an integer because the example value is 998.",
-            "example": 998
-          },
-          "meta": {
-            "$ref": "#/components/schemas/Meta",
-            "nullable": true,
-            "description": "Additional meta information including agent info, count, and scarcity elements."
-          },
           "hotels": {
             "type": "array",
             "nullable": true,
             "description": "Array of hotel objects with detailed booking and pricing information.",
             "items": { "nullable": true, "$ref": "#/components/schemas/Hotel" }
-          },
-          "used-search-request": {
-            "$ref": "#/components/schemas/UsedSearchRequest",
-            "nullable": true,
-            "description": "The search request parameters used. Contains details such as departure date, destination, sort, etc."
           }
         }
       },
@@ -100,123 +78,6 @@
             "nullable": true,
             "description": "URL for the small image.",
             "example": "https://example.com/small.jpg"
-          }
-        }
-      },
-      "Filter": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "type": "array",
-            "nullable": true,
-            "description": "List of attributes for the filter. Each attribute contains identifiers, value, usage, and pricing details.",
-            "items": {
-              "nullable": true,
-              "$ref": "#/components/schemas/FilterAttribute"
-            }
-          },
-          "category": {
-            "type": "string",
-            "nullable": true,
-            "description": "Category name for the filter.",
-            "example": "generic-category"
-          },
-          "in-use": {
-            "type": "boolean",
-            "nullable": true,
-            "description": "Flag indicating if filter is currently in use.",
-            "example": false
-          },
-          "type": {
-            "type": "string",
-            "enum": ["checkbox", "range", "radio"],
-            "nullable": true,
-            "description": "Type of filter, restricted to known options ('checkbox', 'range', 'radio') for improved validation.",
-            "example": "checkbox"
-          },
-          "range": {
-            "type": "object",
-            "nullable": true,
-            "description": "Optional range object available when filter type is 'range'. Contains min, max and selected values.",
-            "properties": {
-              "max": {
-                "type": "string",
-                "nullable": true,
-                "description": "Maximum value for the range filter.",
-                "example": "100"
-              },
-              "min": {
-                "type": "string",
-                "nullable": true,
-                "description": "Minimum value for the range filter.",
-                "example": "10"
-              },
-              "type": {
-                "type": "string",
-                "nullable": true,
-                "description": "Type of range, e.g. 'amount'. But looks like might be a enum too?",
-                "example": "amount"
-              },
-              "selected-max-value": {
-                "type": "string",
-                "nullable": true,
-                "description": "The user-selected maximum value. Empty string if not selected.",
-                "example": ""
-              },
-              "selected-min-value": {
-                "type": "string",
-                "nullable": true,
-                "description": "The user-selected minimum value. Empty string if not selected.",
-                "example": ""
-              }
-            }
-          }
-        }
-      },
-      "FilterAttribute": {
-        "type": "object",
-        "properties": {
-          "attribute-identifier": {
-            "type": "string",
-            "nullable": true,
-            "description": "Unique identifier for the attribute.",
-            "example": "generic-id"
-          },
-          "attribute-value": {
-            "type": "string",
-            "nullable": true,
-            "description": "The display value of the attribute.",
-            "example": "generic value"
-          },
-          "in-use": {
-            "type": "boolean",
-            "nullable": true,
-            "description": "Determines whether this attribute is selected.",
-            "example": false
-          },
-          "is-disabled": {
-            "type": "boolean",
-            "nullable": true,
-            "description": "Flag indicating if the attribute is disabled.",
-            "example": false
-          },
-          "is-popular": {
-            "type": "boolean",
-            "nullable": true,
-            "description": "Flag indicating if the attribute is popular. Example value may be true if popular.",
-            "example": false
-          },
-          "min-price": {
-            "type": "number",
-            "nullable": true,
-            "description": "Minimum price related to this attribute (in cents).",
-            "example": 1000
-          },
-          "result-count": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Number of results available for this attribute.",
-            "example": 100
           }
         }
       },
@@ -252,176 +113,13 @@
           }
         }
       },
-      "Meta": {
-        "type": "object",
-        "properties": {
-          "agent": {
-            "$ref": "#/components/schemas/Agent",
-            "nullable": true,
-            "description": "Object containing the travel agent information."
-          },
-          "count": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Count of hotels, same as 'hotel-count'.",
-            "example": 998
-          },
-          "scarcity-elements": {
-            "type": "array",
-            "nullable": true,
-            "description": "Array of objects indicating scarcity information. Each element has a type.",
-            "items": {
-              "nullable": true,
-              "$ref": "#/components/schemas/ScarcityElement"
-            }
-          }
-        }
-      },
-      "Agent": {
-        "type": "object",
-        "properties": {
-          "availability": {
-            "type": "string",
-            "nullable": true,
-            "description": "The availability times for the agent.",
-            "example": "Available times"
-          },
-          "image": {
-            "$ref": "#/components/schemas/ApiImage",
-            "nullable": true,
-            "description": "Object containing large and small URLs for the agent image."
-          },
-          "name": {
-            "type": "string",
-            "nullable": true,
-            "description": "Name of the agent.",
-            "example": "Agent Name"
-          },
-          "telephone": {
-            "type": "string",
-            "nullable": true,
-            "description": "The telephone number of the agent.",
-            "example": "0123456789"
-          },
-          "text": {
-            "type": "string",
-            "nullable": true,
-            "description": "A short text message from the agent.",
-            "example": "Generic message"
-          },
-          "vita": {
-            "type": "string",
-            "nullable": true,
-            "description": "The biography/vita of the agent.",
-            "example": "Years of experience"
-          }
-        }
-      },
-      "ScarcityElement": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true,
-            "description": "The type of scarcity information, restricted to allowed values (e.g., 'REGION_IN_HIGH_DEMAND'). Looks like UPPERCASE_SNAKE_CASE enum pattern?",
-            "example": "HIGH_DEMAND"
-          }
-        }
-      },
       "Hotel": {
         "type": "object",
         "properties": {
-          "analytics": {
-            "type": "object",
-            "nullable": true,
-            "description": "Analytics information with a nested object keyed by 'select_item.item.0'. ???",
-            "properties": {
-              "select_item.item.0": {
-                "type": "object",
-                "nullable": true,
-                "description": "Contains analytics data such as currency, category, hotel id and pricing details in string format.",
-                "properties": {
-                  "currency": {
-                    "type": "string",
-                    "enum": ["EUR", "USD"],
-                    "nullable": true,
-                    "description": "Currency code (ISO 4217)."
-                  },
-                  "itemCategory": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "Hotel item category and satisfaction level.",
-                    "example": "4.0 - unverified, verySatisfied"
-                  },
-                  "itemCategory2": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "Additional categorization tags for the hotel.",
-                    "example": "CAT1, CAT2"
-                  },
-                  "itemId": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "Unique identifier for the hotel item.",
-                    "example": "hotel-id"
-                  },
-                  "itemListName": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "Name of the list where the hotel occurs.",
-                    "example": "hotel list"
-                  },
-                  "itemName": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "Name of the hotel item.",
-                    "example": "Hotel Name"
-                  },
-                  "itemRooms": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "Number of rooms (as string in the response).",
-                    "example": "1"
-                  },
-                  "price": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "Price given as string (e.g. '844.00').",
-                    "example": "100.00"
-                  },
-                  "quantity": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "Quantity of items, expressed as string.",
-                    "example": "1"
-                  }
-                }
-              }
-            }
-          },
-          "badges": {
-            "type": "array",
-            "nullable": true,
-            "description": "Array of badges. It can be a collection of strings/enums?",
-            "items": { "nullable": true, "type": "string" },
-            "example": ["generic"]
-          },
           "best-offer": {
             "$ref": "#/components/schemas/BestOffer",
             "nullable": true,
             "description": "The best-offer object that includes pricing, availability and room configuration details."
-          },
-          "category": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Numerical category for the hotel.",
-            "example": 4
-          },
-          "category-type": {
-            "type": "string",
-            "nullable": true,
-            "description": "Additional category type. In the sample, it's represented as 'dots'. But might be also enum?",
-            "example": "type"
           },
           "destination": {
             "type": "string",
@@ -443,20 +141,6 @@
               "nullable": true,
               "$ref": "#/components/schemas/ApiImage"
             }
-          },
-          "latitude": {
-            "type": "number",
-            "format": "float",
-            "nullable": true,
-            "description": "Latitude coordinate of the hotel.",
-            "example": 39.764034
-          },
-          "longitude": {
-            "type": "number",
-            "format": "float",
-            "nullable": true,
-            "description": "Longitude coordinate of the hotel.",
-            "example": 3.1490614
           },
           "name": {
             "type": "string",
@@ -772,139 +456,6 @@
             "nullable": true,
             "description": "Return date in ISO format.",
             "example": "2024-10-22"
-          }
-        }
-      },
-      "UsedSearchRequest": {
-        "type": "object",
-        "properties": {
-          "attributes": {
-            "type": "string",
-            "nullable": true,
-            "description": "Search attributes as a string. In the response it is empty.",
-            "example": ""
-          },
-          "departure-airports": {
-            "type": "string",
-            "nullable": true,
-            "description": "Comma separated departure IATA airport codes.",
-            "example": "BRE,HAM,HAJ"
-          },
-          "departure-date": {
-            "type": "string",
-            "format": "date",
-            "nullable": true,
-            "description": "Date of departure.",
-            "example": "2024-09-09"
-          },
-          "duration-range": {
-            "type": "object",
-            "nullable": true,
-            "description": "The range for the duration of the trip. Why string?",
-            "properties": {
-              "max": {
-                "type": "string",
-                "nullable": true,
-                "description": "Maximum duration as string.",
-                "example": "7"
-              },
-              "min": {
-                "type": "string",
-                "nullable": true,
-                "description": "Minimum duration as string.",
-                "example": "7"
-              }
-            }
-          },
-          "price-range": {
-            "type": "object",
-            "nullable": true,
-            "description": "Price range for filtering the search.",
-            "properties": {
-              "max": {
-                "type": "number",
-                "nullable": true,
-                "description": "Maximum price range.",
-                "example": 2
-              },
-              "min": {
-                "type": "number",
-                "nullable": true,
-                "description": "Minimum price range.",
-                "example": 1
-              }
-            }
-          },
-          "return-date": {
-            "type": "string",
-            "format": "date",
-            "nullable": true,
-            "description": "Return date of the trip.",
-            "example": "2024-11-09"
-          },
-          "rooms": {
-            "type": "array",
-            "nullable": true,
-            "description": "Array of room request objects specifying adult and child counts.",
-            "items": {
-              "nullable": true,
-              "$ref": "#/components/schemas/RoomRequest"
-            }
-          },
-          "travel-type": {
-            "type": "string",
-            "nullable": true,
-            "description": "The type of travel search. In this case, 'package'. Might be an enum?",
-            "example": "package"
-          },
-          "destination": {
-            "type": "string",
-            "nullable": true,
-            "description": "Destination identifier.",
-            "example": "generic-destination"
-          },
-          "sort": {
-            "type": "string",
-            "enum": ["POPULAR_DESC", "POPULAR_ASC"],
-            "nullable": true,
-            "description": "Sorting order used for the search.",
-            "example": "POPULAR_DESC"
-          },
-          "destinationName": {
-            "type": "string",
-            "nullable": true,
-            "description": "Destination name; may be null or a string?",
-            "example": "null or string?"
-          },
-          "limit": {
-            "type": "number",
-            "nullable": true,
-            "description": "Limit for number of search results.",
-            "example": 20
-          },
-          "offset": {
-            "type": "number",
-            "nullable": true,
-            "description": "Offset for pagination.",
-            "example": 0
-          }
-        }
-      },
-      "RoomRequest": {
-        "type": "object",
-        "properties": {
-          "adult-count": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Number of adults in the room request.",
-            "example": 2
-          },
-          "children-ages": {
-            "type": "array",
-            "nullable": true,
-            "description": "Array of ages for child guests.",
-            "items": { "nullable": true, "type": "number" },
-            "example": [1, 2]
           }
         }
       }
