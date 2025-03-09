@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart' show immutable;
 
 @immutable
 sealed class HotelDataState<T extends Object> extends Equatable {
-  const HotelDataState({this.data});
+  const HotelDataState({required this.data});
 
   final UnmodifiableListView<T>? data;
 

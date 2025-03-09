@@ -8,16 +8,16 @@ import 'hotel_data_state.dart';
 part 'remote_data_event.dart';
 
 class RemoteDataBloc<T extends Object>
-    extends Bloc<_RemoteDataEvent, HotelDataState<T>> {
+    extends Bloc<RemoteDataEvent, HotelDataState<T>> {
   RemoteDataBloc(this._remoteRepository)
     : super(RemoteDataInitial<T>(data: UnmodifiableListView<T>(const []))) {
-    on<_RemoteDataEvent>(_onEvent);
+    on<RemoteDataEvent>(_onEvent);
   }
 
   final RemoteDataRepository<T> _remoteRepository;
 
   Future<void> _onEvent(
-    _RemoteDataEvent event,
+    RemoteDataEvent event,
     Emitter<HotelDataState<T>> emit,
   ) => switch (event) {
     RemoteDataStarted() => _fetch(emit, UnmodifiableListView<T>(const [])),
