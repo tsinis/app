@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:drift/drift.dart';
+import 'package:log/logger.dart';
 import 'package:rest_api/hotels_api.dart';
 
 class ListApiImageConverter extends TypeConverter<List<ApiImage?>?, String?>
     with
+        LoggerMixin,
         JsonTypeConverter2<
           List<ApiImage?>?,
           String?,
@@ -26,7 +28,9 @@ class ListApiImageConverter extends TypeConverter<List<ApiImage?>?, String?>
                 (i is Map<String, dynamic>) ? ApiImageMapper.fromMap(i) : null,
           )
           .toList(growable: false);
-    } catch (_) {
+    } catch (error, stackTrace) {
+      log.severe('Failed to parse images from SQL!', error, stackTrace);
+
       return null;
     }
   }

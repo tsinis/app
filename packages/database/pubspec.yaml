@@ -9,15 +9,19 @@ environment:
   sdk: ^3.7.0
 
 dependencies:
+  bloc: ^9.0.0
   drift: ^2.26.0
   drift_flutter: ^0.2.4
   flutter:
     sdk: flutter
+  log:
+    path: ../logger
   path_provider: ^2.1.5
   rest_api:
     path: ../rest_api
 
 dev_dependencies:
+  bloc_test: ^10.0.0
   dart_code_metrics_presets: ^2.21.0
   drift_dev: ^2.26.0
   flutter_test:

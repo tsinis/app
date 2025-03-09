@@ -49,7 +49,7 @@ class HotelListView extends StatelessWidget {
   Widget build(
     // ignore: unnecessary-trailing-comma it's TODO!
     BuildContext context,
-  ) => BlocBuilder<HotelBloc, RemoteDataState<Hotel>>(
+  ) => BlocBuilder<HotelBloc, HotelDataState<Hotel>>(
     builder:
         (bc, state) => switch (state) {
           RemoteDataInProgress() => const Center(

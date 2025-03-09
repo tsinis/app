@@ -1,5 +1,4 @@
-// ignore_for_file: avoid-similar-names, prefer-correct-identifier-length
-// ignore_for_file: avoid-unsafe-collection-methods
+// ignore_for_file: avoid-similar-names, avoid-unsafe-collection-methods
 
 import 'package:database/database.dart' hide isNotNull;
 import 'package:database/src/dao/hotel_dao.dart';
@@ -16,8 +15,9 @@ void main() => group('$AppDatabase', () {
     () => database = AppDatabase(DatabaseConnection(NativeDatabase.memory())),
   );
 
-  // ignore: avoid-redundant-async, it's just a test.
-  tearDown(() async => database.close());
+  tearDown(() async {
+    await database.close();
+  });
 
   group('$HotelDao', () {
     test('insert and read a single hotel', () async {
@@ -37,7 +37,7 @@ void main() => group('$AppDatabase', () {
       final rowsAffected = await database.hotelDao.insertHotel(hotel);
       expect(rowsAffected, 1);
 
-      final hotels = await database.hotelDao.readAllHotels;
+      final hotels = await database.hotelDao.readAllHotels();
       expect(hotels, hasLength(1));
       expect(hotels.first.hotelId, hotel.hotelId);
       expect(hotels.first.name, hotel.name);
@@ -68,12 +68,12 @@ void main() => group('$AppDatabase', () {
         expect(rowsAffected, i + 1);
       }
 
-      final storedHotels = await database.hotelDao.readAllHotels;
+      final storedHotels = await database.hotelDao.readAllHotels();
 
       expect(storedHotels.length, hotels.length);
 
-      final storedIds = storedHotels.map((h) => h.hotelId).toSet();
-      final originalIds = hotels.map((h) => h.hotelId).toSet();
+      final storedIds = storedHotels.map((i) => i.hotelId).toSet();
+      final originalIds = hotels.map((i) => i.hotelId).toSet();
       expect(storedIds, equals(originalIds));
     });
 
@@ -81,13 +81,13 @@ void main() => group('$AppDatabase', () {
       final hotel = hotels.first;
       await database.hotelDao.insertHotel(hotel);
 
-      List<Hotel> storedHotels = await database.hotelDao.readAllHotels;
+      List<Hotel> storedHotels = await database.hotelDao.readAllHotels();
       expect(storedHotels, hasLength(1));
 
       final rowsDeleted = await database.hotelDao.deleteHotel(hotel.hotelId);
       expect(rowsDeleted, 1);
 
-      storedHotels = await database.hotelDao.readAllHotels;
+      storedHotels = await database.hotelDao.readAllHotels();
       expect(storedHotels, isEmpty);
     });
 
@@ -106,7 +106,7 @@ void main() => group('$AppDatabase', () {
 
       await database.hotelDao.insertHotel(updatedHotel);
 
-      final storedHotels = await database.hotelDao.readAllHotels;
+      final storedHotels = await database.hotelDao.readAllHotels();
       expect(storedHotels, hasLength(1));
       expect(storedHotels.first.name, 'Updated Hotel Name');
     });
@@ -116,7 +116,7 @@ void main() => group('$AppDatabase', () {
 
       await database.hotelDao.insertHotel(complexHotel);
 
-      final storedHotels = await database.hotelDao.readAllHotels;
+      final storedHotels = await database.hotelDao.readAllHotels();
       final storedHotel = storedHotels.first;
 
       expect(storedHotel.hotelId, complexHotel.hotelId);
@@ -177,7 +177,7 @@ void main() => group('$AppDatabase', () {
         await database.hotelDao.insertHotel(hotel);
       }
 
-      final storedHotels = await database.hotelDao.readAllHotels;
+      final storedHotels = await database.hotelDao.readAllHotels();
       expect(storedHotels.length, hotels.length);
 
       final storedHotelsMap = {
@@ -218,16 +218,16 @@ void main() => group('$AppDatabase', () {
         await database.hotelDao.insertHotel(hotel);
       }
 
-      List<Hotel> storedHotels = await database.hotelDao.readAllHotels;
+      List<Hotel> storedHotels = await database.hotelDao.readAllHotels();
       expect(storedHotels, hasLength(4));
 
       await database.hotelDao.deleteHotel(hotels.first.hotelId);
       await database.hotelDao.deleteHotel(hotels[2].hotelId);
 
-      storedHotels = await database.hotelDao.readAllHotels;
+      storedHotels = await database.hotelDao.readAllHotels();
       expect(storedHotels, hasLength(2));
 
-      final remainingIds = storedHotels.map((h) => h.hotelId).toSet();
+      final remainingIds = storedHotels.map((i) => i.hotelId).toSet();
       expect(remainingIds, contains(hotels[1].hotelId));
       expect(remainingIds, contains(hotels[3].hotelId));
       expect(remainingIds, isNot(contains(hotels.first.hotelId)));
@@ -249,13 +249,13 @@ void main() => group('$AppDatabase', () {
 
       await database.hotelDao.insertHotel(hotel1);
 
-      List<Hotel> storedHotels = await database.hotelDao.readAllHotels;
+      List<Hotel> storedHotels = await database.hotelDao.readAllHotels();
       expect(storedHotels, hasLength(1));
       expect(storedHotels.first.name, 'First Hotel');
 
       await database.hotelDao.insertHotel(hotel2);
 
-      storedHotels = await database.hotelDao.readAllHotels;
+      storedHotels = await database.hotelDao.readAllHotels();
       expect(storedHotels, hasLength(1));
       expect(storedHotels.first.name, 'Second Hotel');
       expect(storedHotels.first.destination, 'Different Location');
