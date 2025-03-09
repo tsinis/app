@@ -27,7 +27,8 @@ class HotelsScreen extends StatelessWidget {
           ),
         )..add(_event),
     child: const HotelList<RemoteDataEvent, HotelDataState<Hotel>, HotelBloc>(
-      refreshEvent: _event,
+      isFavorite: false,
+      refresh: _event,
     ),
   );
 }

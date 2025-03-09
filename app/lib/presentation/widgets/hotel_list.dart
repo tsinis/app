@@ -14,12 +14,12 @@ class HotelList<
   B extends Bloc<T, S>
 >
     extends StatelessWidget {
-  const HotelList({required this.refreshEvent, super.key});
+  const HotelList({required this.refresh, this.isFavorite = true, super.key});
 
-  final T refreshEvent;
+  final T refresh;
+  final bool isFavorite;
 
-  void _handleRefresh(BuildContext context) =>
-      context.read<B>().add(refreshEvent);
+  void _handleRefresh(BuildContext context) => context.read<B>().add(refresh);
 
   @override
   Widget build(BuildContext context) => BlocBuilder<B, S>(
@@ -30,7 +30,7 @@ class HotelList<
       };
 
       final error = switch (state) {
-        RemoteDataFailure() => 'Failed to load hotels',
+        RemoteDataFailure() => 'Failed to load hotels :(',
         _ => null,
       };
 
@@ -62,13 +62,21 @@ class HotelList<
             firstPageProgressIndicatorBuilder:
                 (_) => const Center(child: CircularProgressIndicator()),
             itemBuilder:
-                (_, hotel, index) => HotelCard.details(
-                  hotel,
-                  index: index,
-                  total: state.data?.length ?? 0,
+                (_, hotel, index) =>
+                    isFavorite
+                        ? HotelCard.rate(hotel)
+                        : HotelCard.details(
+                          hotel,
+                          index: index,
+                          total: state.data?.length ?? 0,
+                        ),
+            noItemsFoundIndicatorBuilder:
+                (_) => Center(
+                  child:
+                      isFavorite
+                          ? const Text("You haven't collected anything yet :)")
+                          : const CircularProgressIndicator(),
                 ),
-            noItemsFoundIndicatorBuilder: // TODO!
-                (_) => const Center(child: CircularProgressIndicator()),
           ),
           fetchNextPage: () => _handleRefresh(bc),
           state: pagingState,

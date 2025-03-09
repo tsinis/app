@@ -1,6 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/widgets.dart';
+import 'package:database/database.dart';
+import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
+import 'package:rest_api/hotels_api.dart';
+
+import '../widgets/hotel_list.dart';
 
 @RoutePage(name: FavoritesScreen.name)
 class FavoritesScreen extends StatelessWidget {
@@ -10,5 +14,8 @@ class FavoritesScreen extends StatelessWidget {
   static const name = 'favorites';
 
   @override
-  Widget build(BuildContext context) => const Center(child: Text('Favorites'));
+  Widget build(BuildContext context) =>
+      const HotelList<FavoritesEvent, HotelDataState<Hotel>, FavoritesBloc>(
+        refresh: FavoritesRefreshed(),
+      );
 }
