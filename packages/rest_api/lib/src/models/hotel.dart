@@ -13,19 +13,19 @@ part 'hotel.mapper.dart';
 @MappableClass()
 class Hotel with HotelMappable {
   const Hotel({
+    required this.hotelId,
     this.bestOffer,
     this.destination,
-    this.hotelId,
     this.images,
     this.name,
     this.ratingInfo,
   });
 
+  @MappableField(key: 'hotel-id')
+  final String hotelId;
   @MappableField(key: 'best-offer')
   final BestOffer? bestOffer;
   final String? destination;
-  @MappableField(key: 'hotel-id')
-  final String? hotelId;
   final List<ApiImage?>? images;
   final String? name;
   @MappableField(key: 'rating-info')

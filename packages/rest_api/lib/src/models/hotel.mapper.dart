@@ -23,6 +23,12 @@ class HotelMapper extends ClassMapperBase<Hotel> {
   @override
   final String id = 'Hotel';
 
+  static String _$hotelId(Hotel v) => v.hotelId;
+  static const Field<Hotel, String> _f$hotelId = Field(
+    'hotelId',
+    _$hotelId,
+    key: r'hotel-id',
+  );
   static BestOffer? _$bestOffer(Hotel v) => v.bestOffer;
   static const Field<Hotel, BestOffer> _f$bestOffer = Field(
     'bestOffer',
@@ -34,13 +40,6 @@ class HotelMapper extends ClassMapperBase<Hotel> {
   static const Field<Hotel, String> _f$destination = Field(
     'destination',
     _$destination,
-    opt: true,
-  );
-  static String? _$hotelId(Hotel v) => v.hotelId;
-  static const Field<Hotel, String> _f$hotelId = Field(
-    'hotelId',
-    _$hotelId,
-    key: r'hotel-id',
     opt: true,
   );
   static List<ApiImage?>? _$images(Hotel v) => v.images;
@@ -61,9 +60,9 @@ class HotelMapper extends ClassMapperBase<Hotel> {
 
   @override
   final MappableFields<Hotel> fields = const {
+    #hotelId: _f$hotelId,
     #bestOffer: _f$bestOffer,
     #destination: _f$destination,
-    #hotelId: _f$hotelId,
     #images: _f$images,
     #name: _f$name,
     #ratingInfo: _f$ratingInfo,
@@ -73,9 +72,9 @@ class HotelMapper extends ClassMapperBase<Hotel> {
 
   static Hotel _instantiate(DecodingData data) {
     return Hotel(
+      hotelId: data.dec(_f$hotelId),
       bestOffer: data.dec(_f$bestOffer),
       destination: data.dec(_f$destination),
-      hotelId: data.dec(_f$hotelId),
       images: data.dec(_f$images),
       name: data.dec(_f$name),
       ratingInfo: data.dec(_f$ratingInfo),
@@ -133,9 +132,9 @@ abstract class HotelCopyWith<$R, $In extends Hotel, $Out>
   get images;
   RatingInfoCopyWith<$R, RatingInfo, RatingInfo>? get ratingInfo;
   $R call({
+    String? hotelId,
     BestOffer? bestOffer,
     String? destination,
-    String? hotelId,
     List<ApiImage?>? images,
     String? name,
     RatingInfo? ratingInfo,
@@ -167,17 +166,17 @@ class _HotelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Hotel, $Out>
       $value.ratingInfo?.copyWith.$chain((v) => call(ratingInfo: v));
   @override
   $R call({
+    String? hotelId,
     Object? bestOffer = $none,
     Object? destination = $none,
-    Object? hotelId = $none,
     Object? images = $none,
     Object? name = $none,
     Object? ratingInfo = $none,
   }) => $apply(
     FieldCopyWithData({
+      if (hotelId != null) #hotelId: hotelId,
       if (bestOffer != $none) #bestOffer: bestOffer,
       if (destination != $none) #destination: destination,
-      if (hotelId != $none) #hotelId: hotelId,
       if (images != $none) #images: images,
       if (name != $none) #name: name,
       if (ratingInfo != $none) #ratingInfo: ratingInfo,
@@ -185,9 +184,9 @@ class _HotelCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, Hotel, $Out>
   );
   @override
   Hotel $make(CopyWithData data) => Hotel(
+    hotelId: data.get(#hotelId, or: $value.hotelId),
     bestOffer: data.get(#bestOffer, or: $value.bestOffer),
     destination: data.get(#destination, or: $value.destination),
-    hotelId: data.get(#hotelId, or: $value.hotelId),
     images: data.get(#images, or: $value.images),
     name: data.get(#name, or: $value.name),
     ratingInfo: data.get(#ratingInfo, or: $value.ratingInfo),

@@ -129,7 +129,6 @@
           },
           "hotel-id": {
             "type": "string",
-            "nullable": true,
             "description": "Unique hotel identifier.",
             "example": "generic-hotel-id"
           },
