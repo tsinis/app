@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:log/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:rest_api/hotels_api.dart';
+import 'package:world_countries/helpers.dart';
 
-import 'core/repository_completer.dart';
-import 'core/storage_repository.dart';
+import 'core/core_dependencies.dart';
+import 'core/dependencies_completer.dart';
 import 'presentation/theme/app_theme.dart';
 import 'router/app_router.dart';
 import 'router/initialization_guard.dart';
@@ -24,31 +25,33 @@ void main() {
   );
 
   final logger = const LoggerConfig().configRootLogger();
-  final repositoryCompleter = RepositoryCompleter();
-  final appRouter = AppRouter(InitializationGuard(repositoryCompleter));
+  final dio = FunctionalPlatform.maybeWhen(
+    orElse: Dio.new,
+    web: () => AdaptedDio().dio, // Due to CORS.
+  );
+  final restClient = ClientHttp(dio, baseUrl: HotelsApi.baseUrl);
+  final depsCompleter = DependenciesCompleter(
+    initializer: () async => CoreDependencies(restClient),
+  );
 
   runZonedGuarded<void>(() {
-    repositoryCompleter.initialize();
-    runApp(Main(appRouter, repository: repositoryCompleter.future));
+    depsCompleter.initialize();
+    runApp(
+      FutureProvider.value(
+        initialData: null,
+        value: depsCompleter.future,
+        child: Main(AppRouter(InitializationGuard(depsCompleter))),
+      ),
+    );
     // ignore: prefer-trailing-comma, new Dart 3.7 formatting.
   }, (error, stack) => logger.severe('Zone Error: $error!', error, stack));
 }
 
 class Main extends StatelessWidget {
-  const Main(this._router, {Future<StorageRepository?>? repository, super.key})
-    : _repository = repository;
-
-  final Future<StorageRepository?>? _repository;
+  const Main(this._router, {super.key});
   final AppRouter _router;
 
   @override
-  Widget build(BuildContext context) => FutureProvider(
-    create: (_) => _repository,
-    initialData: null,
-    lazy: false,
-    child: MaterialApp.router(
-      routerConfig: _router.config(),
-      theme: AppTheme.data,
-    ),
-  );
+  Widget build(BuildContext context) =>
+      MaterialApp.router(routerConfig: _router.config(), theme: AppTheme.data);
 }
