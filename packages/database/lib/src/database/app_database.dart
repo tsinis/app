@@ -17,31 +17,27 @@ part 'app_database.g.dart';
 
 @DriftDatabase(tables: [HotelTable], daos: [HotelDao])
 class AppDatabase extends _$AppDatabase {
-  @visibleForTesting
   AppDatabase(super.e);
 
+  static final webExecutor = driftDatabase(
+    name: _name,
+    web: DriftWebOptions(
+      driftWorker: Uri.parse('drift_worker.js'),
+      onResult: (result) {
+        if (result.missingFeatures.isNotEmpty) {
+          debugPrint(
+            'Using ${result.chosenImplementation} due to unsupported '
+            'browser features: ${result.missingFeatures}',
+          );
+        }
+      },
+      sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+    ),
+  );
   static const _name = 'db.sqlite';
 
   static Future<AppDatabase> open([Directory? directory]) async {
-    if (kIsWeb) {
-      final webExecutor = driftDatabase(
-        name: _name,
-        web: DriftWebOptions(
-          driftWorker: Uri.parse('drift_worker.js'),
-          onResult: (result) {
-            if (result.missingFeatures.isNotEmpty) {
-              debugPrint(
-                'Using ${result.chosenImplementation} due to unsupported '
-                'browser features: ${result.missingFeatures}',
-              );
-            }
-          },
-          sqlite3Wasm: Uri.parse('sqlite3.wasm'),
-        ),
-      );
-
-      return AppDatabase(webExecutor);
-    }
+    if (kIsWeb) return AppDatabase(webExecutor);
 
     final supportDir = directory ?? await getApplicationSupportDirectory();
     final executor = driftDatabase(

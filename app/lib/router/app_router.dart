@@ -9,8 +9,13 @@ import '../presentation/pages/splash_screen.dart';
 import 'app_router.gr.dart';
 import 'initialization_guard.dart';
 
+/// The main router configuration for the app.
+///
+/// This class defines the routes and guards for the app using the AutoRoute
+/// package.
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
+  /// Creates an instance of [AppRouter] with the given [InitializationGuard].
   AppRouter(this._guard);
 
   final InitializationGuard _guard;

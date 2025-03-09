@@ -37,6 +37,11 @@ void main() => group('$AppDatabase', () {
     ),
   );
 
+  test(
+    'webExecutor',
+    () => expect(AppDatabase.webExecutor, isA<QueryExecutor>()),
+  );
+
   group('$HotelDao', () {
     test('insert and read a single hotel', () async {
       const hotel = Hotel(

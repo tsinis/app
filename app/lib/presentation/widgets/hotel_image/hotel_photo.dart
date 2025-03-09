@@ -21,6 +21,9 @@ class HotelPhoto extends StatelessWidget {
     aspectRatio: 4 / 3,
     child: LayoutBuilder(
       builder: (_, size) {
+        /// Since small images are 400px wide, we can prefer them.
+        /// https://gs.statcounter.com/screen-resolution-stats/mobile/eu
+        final shouldUseSmall = size.maxWidth <= 420;
         final child = Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,13 +49,22 @@ class HotelPhoto extends StatelessWidget {
                     ),
                     child: child,
                   ),
-
-              /// Since small images are 400px wide, we can prefer them.
-              /// https://gs.statcounter.com/screen-resolution-stats/mobile/eu
-              imageUrl: size.maxWidth <= 420 ? (_image?.small ?? url) : url,
+              imageUrl: shouldUseSmall ? (_image?.small ?? url) : url,
               placeholderFadeInDuration: _fadeDuration,
             ),
-            orElse: child,
+            orElse: DecoratedBox(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fitWidth,
+                  image: AssetImage(
+                    shouldUseSmall
+                        ? 'assets/images/small.webp'
+                        : 'assets/images/large.webp',
+                  ),
+                ),
+              ),
+              child: child,
+            ),
           ),
         );
       },

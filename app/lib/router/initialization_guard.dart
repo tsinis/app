@@ -5,7 +5,13 @@ import 'package:log/logger.dart';
 
 import 'app_router.gr.dart';
 
+/// A guard that ensures the app is initialized before navigating to certain
+/// routes.
+///
+/// This guard uses a [Completer] to manage the initialization process
+/// and handle any errors.
 class InitializationGuard extends AutoRouteGuard with LoggerMixin {
+  /// Creates an instance of [InitializationGuard].
   const InitializationGuard([this._guardCompleter]);
 
   final Completer<Object?>? _guardCompleter;

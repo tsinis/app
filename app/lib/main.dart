@@ -39,7 +39,10 @@ void main() {
     depsCompleter.initialize();
     runApp(
       FutureProvider.value(
-        initialData: null,
+        initialData:
+            kIsWeb // https://github.com/Milad-Akarie/auto_route_library/issues/1769
+                ? CoreDependencies(AppDatabase(AppDatabase.webExecutor), client)
+                : null,
         value: depsCompleter.future,
         child: Main(AppRouter(InitializationGuard(depsCompleter))),
       ),

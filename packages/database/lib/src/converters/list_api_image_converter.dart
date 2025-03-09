@@ -4,6 +4,10 @@ import 'package:drift/drift.dart';
 import 'package:log/logger.dart';
 import 'package:rest_api/hotels_api.dart';
 
+/// A type converter for handling lists of [ApiImage] objects in a Drift DB.
+///
+/// This converter provides methods for converting between SQL and JSON
+/// representations of the data.
 class ListApiImageConverter extends TypeConverter<List<ApiImage?>?, String?>
     with
         LoggerMixin,
@@ -12,6 +16,7 @@ class ListApiImageConverter extends TypeConverter<List<ApiImage?>?, String?>
           String?,
           List<Map<String, dynamic>?>
         > {
+  /// Creates an instance of [ListApiImageConverter].
   const ListApiImageConverter();
 
   @override

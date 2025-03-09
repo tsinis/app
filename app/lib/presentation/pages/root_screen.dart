@@ -11,14 +11,26 @@ import 'favorites_screen.dart';
 import 'hotels_screen.dart';
 import 'overview_screen.dart';
 
+/// The root screen of the app that contains the bottom navigation bar and
+/// manages the tabs.
+///
+/// This screen uses [AutoTabsScaffold] to manage the tabs and [BlocProvider]
+/// to manage the state of the favorites.
 @RoutePage(name: 'root')
 class RootScreen extends StatelessWidget {
+  /// Creates an instance of [RootScreen].
   const RootScreen({super.key});
 
+  /// The name of the root route.
   static const name = 'book';
+
+  /// The list of tabs in the bottom navigation bar.
   static const _tabs = [Overview(), Hotels(), Favorites(), Account()];
+
+  /// The size of the icons in the bottom navigation bar.
   static const _iconSize = AppTheme.size * 2;
 
+  /// The event to refresh the favorites.
   static const _favsEvent = FavoritesRefreshed(delay: kTabScrollDuration);
 
   @override
