@@ -13,12 +13,6 @@ targets:
       - lib/$lib$
       - $package$
     builders:
-      drift_dev:
-        # These options change how drift generates code
-        options:
-          databases:
-            default: lib/database/app_database.dart
-
       auto_route_generator:auto_route_generator:
         options:
           generate_for:
