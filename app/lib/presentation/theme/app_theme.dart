@@ -47,6 +47,7 @@ sealed class AppTheme {
       ),
     ),
     fontFamily: 'OpenSans',
+    materialTapTargetSize: MaterialTapTargetSize.padded,
     navigationBarTheme: const NavigationBarThemeData(
       backgroundColor: white,
       height: 80,
@@ -81,5 +82,6 @@ sealed class AppTheme {
       triggerMode: TooltipTriggerMode.tap,
     ),
     useMaterial3: true,
+    visualDensity: VisualDensity.standard,
   );
 }

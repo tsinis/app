@@ -24,7 +24,7 @@ class UserRatings extends StatelessWidget {
 
     // ignore_for_file: no-magic-number, not a magic number, green -> red.
     final clampedScore = score.clamp(0, 5).toDouble();
-    final hue = (clampedScore - 0.1) / (4.1 - 0.1) * 90;
+    final hue = (clampedScore / 5) * 90;
 
     return HSLColor.fromAHSL(1, hue, 0.54, 0.48).toColor();
   }
