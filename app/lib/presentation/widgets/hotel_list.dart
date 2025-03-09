@@ -8,17 +8,27 @@ import 'package:world_countries/helpers.dart';
 
 import 'hotel_card.dart';
 
+/// A widget that displays a list of hotels with infinite scrolling and
+/// pagination.
+///
+/// This widget uses [PagedListView] to display the hotels and [BlocBuilder]
+/// to manage the state of the hotel data.
 class HotelList<
   T extends Object,
   S extends HotelDataState<Hotel>,
   B extends Bloc<T, S>
 >
     extends StatelessWidget {
+  /// Creates an instance of [HotelList].
   const HotelList({required this.refresh, this.isFavorite = true, super.key});
 
+  /// The event to refresh the hotel list.
   final T refresh;
+
+  /// Whether the list is for favorite hotels.
   final bool isFavorite;
 
+  /// Handles the refresh event.
   void _handleRefresh(BuildContext context) => context.read<B>().add(refresh);
 
   @override

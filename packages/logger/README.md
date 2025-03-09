@@ -53,5 +53,6 @@ class MyService with LoggerMixin {
     );
   }
 }
+
 // Returns null on error, logs both the attempt and any exceptions.
 ```

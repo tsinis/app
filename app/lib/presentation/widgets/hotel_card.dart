@@ -7,8 +7,14 @@ import 'general/maybe_text.dart';
 import 'hotel_description/hotel_description.dart';
 import 'hotel_image/hotel_photo.dart';
 
+/// A widget that displays a card with hotel information.
+///
+/// This widget can be used to display hotel details or hotel ratings.
 class HotelCard extends StatelessWidget {
+  /// Creates an instance of [HotelCard] for displaying hotel ratings.
   const HotelCard.rate(this._hotel, {super.key}) : _index = null, _total = null;
+
+  /// Creates an instance of [HotelCard] for displaying hotel details.
   const HotelCard.details(this._hotel, {int? index, int? total, super.key})
     : _index = index,
       _total = total;

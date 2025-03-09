@@ -1,8 +1,8 @@
 # REST API Package
 
-## CLI Tool
+## Automatic CLI Tool
 
-Run `dart run` from package root to generate REST clients and models.
+Just run `dart run` from package root to generate REST clients and models.
 
 ## Manual approach
 
@@ -31,6 +31,51 @@ dart format .
 - Clients and models are generated!
 
 - Test serialization and deserialization with unit tests
+
+```shell
+flutter test --dart-define=BASE_URL=https://example.com
+```
+
+## Features
+
+- REST API clients and models generated from Swagger/OpenAPI schema
+- Integration with `retrofit` for HTTP requests
+- Support for serialization and deserialization
+
+## Installation
+
+Add the package to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  rest_api:
+    path: ../packages/rest_api
+```
+
+## Usage
+
+### Basic Setup
+
+```dart
+import 'package:rest_api/hotels_api.dart';
+
+final client = ClientHttp(Dio(), baseUrl: HotelsApi.baseUrl);
+```
+
+### Fetching Data
+
+```dart
+final response = await client.getHotels();
+final hotels = response.data?.hotels;
+```
+
+## Development
+
+Use the provided CLI tool or manual approach to generate REST clients and models.
+
+## Testing
+
+Run unit tests with the following command:
 
 ```shell
 flutter test --dart-define=BASE_URL=https://example.com

@@ -7,8 +7,13 @@ import 'hotel_data_state.dart';
 
 part 'remote_data_event.dart';
 
+/// A BLoC that manages the state of remote data fetching operations.
+///
+/// This BLoC handles events for starting and refreshing data fetching, and
+/// manages the state transitions.
 class RemoteDataBloc<T extends Object>
     extends Bloc<RemoteDataEvent, HotelDataState<T>> {
+  /// Creates an instance of [RemoteDataBloc] with the a [RemoteDataRepository].
   RemoteDataBloc(this._remoteRepository)
     : super(RemoteDataInitial<T>(data: UnmodifiableListView<T>(const []))) {
     on<RemoteDataEvent>(_onEvent);
