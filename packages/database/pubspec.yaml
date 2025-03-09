@@ -21,6 +21,7 @@ dependencies:
     path: ../rest_api
 
 dev_dependencies:
+  bloc_test: ^10.0.0
   dart_code_metrics_presets: ^2.21.0
   drift_dev: ^2.26.0
   flutter_test:

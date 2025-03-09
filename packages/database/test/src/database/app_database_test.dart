@@ -1,5 +1,4 @@
-// ignore_for_file: avoid-similar-names, prefer-correct-identifier-length
-// ignore_for_file: avoid-unsafe-collection-methods
+// ignore_for_file: avoid-similar-names, avoid-unsafe-collection-methods
 
 import 'package:database/database.dart' hide isNotNull;
 import 'package:database/src/dao/hotel_dao.dart';
@@ -16,8 +15,9 @@ void main() => group('$AppDatabase', () {
     () => database = AppDatabase(DatabaseConnection(NativeDatabase.memory())),
   );
 
-  // ignore: avoid-redundant-async, it's just a test.
-  tearDown(() async => database.close());
+  tearDown(() async {
+    await database.close();
+  });
 
   group('$HotelDao', () {
     test('insert and read a single hotel', () async {
@@ -72,8 +72,8 @@ void main() => group('$AppDatabase', () {
 
       expect(storedHotels.length, hotels.length);
 
-      final storedIds = storedHotels.map((h) => h.hotelId).toSet();
-      final originalIds = hotels.map((h) => h.hotelId).toSet();
+      final storedIds = storedHotels.map((i) => i.hotelId).toSet();
+      final originalIds = hotels.map((i) => i.hotelId).toSet();
       expect(storedIds, equals(originalIds));
     });
 
@@ -227,7 +227,7 @@ void main() => group('$AppDatabase', () {
       storedHotels = await database.hotelDao.readAllHotels();
       expect(storedHotels, hasLength(2));
 
-      final remainingIds = storedHotels.map((h) => h.hotelId).toSet();
+      final remainingIds = storedHotels.map((i) => i.hotelId).toSet();
       expect(remainingIds, contains(hotels[1].hotelId));
       expect(remainingIds, contains(hotels[3].hotelId));
       expect(remainingIds, isNot(contains(hotels.first.hotelId)));
