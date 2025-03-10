@@ -25,12 +25,12 @@ class HotelCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasDetails = _index == 0 && _total != null;
+    final hasDetails = _total != null;
 
     final card = Card(
       child: Column(
         children: [
-          HotelPhoto(_hotel, hasRatingInfo: _total == null),
+          HotelPhoto(_hotel, hasRatingInfo: !hasDetails),
           HotelDescription(_hotel, hasDetails: hasDetails),
         ],
       ),
