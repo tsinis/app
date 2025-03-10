@@ -1,10 +1,11 @@
+[![verify_packages](https://github.com/tsinis/app/actions/workflows/verify_packages.yaml/badge.svg)](https://github.com/tsinis/app/actions/workflows/verify_packages.yaml)
 [![codecov](https://codecov.io/gh/tsinis/app/graph/badge.svg?token=03NKJBVT6F)](https://app.codecov.io/gh/tsinis/app/flags)
 ![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/tsinis/app?labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit%20Reviews)
 [![License MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # app
 
-A cross-platform app using `drift` for local persistence.
+A cross-platform app using `drift` for local persistence, using data from REST API and focus on white-labeling and performance.
 
 > [!TIP]
 > On this website [tsin.is/app](https://tsin.is/app), you will find a limited demo of the app that should run on the latest browsers only. You can find the APK release in the [Releases](https://github.com/tsinis/app/releases) section.
@@ -81,6 +82,24 @@ Run unit and widget tests with the following command from any of the packages/ap
 flutter test
 ```
 
+## Folder Structure
+
+This project uses a monorepo approach with a clear separation of concerns:
+
+- `/app` - Contains the main Flutter application
+- `/packages` - Houses reusable modules:
+  - `database` - Database layer with drift implementation
+  - `logger` - Logging and error handling utilities
+  - `rest_api` - API client and models
+
+This structure offers several advantages:
+
+- Better separation of concerns with isolated, focused modules.
+- Independent testing of each package.
+- Ability to reuse packages across multiple projects (white-labeling).
+- Easier maintenance and debugging.
+- More granular [CI checks](https://github.com/tsinis/app/actions/workflows/verify_packages.yaml) that can run on specific packages when they change.
+
 ## Architecture
 
 The app is organized with layers for data, domain, and presentation plus related local packages in Dart Workspace. Navigation is managed with the Auto Route package, state management is handled using the BLoC library. Local storage is implemented using Drift for SQLite.
@@ -120,3 +139,32 @@ The project deliverables include the following:
 
    - Comprehensive unit tests are provided for the business logic.
    - Widget tests are included to ensure the UI behaves as expected.
+
+## Performance
+
+The application demonstrated a very good performance score of **92** out of 100, without any major fluctuations. It handled the initial peak by distributing calls to the database and REST API into two separate time segments, with an average CPU utilization of 35%, an average of 50 FPS, and 210MB of RAM used.
+
+Report URL: [https://app.flashlight.dev/report?testRunIds=d4768f82-8386-442a-badf-5db55bbf9802&anonymous=true](https://app.flashlight.dev/report?testRunIds=d4768f82-8386-442a-badf-5db55bbf9802&anonymous=true)
+
+You can also replicate on your own with [APK release v1.0.0](https://github.com/tsinis/app/releases/tag/1.0.0) and this Maestro scenario:
+
+```yaml
+appId: is.tsin.app
+---
+- launchApp
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn:
+    point: "37%, 89%"
+- repeat:
+    times: 5
+    commands:
+      - scroll
+```
+
+## What can be improved
+
+- Definitely localization, but given that the data from the API comes unlocalized, it still wouldn't look correct.
+- Better color handling - they should primarily come from `ThemeData`.
+- Expanded tests, better test coverage.
+- Better naming.
